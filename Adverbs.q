@@ -187,3 +187,5 @@ q)
 /example of over to apply dyadic operation on 2 items of a list
 q)(-/)(10 10 10; 1 2 3)
 9 8 7
+
+/update test
