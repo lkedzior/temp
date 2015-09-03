@@ -13,3 +13,7 @@ unpivot:{[t; keyCols; colName1; colName2]
 unenum:{
   @[x;where (type each flip x) within 20 77h; {@[value;x;x]}]
  };
+
+percentile:{[p;x]
+  (asc x) -1+ceiling p*count x
+ };
