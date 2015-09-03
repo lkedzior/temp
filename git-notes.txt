@@ -1,0 +1,20 @@
+#to create global ignore file for all local projects
+git config --global core.excludesfile ~/.gitignore_global
+
+then put e.g. the below to the file
+$ cat ~/.gitignore_global
+*.class
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+.classpath
+.settings
+build.number
