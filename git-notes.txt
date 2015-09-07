@@ -18,3 +18,16 @@ hs_err_pid*
 .classpath
 .settings
 build.number
+
+
+#########################autocrlf settings
+to check current settings
+git config --get core.autocrlf
+true
+
+
+the settings are stored in ~/.gitconfig
+
+to change to true
+git config --global core.autocrlf true
+or git config --global --edit
