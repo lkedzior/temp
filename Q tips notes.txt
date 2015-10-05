@@ -1,0 +1,6 @@
+//Chapter 1
+
+The scripting language and the database are both running q programs, a q function defined in a script can be sent to the database where it is evaluated and then only the results are returned.
+This is a reversal of the paradigm where data is brought to the analytics.
+With q, analytics can be sent to the data.
+
