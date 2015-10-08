@@ -10,3 +10,12 @@ to search in the slower/larger caches or even the slowest and largest memory sot
 
 1.2. What is Q
 I will reserve the term operator for any function that is provided by the q language (implemented in C or in q)
+
+1.3 Programming Paradigms
+* Q is interpreted because it requires no compilation phase.
+ALL FUNCTIONS are compiled into bytecode at run time.
+Definitions are compiled at startup and are lazily resolved.
+They must be syntactically correct at startup, but the ordering of compilation is not important.
+
+* Q is dynamic in both function definition and variable types (both can be changed at runtime).
+This flexibility adds a runtime penalty as both the function def and variable type must be checked for each function call.
