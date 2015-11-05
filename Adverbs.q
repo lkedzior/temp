@@ -189,3 +189,31 @@ q)(-/)(10 10 10; 1 2 3)
 9 8 7
 
 /update test
+
+
+//// combining adverbs ////
+#########################
+fn:{(+ ':)x,0};
+pascal:{[numRows]
+  fn\[numRows;1]
+ };
+([]p:pascal 7)
+
+x:til 10
+(+ ':)x,0
+(+ ':)x
+
+sum abs x-til 3
+
+combining adverbs
+
+####example 1
+(1 2 3),/:\:4 5 6
+ -> (1,/:4 5 6),(2,/:4 5 6),(3,/:4 5 6) -> ((1 4i;1 5i;1 6i);(2 4i;2 5i;2 6i);(3 4i;3 5i;3 6i))
+
+([]p:raze (1 2 3),/:\:4 5 6)
+([]p:raze (1 2 3),\:/:4 5 6)
+
+####example 2
+raze is implemented as raze
+,/[(1 2 3;(4 5;6);(7;8;(9;10;11)))]
