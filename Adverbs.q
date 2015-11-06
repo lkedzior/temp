@@ -217,3 +217,12 @@ combining adverbs
 ####example 2
 raze is implemented as raze
 ,/[(1 2 3;(4 5;6);(7;8;(9;10;11)))]
+
+####example 3
+See examples on code.kx.com
+http://code.kx.com/wiki/Cookbook/ProgrammingIdioms#How_do_I_apply_a_function_to_a_sequence_sliding_window.3F
+slidingWindow:{[func;n;data]
+  slices:flip reverse prev\[(n-1);data];
+  /func each slices would work for most cases for functions like sum avg 
+  func/'[slices]   / func/' is basically func/ each slices....f/ allows to have + (dyadic) as a function
+ };
