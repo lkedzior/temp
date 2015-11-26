@@ -18,4 +18,12 @@ Definitions are compiled at startup and are lazily resolved.
 They must be syntactically correct at startup, but the ordering of compilation is not important.
 
 * Q is dynamic in both function definition and variable types (both can be changed at runtime).
-This flexibility adds a runtime penalty as both the function def and variable type must be checked for each function call.
+This flexibility adds a runtime penalty as both the function def and variable type must be checked for each function call 
+* array/vector programming language
+
+* functional (but not pure functional)
+
+* Kdb+ processes can be written as event handlers. Without concurrency, all q functions run in a single main thread.
+To enable interaction with other processes q implements the reactor design pattern.
+It demultiplexes the concurrent messages and synchronously inokes callbacks.
+Responding to multiple asynchronous events allows kdb+ processes to be used as a Complex Event Processor
