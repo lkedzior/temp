@@ -1,4 +1,8 @@
 Surround with/inserting code
 Ctrl Alt t
 
-Find usage Alt F7
+Find usage
+Alt F7
+
+Show javadoc
+Ctrl q
