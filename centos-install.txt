@@ -1,8 +1,31 @@
 Getting libraries to be able to run 32-bit software (needed for 32-bit kdb)
 yum install glibc.i686
 
-#Adding new disk
+################    Adding new disk    ################
 http://www.tutorialspoint.com/articles/add-new-harddisk-to-linux-system
+
+0) run 'fdisk -l' to see what's is installed
+
+1) to add a new paritionrun (extended)
+fdisk /dev/sdb
+
+2) to add a new logical partition
+fdisk /dev/sdb
+
+3) format the partition
+mkfs -t ext4 /dev/sdb5
+
+4) mount it
+mount -t ext3 /dev/sdb5 /data01
+
+5)In order to have the new disk/partition mounted automatically after reboot update the /etc/fstab, add below
+#new disk partition
+/dev/sdb5                          /data01                 ext4    defaults        0 0
+
+reboot and verify with df -hT
+################################################
+
+
 
 #changing folder owner
 chown mygroup:myuser folder
