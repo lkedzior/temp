@@ -1,3 +1,5 @@
 Getting libraries to be able to run 32-bit software (needed for 32-bit kdb)
 yum install glibc.i686
 
+#Adding new disk
+http://www.tutorialspoint.com/articles/add-new-harddisk-to-linux-system
