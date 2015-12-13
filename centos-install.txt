@@ -3,3 +3,6 @@ yum install glibc.i686
 
 #Adding new disk
 http://www.tutorialspoint.com/articles/add-new-harddisk-to-linux-system
+
+#changing folder owner
+chown mygroup:myuser folder
