@@ -1,3 +1,12 @@
+Download and install Disk Imager
+http://sourceforge.net/projects/win32diskimager/
+
+Write iso immage to a pendrive
+CentOS-7-x86_64-Minimal-1503-01.iso
+
+Minimal distribution should be good enough for a server
+If other packages are needed they can be installed via yum
+
 Getting libraries to be able to run 32-bit software (needed for 32-bit kdb)
 yum install glibc.i686
 
