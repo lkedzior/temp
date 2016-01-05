@@ -1,0 +1,5 @@
+peaching with multiple processes/servers -  http://code.kx.com/wiki/Reference/dotzdotpd
+
+faster HDBs with uncompress data - http://code.kx.com/wiki/Reference/DotQDotMAP
+
+-23! for HDBs http://code.kx.com/wiki/Reference/BangSymbolInternalFunction#.E2.88.9223.21x
