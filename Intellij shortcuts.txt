@@ -6,3 +6,6 @@ Alt F7
 
 Show javadoc
 Ctrl q
+
+/Show recently opened files
+Ctrl e
