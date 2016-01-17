@@ -10,6 +10,9 @@ If other packages are needed they can be installed via yum
 Getting libraries to be able to run 32-bit software (needed for 32-bit kdb)
 yum install glibc.i686
 
+/Adding rsync
+yum -y install rsync
+
 ################    Adding new disk    ################
 http://www.tutorialspoint.com/articles/add-new-harddisk-to-linux-system
 
