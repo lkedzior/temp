@@ -76,3 +76,12 @@ drwxr-xr-x. 8   10  143      4096 Oct  7 01:40 jdk1.8.0_66
 lrwxrwxrwx. 1 root root        11 Jan 17 17:08 latest -> jdk1.8.0_66
 [root@riverside1 java]#
 
+alternatives --install /usr/bin/java java /opt/java/latest/bin/java 2
+alternatives --config java
+
+alternatives --install /usr/bin/jar jar /opt/java/latest/bin/jar 2
+alternatives --set jar /opt/java/latest/bin/jar
+
+
+
+
