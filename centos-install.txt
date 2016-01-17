@@ -59,3 +59,20 @@ export PS1="[\u@\h:\w] "
 export QHOME=~/q/
 export PATH=$PATH:$QHOME/l32
 #####end of bashrc
+
+
+#####Installing java
+[root@riverside1 java]# pwd
+/opt/java
+
+/extract tar.gz
+tar xzf jdk-8u66-linux-x64.tar.gz
+ln -s jdk1.8.0_66 latest
+
+[root@riverside1 java]# ls -l
+total 177044
+drwxr-xr-x. 8   10  143      4096 Oct  7 01:40 jdk1.8.0_66
+-rw-r--r--. 1 root root 181287376 Jan 17 15:56 jdk-8u66-linux-x64.tar.gz
+lrwxrwxrwx. 1 root root        11 Jan 17 17:08 latest -> jdk1.8.0_66
+[root@riverside1 java]#
+
