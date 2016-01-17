@@ -41,3 +41,21 @@ reboot and verify with df -hT
 
 #changing folder owner
 chown mygroup:myuser folder
+
+#####updating bashrc
+[fxq@riverside1:~] cat .bashrc
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+export PS1="[\u@\h:\w] "
+export QHOME=~/q/
+export PATH=$PATH:$QHOME/l32
+#####end of bashrc
