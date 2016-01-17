@@ -1,0 +1,2 @@
+Lukasz@dellpc /cygdrive/z/dev/data/10010/prices
+$ rsync -avh 2016.01.1* fxq@riverside1:/data01/fxq/prices
