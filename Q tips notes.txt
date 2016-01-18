@@ -27,3 +27,26 @@ This flexibility adds a runtime penalty as both the function def and variable ty
 To enable interaction with other processes q implements the reactor design pattern.
 It demultiplexes the concurrent messages and synchronously inokes callbacks.
 Responding to multiple asynchronous events allows kdb+ processes to be used as a Complex Event Processor
+
+
+//Chapter 2
+.Q.res - The list of operators defined in C
+q).Q.res
+`in`within`like`bin`binr`ss`if`do`while`exec`select`insert`update`delete`avg`..
+
+s.k - implentation of an SQL interface for ODBC clients
+QHOME is needed to load q.k correctly
+
+In kdb banner, the number of licensed cores appear within the parentheses (
+It is possible to reduce the number of cores visible to the q binary on Linux by changing the CPU affinity with the taskset utility.
+
+q needs k4.lic, by default it looks in the same dir as q.k
+QLIC env variable can be usde to customise this
+
+Q then loads q.q from QHOME
+QINIT can be used to customise the init file
+
+q web server can return files such as crossdomain.xml or favicon.ico
+They can be placed in a QHOME/html (different location can be set with .h.HOME)
+
+//2.2 Basics
