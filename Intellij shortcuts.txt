@@ -3,6 +3,7 @@ Ctrl Alt t
 
 Find usage
 Alt F7
+Ctrl Alt F7
 
 Show javadoc
 Ctrl q
