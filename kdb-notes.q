@@ -24,3 +24,4 @@ q)t:update et:st+10?10,a:10?10,b:10?1.0 from ([]st:10?00:10)
 q)t1:`time xasc ([]time:5?00:20;z:5?1000)
 q)res1:select from (t cross t1) where time within (st;et)
 q)res2:ungroup wj1[t`st`et;`st;t;(update st:time from t1;(::;`time);(::;`z))]
+or ungroup wj1[t`st`et;`st;t;enlist[update st:time from t1],(::),/:cols t1]
