@@ -14,3 +14,13 @@ doubly nested list e.g. enlist ("aaa";"bbb") indicates list of constants
     /e.g. (1e-7 xbar 0.66) can yield 0.66 or 0.6599999
     /1e-7 xbar 0.66 + 0.00000005) always ends up in the same bucket 0.66
     (((differ;  1e-7 xbar (mycol) + 0.5e-7) fby ([]date;sym))
+
+table within join
+table1 wtih st;et columns
+table2 with time column
+join table1 cross table2 and return only rows where time within (st;et)
+e.g.
+q)t:update et:st+10?10,a:10?10,b:10?1.0 from ([]st:10?00:10)
+q)t1:`time xasc ([]time:5?00:20;z:5?1000)
+q)res1:select from (t cross t1) where time within (st;et)
+q)res2:ungroup wj1[t`st`et;`st;t;(update st:time from t1;(::;`time);(::;`z))]
