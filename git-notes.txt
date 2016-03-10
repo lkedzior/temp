@@ -49,3 +49,15 @@ There are 3 options:
 
 ##############Creating a new tag
 
+git fetch --tags
+git tag -l 7.4.1*
+git checkout refs/tags/7.4.1+b7 -b 7.4.1+b7_patch
+/Make a change and then
+git add .
+git commit -m "TMI-1185 updating setPorts to export missing port variables"
+git push origin HEAD
+git tag -a 7.4.1+b8 -m "TMI-1185 fix for missing gfx_mi hdb ports in setPorts.sh"
+git push origin 7.4.1+b8
+
+
+
