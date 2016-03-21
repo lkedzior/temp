@@ -25,3 +25,17 @@ q)t1:`time xasc ([]time:5?00:20;z:5?1000)
 q)res1:select from (t cross t1) where time within (st;et)
 q)res2:ungroup wj1[t`st`et;`st;t;(update st:time from t1;(::;`time);(::;`z))]
 or ungroup wj1[t`st`et;`st;t;enlist[update st:time from t1],(::),/:cols t1]
+
+
+Creating links between splayed tables
+e.g. trade and tradeCancel
+update tradeCancelLink:`tradeCancel!tradeCancel.id?id from trade
+//this will populate missing ids with the count of the tradeCancel which is okay
+when we use dot notation tradeCancelLink.columnA we will get nulls for these rows
+
+for splayed save downs
+pathToTheColumn set `tradeCancel!indecies 
+where indecies are calculated with ? as above
+
+
+
