@@ -9,3 +9,9 @@ aj[`sym`time;trade;quote]
 
 ,'
 (select p1time:qprice from aj[`sym`time;update time:time+0D00:00:01 from trade;quote])
+
+
+trade
+,'(select t0quote:qprice from quote asof (select sym, time from trade))
+,' (select n1000quote:qprice from quote asof (select sym, time:time-0D00:00:01 from trade))
+,' (select p1000quote:qprice from quote asof (select sym, time:time+0D00:00:01 from trade))
