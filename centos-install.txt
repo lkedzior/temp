@@ -83,5 +83,26 @@ alternatives --install /usr/bin/jar jar /opt/java/latest/bin/jar 2
 alternatives --set jar /opt/java/latest/bin/jar
 
 
+#########making new ports public in firewall
+http://www.linuxbrigade.com/centos-7-rhel-7-open-ports/
+[root@riverside1 ~]# firewall-cmd --zone=public --add-port=5000/tcp --permanent
+success
+[root@riverside1 ~]# firewall-cmd --reload
+success
+[root@riverside1 ~]# firewall-cmd --zone=public --list-all
+public (default, active)
+  interfaces: enp5s0
+  sources:
+  services: dhcpv6-client http ssh
+  ports: 8080/tcp 5000/tcp
+  masquerade: no
+  forward-ports:
+  icmp-blocks:
+  rich rules:
 
+[root@riverside1 ~]#
+
+##########stoping firewall 
+https://linuxconfig.org/how-to-stop-start-and-disable-enable-firewall-on-redhat-7-linux-system
+service firewalld stop
 
