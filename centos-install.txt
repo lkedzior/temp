@@ -114,3 +114,8 @@ Now the firewall would not start after system's reboot. To enable the firewall a
 [root@rhel7 ~]# systemctl enable firewalld
 ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service'
 ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/basic.target.wants/firewalld.service'
+
+
+#set correct permissions for ssh files after adding new public keys
+[fxq@riverside1:~/.ssh] chmod 700 .ssh
+[fxq@riverside1:~/.ssh] chmod 640 authorized_keys
