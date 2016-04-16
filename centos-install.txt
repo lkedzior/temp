@@ -119,3 +119,7 @@ ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/basic.tar
 #set correct permissions for ssh files after adding new public keys
 [fxq@riverside1:~/.ssh] chmod 700 .ssh
 [fxq@riverside1:~/.ssh] chmod 640 authorized_keys
+
+
+#### install git
+yum install git-all
