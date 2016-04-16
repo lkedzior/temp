@@ -198,5 +198,6 @@ add these lines
 export M2_HOME=/usr/local/maven
 export PATH=${M2_HOME}/bin:${PATH}
 
+##############Installing kdb for all users - see above instructions for maven
 
 
