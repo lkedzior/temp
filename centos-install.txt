@@ -137,3 +137,19 @@ bash-4.2$ cd ~
 bash-4.2$ pwd
 /var/lib/jenkins
 
+bash-4.2$ mkdir .ssh
+bash-4.2$ cd .ssh
+bash-4.2$ ssh-keygen
+Generating public/private rsa key pair.
+...
+bash-4.2$ ls -lrtha
+total 12K
+drwxr-xr-x. 10 jenkins jenkins 4.0K Apr 16 09:40 ..
+-rw-r--r--.  1 jenkins jenkins  400 Apr 16 09:41 id_rsa.pub
+-rw-------.  1 jenkins jenkins 1.7K Apr 16 09:41 id_rsa
+drwxr-xr-x.  2 jenkins jenkins   36 Apr 16 09:41 .
+
+add public key to the bit bucket
+bash-4.2$ cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTYzZZx7pLHp+ey+fYvSf9TsWlxqOUYKocrNL9c4RAv4rW8FPW1MSkpfRBqwKmFPf94OkP2LwG3G0iwbMrisKKYMqMadAUPCOmSq6qGgZKDoCF28hZtY4KCNBPcf0L1cQYZ222Lf0qbOjK9q4srMYOTIMSrWQUIMRPO0bL4cAZ9ld9lw0NyItKPkyjk21sz2iYSxik9QWqSYRaKbjjhNo+A13+53I0D36HpEYx3ljBIUYR0UobbcCz2Z6/35FMsLBl2eT++7FX3pi/JrgwI/gs45Jpn1dVMCGGVNXvzway85gfQje+HMBKOSh1uqHGXqonToiwjudn8wkW1seSt jenkins@riverside1
+
