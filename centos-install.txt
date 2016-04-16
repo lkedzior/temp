@@ -123,3 +123,10 @@ ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/basic.tar
 
 #### install git
 yum install git-all
+
+
+###########seting up jenkins
+Install the git plugin
+Once you can access your Jenkins console,  goto `Manage Jenkins -> Manage Plugins` from the home screen.
+
+Open the ‘Available’ tab and find the plugin entitled Git Plugin.
