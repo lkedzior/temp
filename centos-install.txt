@@ -209,3 +209,40 @@ https://books.sonatype.com/nexus-book/reference/installing.html
 https://books.sonatype.com/nexus-book/reference/install-sect-service.html
 http://alexander.holbreich.org/sonatype-nexus-setup/
 
+install in
+/usr/local/nexus
+
+cp nexus-2.12.1-01-bundle.tar.gz /usr/local
+$ cd /usr/local
+$ sudo tar xvzf nexus-2.12.1-01-bundle.tar.gz
+$ sudo ln -s nexus-2.12.1-01 nexus
+
+Create a nexus user with sufficient access rights to run the service
+Copy $NEXUS_HOME/bin/nexus to /etc/init.d/nexus
+Make the /etc/init.d/nexus script executable and owned by the root user -
+chmod 755 /etc/init.d/nexus
+chown root /etc/init.d/nexus
+Edit this script changing the following variables:
+
+Change NEXUS_HOME to the absolute folder location (e.g., NEXUS_HOME="/usr/local/nexus")
+
+Set the RUN_AS_USER to nexus or any other user with restricted rights that you want to use to run the service. You should not be running the repository manager as root.
+
+Change PIDDIR to a directory where this user has read/write permissions. In most Linux distributions, /var/run is only writable by root. The property you need to add to customize the PID file location is wrapper.pidfile. For more information about this property and how it would be configured in wrapper.conf, see: http://wrapper.tanukisoftware.com/doc/english/properties.html.
+
+Change the owner and group of the directories used by the repository manager, including nexus-work configured in nexus.properties defaulting to sonatype-work/nexus, to the nexus user that will run the application.
+
+e.g. nexus-work=/srv/nexus/main-repo 
+
+mkdir /srv/nexus/main-repo
+#Set owner user and group
+chown nexus:nexus /srv/nexus/main-repo  
+
+$ cd /etc/init.d
+$ chkconfig --add nexus
+$ chkconfig --levels 345 nexus on
+$ service nexus start
+Starting Nexus Repository Manager...
+$ tail -f /usr/local/nexus/logs/wrapper.log
+The second command adds nexus as a service to be started and stopped with the service command. chkconfig manages the symbolic links in /etc/rc[0-6].d which control the services to be started and stopped when the operating system restarts or transitions between run-levels. The third command adds nexus to run-levels 3, 4, and 5. The service command starts the repository manager, and the last command tails the wrapper.log to verify that it has been started successfully. If the repository manager has started successfully, you should see a message notifying you that it is listening for HTTP.
+
