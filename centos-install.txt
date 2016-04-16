@@ -154,3 +154,21 @@ bash-4.2$ cat id_rsa.pub
 ...
 got to bitbucket -> profile -> bitbucket settings -> SSH keys, paste the public key
 
+
+..adding the repo server to authorized hosts
+bash-4.2$ git clone git@bitbucket.org:kedziorl/tp.git
+Cloning into 'tp'...
+The authenticity of host 'bitbucket.org (104.192.143.1)' can't be established.
+RSA key fingerprint is 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'bitbucket.org,104.192.143.1' (RSA) to the list of known hosts.
+remote: Counting objects: 68, done.
+remote: Compressing objects: 100% (39/39), done.
+remote: Total 68 (delta 5), reused 0 (delta 0)
+Receiving objects: 100% (68/68), 9.31 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (5/5), done.
+bash-4.2$ cat ~/.ssh/known_hosts
+bitbucket.org,104.192.143.1 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+bash-4.2$
+
+
