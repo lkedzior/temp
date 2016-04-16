@@ -130,3 +130,10 @@ Install the git plugin
 Once you can access your Jenkins console,  goto `Manage Jenkins -> Manage Plugins` from the home screen.
 
 Open the ‘Available’ tab and find the plugin entitled Git Plugin.
+
+* setting up keys for jenkins user
+[root@riverside1 ~]# sudo su jenkins -s /bin/bash
+bash-4.2$ cd ~
+bash-4.2$ pwd
+/var/lib/jenkins
+
