@@ -201,3 +201,11 @@ export PATH=${M2_HOME}/bin:${PATH}
 ##############Installing kdb for all users - see above instructions for maven
 
 
+Installing nexus
+was not able to install nexus 3
+
+for nexus 2 follow
+https://books.sonatype.com/nexus-book/reference/installing.html
+https://books.sonatype.com/nexus-book/reference/install-sect-service.html
+http://alexander.holbreich.org/sonatype-nexus-setup/
+
