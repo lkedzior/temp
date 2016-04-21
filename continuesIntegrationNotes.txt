@@ -5,4 +5,4 @@ Jenkinks pipe to push to UAT
 
 Separate manual job 
 * "deploy latest version to PROD (stop deployInstall start) could run e.g. every Saturday
-//extreme case would be this job runs after 3) but this can be possible only if the processes can be restarted during a week without a data loss
+//extreme case would be to run this job after step 3) but this can be possible only if the processes can be restarted during a week without a data loss
