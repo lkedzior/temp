@@ -1,0 +1,8 @@
+//SAR
+
+//default command
+sar -f /var/log/sa/sa20 | head
+
+//to get memory stats
+sar -f /var/log/sa/sa20 -r
+
