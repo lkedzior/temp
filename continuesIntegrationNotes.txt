@@ -1,7 +1,7 @@
 Jenkinks pipe to push to UAT
 1) First job create a release (new version; mvn deploy; mvn scm:tag)
 2) Second job to deploy to UAT (stop deploy start)
-3) Run test specific for UAT
+3) Run tests specific for UAT
 
 Separate manual job 
 * "deploy latest version to PROD could run e.g. every Saturday
