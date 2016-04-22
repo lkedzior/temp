@@ -1,6 +1,8 @@
 Jenkinks pipe to push to UAT
 1) First job create a release (new version; mvn deploy; mvn scm:tag)
 2) Second job to deploy to UAT (stop deployInstall start)
+This job needs a cmd line parameter $VERSION
+How to get it?
 3) Run tests specific for UAT
 
 Separate manual job 
