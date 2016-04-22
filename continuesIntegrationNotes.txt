@@ -8,6 +8,10 @@ albo Parameterized Build
 first job always sets the variable e.g. LATEST=$BUILD_NUMBER
 second job uses the variable LATEST
 
+//another option is Jenkins Parameterized Trigger Plugin
+https://zeroturnaround.com/rebellabs/how-to-use-jenkins-for-job-chaining-and-visualizations/
+
+
 3) Run tests specific for UAT
 
 Separate manual job 
