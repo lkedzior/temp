@@ -3,6 +3,11 @@ Jenkinks pipe to push to UAT
 2) Second job to deploy to UAT (stop deployInstall start)
 This job needs a cmd line parameter $VERSION
 How to get it?
+http://stackoverflow.com/questions/9704677/jenkins-passing-variables-between-jobs
+albo Parameterized Build
+first job always sets the variable e.g. LATEST=$BUILD_NUMBER
+second job uses the variable LATEST
+
 3) Run tests specific for UAT
 
 Separate manual job 
