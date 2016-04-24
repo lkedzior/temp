@@ -256,3 +256,24 @@ sudo nano /etc/sysctl.conf
 And put in the value you desire, such as:
 
 vm.swappiness=0
+
+
+###########################installing NTP daemon
+to sync time
+
+http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
+ yum -y install ntp
+ 
+ ntpdate pool.ntp.org
+ /consider updating the config (haven't done that yet)
+ /etc/ntp.conf
+ /server internalntpserver1 iburst
+ /server internalntpserver2 iburst
+ server pool.ntp.org iburst
+ 
+ 
+ chkconfig ntpd on
+ service ntpd start
+  751  history
+
+http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
