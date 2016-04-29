@@ -6,3 +6,10 @@ sar -f /var/log/sa/sa20 | head
 //to get memory stats
 sar -f /var/log/sa/sa20 -r
 
+//number of bytes waiting in input queues
+netstat -anp | grep <PID>
+or 
+netstat -an | grep <PORT> | grep EST
+
+This will show you the socket buffer stats with Recv-Q and Send-Q per socket.
+You can also use lsof | grep <PID>, to get ephemeral port and even socket handle FD number for the process/connection.  
