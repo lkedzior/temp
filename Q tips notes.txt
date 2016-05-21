@@ -107,4 +107,14 @@ Fundamentally, q has two data types: atoms and lists
 - kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
 once the type has been checked, performing arithementic oprations on uniform lists can be implemented in highly optimized C or assembly code
 
+ Atomic functions
+ A function is called atomic if it operates on a list of values as if the function was applied to each of the list elements
  
+ All arithmentic operators are atomic
+ 
+ #List Length
+ Vectors and Non-uniform lists - In all cases, the length of the list is known at all times and stored alongside the data.
+ count operator does not count the list items
+ With atoms and non-list types, count is 1
+ 
+ #page 24, List Syntax
