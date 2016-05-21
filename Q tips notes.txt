@@ -51,3 +51,60 @@ q web server can return files such as crossdomain.xml or favicon.ico
 They can be placed in a QHOME/html (different location can be set with .h.HOME)
 
 //2.2 Basics
+
+#Exiting from Q
+- EOF (Ctrl-d Unix / Ctrl-z Windows) exits q session
+
+#q as shebang script
+#!/$QHOME/$QARCH/q
+we can run ./script.q without referencing q binaries
+
+#toString to console format
+- to print the data to console q uses .Q.s
+
+#Redirecting the output from a separate process
+When q is started interactively (q console), input is read from the STDIN file handle which is attached to the terminal.
+If we redirect the output from a separate process into q's STDIN, it will accept commands from that process instead.
+Once EOF is reached, the process will terminate
+
+echo '1 "hello world\n";' | q
+hello world
+
+#using k code
+\ will switch to k mode
+in the source file use k) e.g.
+k)myfunc:{...};
+
+\ - exit into k) or exit into q
+\ - exit one layer of debuging
+\ - exit multi-line comment
+\ - exit parsing of source file (everything below are comments)
+
+############################ 2.3 Syntax Rules
+k was designed to be an APL-like language but written completely with the ASCII character set.
+That's why a lot of operators is overloaded
+
+{} braces or curly brackets
+[] brackets
+() 
+
+() are not used for function invocation
+f(1;2;3) creates a list and does f[(1;2;3)]
+
+#Operator precendence - there is non , statements evaluated from right to left
+(2*3)+4 -> 4+2*3
+() are used to enforce operator precedence
+
+##Leading whitespaces
+q continues to accumulate text for parsing until it finds anohter command starting flush left (no leading whitespaces)
+- if we forget to indent every line of a function and q parser encounters a line that is flush left, it assumes a new definitiona has begun (our unction will be incomplete).
+
+
+#############################Chapter3
+Fundamentally, q has two data types: atoms and lists
+- dictionaries and tables are internally represented as combinations of lists
+- uniform lists (all the values of a list are the same type) aka vectors 
+- kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
+once the type has been checked, performing arithementic oprations on uniform lists can be implemented in highly optimized C or assembly code
+
+ 
