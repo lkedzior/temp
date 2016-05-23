@@ -1,5 +1,7 @@
 #Including and unpacking a zip dependency
 
+
+
 In pom.xml file
     <dependency>
       <groupId>com.fxq</groupId>
@@ -9,7 +11,21 @@ In pom.xml file
       <type>zip</type>
     </dependency>
   </dependencies>
-  
+
+and then in assembly descriptor
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>libs</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <unpack>true</unpack>
+        </dependencySet>
+    </dependencySets>
+
+and that seems to be enough
+
+we can also unpack dependencies during compile phase but then what to do with them?  
         <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -31,13 +47,4 @@ In pom.xml file
       </plugin>
       
       
-in assembly descriptor
-    <dependencySets>
-        <dependencySet>
-            <outputDirectory>libs</outputDirectory>
-            <includes>
-                <include>*</include>
-            </includes>
-            <unpack>true</unpack>
-        </dependencySet>
-    </dependencySets>
+
