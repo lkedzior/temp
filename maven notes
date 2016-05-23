@@ -23,7 +23,8 @@ and then in assembly descriptor
         </dependencySet>
     </dependencySets>
 
-and that seems to be enough
+and that seems to be enough, we can see
+libs\myLib-0-SNAPSHOT (how to exclude version?)
 
 we can also unpack dependencies during compile phase but then what to do with them?  
         <plugin>
