@@ -1,0 +1,43 @@
+#Including and unpacking a zip dependency
+
+In pom.xml file
+    <dependency>
+      <groupId>com.fxq</groupId>
+      <artifactId>myLib</artifactId>
+      <version>0-SNAPSHOT</version>
+      <classifier>dist</classifier>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+  
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack-config</id>
+            <phase>compile</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeGroupIds>com.fxq</includeGroupIds>
+              <includeArtifactIds>myLib</includeArtifactIds>
+              <includeClassifiers>dist</includeClassifiers>
+              <outputDirectory>${project.build.directory}/libs</outputDirectory>
+              <stripVersion>true</stripVersion>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      
+in assembly descriptor
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>libs</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <unpack>true</unpack>
+        </dependencySet>
+    </dependencySets>
