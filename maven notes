@@ -23,10 +23,11 @@ and then in assembly descriptor
         </dependencySet>
     </dependencySets>
 
-and that seems to be enough, we can see
+and that seems to be enough, we can see the below in the application zip artifact 
 libs\myLib-0-SNAPSHOT (how to exclude version?)
 
-we can also unpack dependencies during compile phase but then what to do with them?  
+we can also unpack dependencies during e.g. compile phase but we would do something with them, e.g. maybe include as a fileSet in the assembly descriptr?
+e.g. the below creates target\libs\myLib-0-SNAPSHOT folder
         <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
