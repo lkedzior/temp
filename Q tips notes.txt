@@ -118,3 +118,118 @@ once the type has been checked, performing arithementic oprations on uniform lis
  With atoms and non-list types, count is 1
  
  #page 24, List Syntax
+ Using til to generated ordered int data
+ 
+ Using set/get to dynamically assign/access variables (where name is only known at runtime)
+ This works only for global variables
+ q)test:2
+q){test:20; get `test}[]
+2
+
+#Aggregating Functions
+An aggregating function always reduces the dimension of the data suplied as its operand
+list -> atom
+matrix -> list
+
+q)prd 1 2 3
+6
+
+3.3 Numeric Random data
+5?10 -> range [0;9]
+5?0i -> range all integers
+5?10f -> range (0.0;10.0)
+
+random numbers no duplicates/replacements
+-10?10 (see negative -10)
+
+with temporal types range is
+00:00 - 23:59
+00:00:00 - 23:59:59
+00:00:00.000 - 23:59:59.999
+2000.01.01 - 2013.12.31 (1 leap year cycle 1461 days = 1+365x4
+
+q)-11?10
+'length /we can't generate 11 distinct integers in that range
+
+* for distinct temporal types we have to cast from integers
+
+q)`minute$-3?10
+00:08 00:02 00:04
+
+rand - Singe random value
+q)rand 10
+9
+q)rand
+k){*1?x} /first 1?x
+
+
+#All monadic k operators has been given a keyword in q e.g.
+q)first
+*:
+
+last is implemented in C
+q)last
+last
+
+3.4 Non numeric Random Data
+It's not ordered so we don't supply max but null
+
+0Nc or " " for chars
+q)10?0Nc
+"gtooltofin"
+
+q)rand 0Ng
+ee846e93-69c9-8697-52cb-20d9f12c9963 //internally vector of bytes
+
+internal K structure is 16 bytes
+8 bytes for metadata type,reference count, attributes
+8 bytes to store an atom
+
+To see an atom byte representation
+q)0x0 vs 2h   /vector from scalar
+0x0002 /2 bytes out of 8 available bytes within K structure is used
+
+scalar from vector
+q)0x0 sv 0x0002
+2h
+
+Random Symbols
+q)2?`8 /8 is max length, will get error for 2?`9
+`ojjoidhe`bjchodnd  ->[a;p] sample from first 16 characters
+
+Generating strings from predefined lists
+q)5?.Q.A
+"XMMCE"
+
+.Q.a .Q.A - lower and upper case letters
+q).Q.n
+"0123456789"
+q).Q.nA
+"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+q).Q.an
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"
+
+q).Q.b6 - all characters used in 64 encoding
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+
+3.5
+Random seed \S
+q)5?10
+8 1 9 5 4
+q)\S
+-314159i
+q)5?10
+6 6 1 8 5
+q)\S -314159i
+q)5?10
+8 1 9 5 4
+q)
+
+If we start Q again we get the same
+q)5?10
+8 1 9 5 4
+
+system"S" -> system prepends \ for us
+\S
+
+system"pwd" /when using os commands we get list of strings, one per row
