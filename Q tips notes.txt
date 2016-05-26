@@ -30,6 +30,7 @@ It demultiplexes the concurrent messages and synchronously inokes callbacks.
 Responding to multiple asynchronous events allows kdb+ processes to be used as a Complex Event Processor
 
 
+
 //Chapter 2
 .Q.res - The list of operators defined in C
 q).Q.res
@@ -297,4 +298,27 @@ q)-16!b
 q)
 
 #############Cut################
+x cut list - cuts the list into matrix with x columns
+q)2 cut til 6
+0 1
+2 3
+4 5
+
+sum on matrix
+q)sum 2 cut til 6
+6 9
+
+(0 1)+(2 3)+(4 5)=6 9
+
+q).stat.u12:{-6f+sum x cut (12*x)?1f}
+q)avg .stat.u12 10000
+-0.004159518
+q)sdev .stat.u12 10000
+1.009156
+q)
+
+dev, var, cov - calculate population deviation, variance and covariance (odchylenie standardowe w populacji?)
+sdev, svar, scov - sample dev var and cov (odchylenie standardowe z proby?)
+- include Bessel's correction to compute a more accurate estimation of a sample's deviation
+- and an unbiased estimate of its variance and covariance
 
