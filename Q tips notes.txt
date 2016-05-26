@@ -322,3 +322,27 @@ sdev, svar, scov - sample dev var and cov (odchylenie standardowe z proby?)
 - include Bessel's correction to compute a more accurate estimation of a sample's deviation
 - and an unbiased estimate of its variance and covariance
 
+Skew and Kurtosis - see the formulas 
+Skew - 3rd order central moment
+Kurtosis - 4th order central moment
+
+Q Tip 4.4
+* Use compound assignment for increased efficiency
+* Each of the single charactre operators has a compound assignment variant
+
+x-:avg x
+x:x-avg x /slower
+
+Q passes arguments by reference, in most cases immutable references
+Updating a list creates a complete copy of the original data before modifying the structure
+x-avg x
+
+if our intention is to assign results back to x we can modify x list in place
+- another way to update a data structure without creating a copy is to use "Index Apply" . or @
+
+4.2 Box-Muller
+
+
+
+
+
