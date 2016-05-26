@@ -233,3 +233,44 @@ system"S" -> system prepends \ for us
 \S
 
 system"pwd" /when using os commands we get list of strings, one per row
+
+#################Chapter 4 Functions #########################
+Functions
+-  can have 1-8 arguments
+- niladic functions are called with (::) assigned to the x parameter, x is silently ignored
+- void functions return (::)
+- functions can modify global state, avoid this, the good practice is to design the functions so that
+  - data that needs to be modified is passed as an arg
+  - modified values is passed back as a return value from the function
+  
+  Code like that is easier to maintain
+  Functions like that can be executed in parallel (performance gain), they don't modify a global state
+  
+  4.1  12 Uniforms
+  This method generate numbers from the range (-6.0;6.0)
+  we get normal random values, mean of 0, standard deviation of 1
+  add 12 uniform random variables and subtract 6.
+  The sum of independently drawn samples from the same distribution tend to be a normal distribution,
+  irrespective of the original distribution
+  
+q)-6+sum 12?1f
+0.5398522
+
+* Tip - rearange operators to reduce the need for parentheses
+
+Function parameters
+- if we reference autmatic variable 'z' in the code then funciton will defined as 3 args func even if we don't reference x or y
+- Explicitly defining function parameters prevents automatic variables (x y z) from being created
+- monadic functions can be called without []
+- build in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unlsess they are added to the .q namespace)
+- similarly to monadic functions, List and dictionaries can be indexed without [] brackets as well
+This is called Juxtaposition
+
+############## Reference Counts #################
+Q copies, assigns, and passes variables by reference
+
+All references point to the same underlying data structure until a modification is attmepted
+
+
+
+
