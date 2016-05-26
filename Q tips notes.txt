@@ -267,10 +267,33 @@ Function parameters
 This is called Juxtaposition
 
 ############## Reference Counts #################
-Q copies, assigns, and passes variables by reference
+* Q copies, assigns, and passes variables by reference
 
-All references point to the same underlying data structure until a modification is attmepted
+* All references point to the same underlying data structure until a modification is attmepted
 
+* Once a modification is made, new memory is allocated and the underlying structure is copied
 
+* Any references to the original value remains unaltered
+
+* This model is known as copy-on-write
+
+* Q keeps track of each variable's reference count and deletes the object once the count drops to 0
+
+* We can access the reference count with -16!x
+
+q)a:10 20 30
+q)b:a
+/now both a and b point to the same object
+q)-16!a
+2i
+q)-16!b
+2i
+/now we modify b so a points to original object and b points to a new object
+q)b,:100
+q)-16!a
+1i
+q)-16!b
+1i
+q)
 
 
