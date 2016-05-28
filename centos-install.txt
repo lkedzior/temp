@@ -278,3 +278,16 @@ http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
   751  history
 
 http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
+
+
+##########################installing zlib for kdb 32-bit version
+
+We need 32-bit zlib if our kdb is 32-bit
+
+At the time we already had 64-bit zlib installed on centos and below did not work
+
+//install 32 bit zlib
+yum install zlib.i686
+
+//the solution was to install both 64 and 32 bit versions
+yum install zlib.x86_64 zlib.i686
