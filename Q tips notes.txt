@@ -342,6 +342,59 @@ if our intention is to assign results back to x we can modify x list in place
 
 4.2 Box-Muller
 
+Q Tip 4.5 Limit control flow statements to a single line (to help with debuginin)
+- if the code block becomes too long, then move it to a new function
+
+########Throwing Exceptions
+'`myError  /using symbol
+'"myError" /using strings
+
+take and drop
+q)til 5
+0 1 2 3 4
+
+q)2#til 5
+0 1
+q)2_til 5
+2 3 4
+
+q)-2#til 5
+3 4
+q)-2 _ til 5
+0 1 2
+
+# as shape to build n x m matrix
+q)2 3 # til 10
+0 1 2
+3 4 5
+q)
+
+q)2 0N # til 10
+0 1 2 3 4
+5 6 7 8 9
+q)0N 2 # til 10
+0 1
+2 3
+4 5
+6 7
+8 9
+q)
+
+_ as cut
+
+q)0 3 5 8 _ til 10
+0 1 2
+3 4
+5 6 7
+8 9
+q)0 3 5 8 cut  til 10
+0 1 2
+3 4
+5 6 7
+8 9
+q)
+
+4.3
 
 
 
