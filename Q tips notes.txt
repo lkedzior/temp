@@ -363,6 +363,14 @@ q)-2#til 5
 q)-2 _ til 5
 0 1 2
 
+It is also possible to drop an item from within a list (with a given index)
+q)0 1 2 3 4 _ 3
+0 1 2 4
+q)0 1 2 3 4_3
+0 1 2 4
+q)
+
+
 # as shape to build n x m matrix
 q)2 3 # til 10
 0 1 2
