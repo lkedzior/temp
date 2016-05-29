@@ -404,6 +404,16 @@ q)
 
 4.3
 
+SMA - Simple moving average, each data point is weighted equily
+20 points SMA - Add the price of last 20 point and divide by 20
 
+
+
+
+EMA - Exponential Moving Average
+The weighting of each data point is not equal
+More weight is given to the most recent data
+The weighting decresse as you go further back in time
+EMA treats more recent data as more relevent and more important
 
 
