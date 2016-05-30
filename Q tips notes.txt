@@ -436,5 +436,28 @@ x-decay factor
 y- list of observations
 
 ewma:{{(y*1-x)+z*x}[x]\[y]}
+/rearanging opperations
+ewma:{{y+x*z-y}[x]\[y]}
 
-e.g. 
+over with 3 args
+ewma:{{x+y*x}\[first y;1-x;x*y]}
+
+using decay factor as if it was a function (since 3.1)
+0 (.9)\ til 5
+ewma:{first[y](1f-x)\x*y}
+
+
+Vector conditional
+?[;;]
+- accepts a boolean or a list of booleans
+- evealutate both y and z (unlikely the $ operator)
+
+
+#################################################Chapter 5
+Code organization
+
+Building the path by using scalar from vector
+q)"/" sv ("/tmp";"stat.q")
+"/tmp/stat.q"
+
+Q Tip 5.1 Build path names by joining symbols, not character vectors
