@@ -404,11 +404,26 @@ q)
 
 4.3
 
+sv computes horner's rule (it evaluates Y to base X)
+1*10^2 + 5*10^1 + 9*10^0
+q)10 sv 1 5 9
+159
+
+X may be a list. For example, to convert days, hours, minutes, seconds to seconds:
+q)0 24 60 60 sv 2 3 5 7   / 2 days, 3 hours, 5 minutes, 7 seconds
+183907
+
+/ over adverb
+changes a dyadic function into a monadic function that takes a single list of values
+- function takes previous value as the first argument and the second will be the next value from the list
+-other languages refer to this process as fold, reduce or accumulate
+- only the final value is returned
+- scan \ returns all intermediate values (very useful for debugging
+
+Exponentially weighted moving average
+
 SMA - Simple moving average, each data point is weighted equily
 20 points SMA - Add the price of last 20 point and divide by 20
-
-
-
 
 EMA - Exponential Moving Average
 The weighting of each data point is not equal
@@ -416,4 +431,10 @@ More weight is given to the most recent data
 The weighting decresse as you go further back in time
 EMA treats more recent data as more relevent and more important
 
+old pre 3.1 implementation
+x-decay factor
+y- list of observations
 
+ewma:{{(y*1-x)+z*x}[x]\[y]}
+
+e.g. 
