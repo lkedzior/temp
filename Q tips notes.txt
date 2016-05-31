@@ -461,3 +461,44 @@ q)"/" sv ("/tmp";"stat.q")
 "/tmp/stat.q"
 
 Q Tip 5.1 Build path names by joining symbols, not character vectors
+
+` sv separates symbols with "."
+q)` sv `a`b`c
+`a.b.c
+
+` sv can separate symbols with / to create a file path
+Joining a list of symbols whose first element is a hndle creates a single file path (it will have platform specific separator)
+q)` sv `:/tmp`dir1`dir2`file.txt
+`:/tmp/dir1/dir2/file.txt
+
+vs creates a directory handle and trailing file or subdirector
+q)` vs `:/tmp/dir1/dir2/file.txt
+`:/tmp/dir1/dir2`file.txt
+
+q)` vs `:/tmp/dir1/dir2
+`:/tmp/dir1`dir2
+q)
+
+####File existence with key
+key `:file /returns () if file does not exist
+key `:directory /returns () or list of symbols or `symbol$() if empty
+
+IDENTITY VS EQUALITY
+~ match is not tolerat when comparing different types
+q)0=0f
+1b
+q)0~0f
+0b
+q)
+
+####hsym
+hsym prepends : to the symbol to create file/network handle
+
+q)hsym `abc
+`:abc
+
+Operators relating to the handles start with leading "h"
+hopen hclose hdel hcount hsym
+
+NAMESPACES AND DIRECTORIES!!!
+
