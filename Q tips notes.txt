@@ -553,6 +553,12 @@ value `..a
 `.[`a] /bracket notation
 `.@`a /index operator "@"
 
+a global var is created if we define namespace or directory from within a function
+q){abc.a:10}[]
+q)abc
+ | ::
+a| 10
+q)
 
 NAMESPACES vs DIRECTORIES
 - all directories are namespaces (namespaces are not directories)
@@ -563,3 +569,25 @@ NAMESPACES vs DIRECTORIES
 
 SCOPE FUNCTIONS WITH DIRECTOREIS BUT DATASETS WITH NAMESPACES
 
+
+importing
+q)use `.stat.skew
+`.
+
+x - symbol e.g. `.stat (whole directory) or `.stat.skew
+use:{
+  system["d"]  /returns current directory as a dictionary
+    upsert
+      $[99h=type v:get x; v; (-1#` vs x)!1#v]
+ };
+ 
+ q)-1#` vs `.stat.f
+,`f
+
+we upsert `f!{} dictionary
+
+#######################$ conditional operator
+$[;;]
+$[;;...;] - if there are fourth and fifth blocks then the third is treated as an else if condition
+
+Chapter 6 A random walk
