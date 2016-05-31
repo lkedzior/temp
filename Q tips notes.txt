@@ -502,3 +502,56 @@ hopen hclose hdel hcount hsym
 
 NAMESPACES AND DIRECTORIES!!!
 
+QINIT file - q loads the content of the QINIT file on startup
+if QINIT is not defined q attempts to load file named q.q
+
+Namespaces
+q)qtips.a:1
+q)qtips.b:2
+q)\v qtips
+`s#`a`b
+q)qtips
+ | ::
+a| 1
+b| 2
+q)
+
+It is just a mapping/dictionary, ` -> :: is added automatically for us
+
+The root namespace (value `.) is designed for data
+
+There is another type of namespace that is designed for functions and related configuration data
+
+These special namespaces are called directories and begin with a single dot "."
+
+Single letter directories are reserved for q
+
+These are all directories loaded from q.k
+q)key `
+`q`Q`h`j`o
+
+.q - all functions whcih are implemented in k
+.Q - utility function for db maintenance
+.h - functions for q's builtin web server
+.j - jason functions
+.o - odbc connectivity
+
+directory .qtips.a:1 vs namespace qtips.a:1
+
+with directories we can change directory with the directory \d command
+q)\d .qtips
+q.qtips)a:1
+q.qtips)\d .
+q).qtips
+ | ::
+a| 1
+q)
+
+Accessing global variables from root directory in another namespace
+value `..a
+`. `.  /juxtaposition
+`.[`a] /bracket notation
+`.@`a /index operator "@"
+
+
+
