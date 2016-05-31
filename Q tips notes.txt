@@ -554,4 +554,12 @@ value `..a
 `.@`a /index operator "@"
 
 
+NAMESPACES vs DIRECTORIES
+- all directories are namespaces (namespaces are not directories)
+- q was designed to store data in namespaces not directories
+- directories can not contain views
+- automatic logging with the -l flag only records data updated in the root directory
+- partitioned databases can not be loaded into directories
+
+SCOPE FUNCTIONS WITH DIRECTOREIS BUT DATASETS WITH NAMESPACES
 
