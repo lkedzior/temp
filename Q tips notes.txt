@@ -591,3 +591,37 @@ $[;;]
 $[;;...;] - if there are fourth and fifth blocks then the third is treated as an else if condition
 
 Chapter 6 A random walk
+
+Q Tip - Multiply instead of divide
+e.g. 0.5*... instead of %2
+
+- q has implemented vector division by an atom as multiplication by the atom's reciprocal /rI'sIpr.k.l/
+- when comparing floating numbers q is using equility with tolerance
+- two floating point numbers are considered equal if the abs difference is < than 2^-43 * larger number
+- The only number equal to zero is 0
+- to test for equality without tolerance ALWAYS compare with 0
+
+#########UNIFORM FUNCTIONS#############
+- they all end with an s
+avgs deltas fills maxs mins prds ratios sums
+
+- like atomic functions a uniform function returns
+    -an atom if called with an atom
+    -a list of equal length if called with a list
+    
+prd - aggration function (return last value only)
+prds - uniform function (returns all intermediate results)
+
+otther aggration funtions
+arg max min prd sum
+
+deltas - each element is the difference between itself and the prior value
+ratios- each element is the ratio of itself and the prior value
+fills - each element is filled with previous value (nulls are filled, not nulls are unchanged)
+
+
+###################6.2 Temporal Data
+date
+time types (minute, second, time(ms), timespan(ns)
+minute, second, time are 4-byte integers
+timespan is 8-byte integer
