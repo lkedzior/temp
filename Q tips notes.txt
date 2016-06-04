@@ -625,3 +625,21 @@ date
 time types (minute, second, time(ms), timespan(ns)
 minute, second, time are 4-byte integers
 timespan is 8-byte integer
+
+timespan like other time data types is a number that represents a window of time
+When te value is less than one day it can represent a specific time of day
+
+example when the day is rolled
+q)0D23:59:59+`minute$2
+1D00:01:59.000000000
+
+###date and time
+old type - datetime, 8-byte double (don't use)
+new type - timestamp
+
+Q Tip 6.3 Use timestamps instead of datetimes
+
+Where the timespan indicates a duration, the timestamp indicates a specific time
+Logically, Subtracting 2 timestamps results in a timespan
+
+6.3 Path gen
