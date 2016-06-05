@@ -669,3 +669,20 @@ q)prev L
 q)prev[0; L]
 0 2 3 5 7
 q)
+
+Ranges
+
+q).Q.addmonths[.z.d;0 2]
+2016.06.05 2016.08.05
+
+###Projections
+The acto of calling a function with fewer parameters than is needed aka partial application or binding paramters
+
+
+###Dot Apply
+
+The dot operator "." accepts a multivalent function, projection or data structure as its left operand and a list as its right operand.
+- it then calls the function as if it had been called with bracket notation
+
+Chapter 7
+Building a Table
