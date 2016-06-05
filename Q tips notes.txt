@@ -620,6 +620,7 @@ ratios- each element is the ratio of itself and the prior value
 fills - each element is filled with previous value (nulls are filled, not nulls are unchanged)
 
 
+
 ###################6.2 Temporal Data
 date
 time types (minute, second, time(ms), timespan(ns)
@@ -643,3 +644,28 @@ Where the timespan indicates a duration, the timestamp indicates a specific time
 Logically, Subtracting 2 timestamps results in a timespan
 
 6.3 Path gen
+- all mathematical operators are atomic (they work with both atomos and vectors
+
+Q tip 
+Use the dyadic form of deltas, ratios, differ and prev
+defaults are 0, 1, :: and ON respectively
+deltas[0;]
+ratios[1;]
+differ[::;]
+prev[0N;]
+
+/deltas to see number of days betwen dates
+q)L:2016.06.05 2016.06.08 2016.06.11
+q)deltas L / 0 is 2000.01.01
+6000 3 3i
+q)deltas[first L;L]
+0 3 3i
+q)
+
+/prev is like right shift?
+q)L:2 3 5 7 11
+q)prev L
+0N 2 3 5 7
+q)prev[0; L]
+0 2 3 5 7
+q)
