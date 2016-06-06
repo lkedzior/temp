@@ -48,5 +48,16 @@ e.g. the below creates target\libs\myLib-0-SNAPSHOT folder
         </executions>
       </plugin>
       
+      see git and multiple modules
+      http://stackoverflow.com/questions/6727450/releasing-a-multi-module-maven-project-with-git
+      o get it to work I had to tune the scm section of the pom.xml to something like the following. The connections specifically had to be tuned right to work. None of the github ones worked at all.
+
+<scm>
+    <url>https://github.com/XXX/YYY</url>
+    <connection>scm:git:ssh://git@github.com/XXX/YYY.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/XXX/YYY.git</developerConnection>
+</scm>
+
+The XXX in the above example is your github username. You cannot use the :XXX format (git@github.com:XXX/...) because the value past the : is interpreted as being a port number instead. The YYY is obviously your repository name under the XXX account.
       
 
