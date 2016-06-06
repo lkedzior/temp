@@ -747,3 +747,20 @@ Q Tip 7.2 Use 0N! to debug data structures and functions
 
 page 79
 Namespaces revisited
+directory .qtips.a:1 vs namespace qtips.a:1
+
+namespace/directory is a dictionary that stores variables and functin definitions
+
+We can index into the directory to find the function definition
+q).stat`pctile
+...
+
+q).stat.pctile
+
+Dot notation is more strict than indexing a namespace, it throws an error if a function is missing
+q).stat.missing
+'.stat.missing
+
+Indexing just returns generic null (::)
+
+##############7.2 Tables
