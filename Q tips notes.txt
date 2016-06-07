@@ -793,5 +793,54 @@ The "+" character is actually the flip operator in K
 
 We can flip dict to table if
 - the keys of the dict must be symbols
-- each of the list must be of equal size or be an atom which can be coerced into a list /kou'e:s/ /kəʊˈɜːs/
+- each of the list must be of equal size or be an atom which can be coerced into a list /kəʊˈɜːs/ wymuszac
+
+We can create a table by
+- flipping a dict
+- creating a list of dict
+- define ([] c1:data) or ([] c1) if we are happy with column name = variable name
+
+Kdb will always check a list of dictionaries to see if it can be converted to a table (keys symbols,matching column types etc)
+Kdb will always convert it to dictionary of lists / table 
+
+To get a list of columns
+q)key flip t
+`id`date`price
+
+or cols operator - will work with keyed and on-disk tables
+//use key flip t in tp code not the cols
+
+
+
+# - Taking a subset of cols table
+q)enlist[`sym]#t
+sym
+---
+a
+b
+c
+q)
+
+or return as lists
+q)t`sym`v
+a  b  c
+10 10 10
+
+2#t - frist 2 rows
+
+To take first or last few columns we can amend # with /:
+table is a list of dictionaries so from each dictionary we take 2# keys and create a list of sub-dictionaries
+
+q)2#/:t
+sym time
+----------------
+a   11:40:31.831
+b   11:40:31.832
+c   11:40:31.833
+q)
+
+In practice, a kdb+ table is not a list of dictionaries, but is a flipped dictionary of lists.
+And as such, the "#/:" operator merely performs the constant time operation of taking the first two columns.
+
+7.3 Keyed Tables
 
