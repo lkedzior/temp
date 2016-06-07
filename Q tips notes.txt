@@ -844,3 +844,68 @@ And as such, the "#/:" operator merely performs the constant time operation of t
 
 7.3 Keyed Tables
 
+Keyed table is a dictionary that maps key table with value table
+
+Just as dictionaries allow us to access values by key, a kayed table allows us to access rows by key as well
+
+- we can define keys within ([...]
+or use key ! operator on existing table to indicate the number of keyed columns
+2!tbl
+
+if the key columns are not in front, use xcols
+2!`id`date xcols tbl
+
+but xkey does both
+`id`date xkey t
+
+to unkey
+0!tbl
+() xkey tbl
+
+-we can also use ! to create a keyed table as a dictionary
+kt!t
+
+Indexing the keyed table - Dictionary of tables
+q) (0;2000.01.01)
+price| 100
+
+to query multiple records
+t flip (0;2000.01.01 + til 3)
+price
+-------
+100
+98
+97
+
+But flipping a list of lists reorders the data in memory
+More efficient method of indexing a keyed table is to use a table instead
+
+t ([]id:0;date:2000.01.01 + til 3)
+price
+-------
+100
+98
+97
+
+See only unkeyed / value table is returned
+
+Remember keyed table is a dictionary that maps key table to value table
+- dictionary maps a list of keys to a list of values
+- keyed table, the list of keys is a list of dictionaries (a table)
+- the list of values is a list of dictionaries (another table)
+
+key kt
+value kt 
+works as exected, they return respective tables
+
+
+Chapter 8.1 Looping
+each - there is a loop in the underlying implementation
+each left \:
+each right /:
+each both '
+
+Using each left/right/both let us use infix notation with user defined functions just like builtin q operators (can't be done with user defined functions when they are not used with an adverb)
+
+Ungroup
+
