@@ -764,3 +764,34 @@ q).stat.missing
 Indexing just returns generic null (::)
 
 ##############7.2 Tables
+Table is a flipped dictionary of lists
+
+On a list of lists, the flip operator transposes the values
+
+Similarly, using flip on a dictionary of lists creates a list of dictionaries - a kdb table.
+With kdb table we can index by row number to pull the dictionary we want
+
+t 4
+or
+t[4;`price]
+
+Table is still stored as a dictionary of lists
+- Using the plip operator on a matrix does transpose the data (expensive operation)
+- Using flip on a dictionary of lists does not transpose the data. It only records the fact that the data should be treated as a table.
+
+Looking at the intrnal representation shows us that it is still a flipped dictionary of lists 
+q)0N!t
++`sym`time`v!(`a`b`c;11:40:31.831 11:40:31.832 11:40:31.833;10 10 10)
+sym time         v
+-------------------
+a   11:40:31.831 10
+b   11:40:31.832 10
+c   11:40:31.833 10
+q)
+
+The "+" character is actually the flip operator in K
+
+We can flip dict to table if
+- the keys of the dict must be symbols
+- each of the list must be of equal size or be an atom which can be coerced into a list /kou'e:s/ /kəʊˈɜːs/
+
