@@ -905,7 +905,24 @@ each left \:
 each right /:
 each both '
 
-Using each left/right/both let us use infix notation with user defined functions just like builtin q operators (can't be done with user defined functions when they are not used with an adverb)
+Using each left/right/both let us use infix notation with user defined functions just like builtin q operators (can't be done 
+with user defined functions when they are not used with an adverb)
 
-Ungroup
+ungroup - can be used on a table to ungroup nested lists 
+
+Q Tip 8.1 User array lookups to implement simple conditional statements
+
+("np" t in 12 14 15h)$myTime  /cast to timestamp or timespan
+
+or `time`date[t=14h]
+
+When transforming the result of an if/else statement into one of two elements
+it is often easier to perform an array lookup instead of $[;;]
+
+extension to this is using signum, e.g. we want "B"(buy) "S"(sell) or " " based on the sign of the price quantity
+prices 10 0 -10
+"S B"1+signum 10 0 -10 
+
+
+
 
