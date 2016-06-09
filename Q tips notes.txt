@@ -942,3 +942,17 @@ It is important that the tables being razed not be keyed
 - so function should return a table then it can be run with each and results razed
 
 8.2 Attributes
+- By default, q uses a linear serach algorithm to find values within lists
+- Other options we have are: binary search for sorted data, or hashing algorithm for unique, grouped or partitioned data
+
+attr operator obtains the attribute associated with any q value, can return the below. 
+To apply attribute we use # with on of the below symbols
+`s
+`u
+`p
+`q
+`
+
+-we can use `# to remove attributes from a list
+`#list
+
