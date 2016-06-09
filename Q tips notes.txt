@@ -956,3 +956,30 @@ To apply attribute we use # with on of the below symbols
 -we can use `# to remove attributes from a list
 `#list
 
+Sort Attribute
+- informs q to use a binary search algorithm to find the desired element(s)
+- applying `s# to an unsorted list will fail ('s-fail)
+- appending an item that invalidates the sorted order will remove the attribute from the list
+- asc operation will apply the `s# automatically
+- `s# adds no memory overhead to the process
+- q never modifies a variable unless we use in-place assighment but behaviour when applying sort attribute is different 
+
+q)x:til 3
+q)`u#x
+`u#0 1 2
+q)x
+0 1 2
+q)`s#x
+`s#0 1 2
+q)x
+`s#0 1 2
+q)
+q)`#x
+0 1 2
+q)x
+`s#0 1 2
+10?5 - left argument is an atom => random gen to get 10 itemps
+list?10 - left argument is a list => find
+
+measuring with \ts:NoOfRuns ...
+
