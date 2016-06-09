@@ -923,6 +923,22 @@ extension to this is using signum, e.g. we want "B"(buy) "S"(sell) or " " based 
 prices 10 0 -10
 "S B"1+signum 10 0 -10 
 
+raze - creates a list by joining each of the elements of its arguments
+- it reduces one layer of nesting
 
+q)raze (10 20 30;100 200)
+10 20 30 100 200
 
+q)raze (10;(20 20;30 30);100 200)
+10
+20 20
+30 30
+100
+200
 
+Q Tip 8.2 Return unkeyed tables by default
+It is important that the tables being razed not be keyed
+- keyed tables are dictionaries nad joining two dictinaries merges common keys
+- so function should return a table then it can be run with each and results razed
+
+8.2 Attributes
