@@ -978,8 +978,12 @@ q)`#x
 0 1 2
 q)x
 `s#0 1 2
+
+This trick is used to save memory by avoiding the need to copy the list
+
 10?5 - left argument is an atom => random gen to get 10 itemps
 list?10 - left argument is a list => find
 
 measuring with \ts:NoOfRuns ...
 
+Binary Search
