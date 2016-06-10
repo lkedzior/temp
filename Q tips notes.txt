@@ -987,3 +987,18 @@ list?10 - left argument is a list => find
 measuring with \ts:NoOfRuns ...
 
 Binary Search
+- even without the `s# attribute we can force a binary search on sorted data by using the binary search operator bin
+- bin returns the index of the right operand
+- if the value does not exist bin returns an index of the closest but not larger value
+-if data is unsorted the results are undefined
+
+q)10 20 30 bin 30
+2
+q)10 20 30 bin 25
+1
+q)
+q)10 20 30 binr 25
+2
+
+binr returns the index of the value that exists to the right of the non-existing element
+
