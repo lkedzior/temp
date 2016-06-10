@@ -1002,3 +1002,26 @@ q)10 20 30 binr 25
 
 binr returns the index of the value that exists to the right of the non-existing element
 
+#Sorting a table 
+`col1`col2 xasc tbl
+- Sorting routine is stable, the ordering of equal items remains constant
+- xasc will add `s# on col1
+- xasc can be used with `tblname to update the table directly (no data copy is needed)
+- if tblname is not a global variable then we have to assign the result back to the original variable
+
+Q Tip 8.3
+Use \t:n and \ts:n to time multiple runs of a single command
+
+The sort attribute is good for data that has a high number of distinct values all listed in increasing order (e.g. time)
+If not sorted or there are many repeated values we can consider the remaining attributes which rely on a hashing algorithm
+
+- u g and p attributes need extra memory and use a hashing algortigh
+`u maps the value to a single index
+`g maps the value to a list of indices
+`p maps the value to an index and count
+
+Unique Attribute
+
+
+
+
