@@ -1022,6 +1022,20 @@ If not sorted or there are many repeated values we can consider the remaining at
 
 Unique Attribute
 
+- `u is used with lists that have no duplicate entries
+- q uses a hashing algorithm to find the exact index for the desired element
+- 'u-fail is thrown if there are duplicates 
+
+We can apply the `u attribute to a table that has a single column primary key
+We must apply `u on the column vector before creating the keyed table
+e.g.
+
+tbl[`id]:`u#tbl`id;
+tbl:`id xkey tbl;
+
+Index Apply
+
+
 
 
 
