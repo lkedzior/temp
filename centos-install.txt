@@ -304,3 +304,7 @@ yum install zlib.i686
 
 //the solution was to install both 64 and 32 bit versions
 yum install zlib.x86_64 zlib.i686
+
+############tree command
+ yum install tree
+
