@@ -31,3 +31,9 @@ cpu time               (seconds, -t) unlimited
 max user processes              (-u) 8191 
 virtual memory          (kbytes, -v) unlimited 
 file locks                      (-x) unlimited 
+
+To monitor see performance at the task/thread level you can use pidstat which is using 
+/proc/pid/task/..
+http://www.thegeekstuff.com/2014/11/pidstat-examples/
+
+
