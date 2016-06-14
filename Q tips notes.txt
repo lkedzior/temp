@@ -1065,8 +1065,28 @@ By default, looking up a value in a list(and therefore a dictionary) performs a 
 To define this we apply `u# to the keys
 q)d:(`u#keys)!values
 
+Note - attributes other than the sort one need extra memory. The extra attribute info is saved into disk when we persist the data
 
+####Partition Attribute
+Like the unique attribute `u, the partition attribute `p creates a map
+The map maps each unique value to a starting row index and the count 
 
+`p requires all instances of a specific value to be partitioned/clustered together. Sorting is a convenient way to partition a list
+
+####Group attribute
+Applying `g to a list causes q to create a mapping from the distinct hash values to a list of row indices.
+
+Used in rdb `g#sym
+This ensure fast query times. q updates its internal grouping map whenever new rows are added. This makes each update slower, but ensures fast query performance.
+
+Performance Considerations
+To perform a table lookup, q first finds all rows in the table that match according to the first keyed column.
+Once all matches are found, it is able to narrow the search for any subsequent columns in the key.
+Adding an attribute on the first column of the key allows q to narrow the search (no need for linear search on all rows).
+BUT ONCE THE FIRST COLUMN IS USED TO NARROW THE SEARCH, ATTRIBUTES THAT MAY EXISTS ON THE REMAINING COLUMN ARE IGNORED
+A LINEAR SEARCH IS USED FOR ALL REMAINING COLUMNS
+
+ALWAYS USE THE MOST DESCRIPTIVE IDENTIFIER (THE BEST FILTER) AS THE FIRST KEYED COLUMN
 
 
 
