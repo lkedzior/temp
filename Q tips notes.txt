@@ -1088,6 +1088,18 @@ A LINEAR SEARCH IS USED FOR ALL REMAINING COLUMNS
 
 ALWAYS USE THE MOST DESCRIPTIVE IDENTIFIER (THE BEST FILTER) AS THE FIRST KEYED COLUMN
 
+Q Tip 8.5
+Place the most descriptive column first
+
+Performance of a table query depends on how fast q can narrow the search down to a few rows before it resorts to a linear comparison
+
+If you must have multiple columns in the key, ensure the most descriptive identifier is first and prefer the `p over the `g attribute
+
+adding attributes to too many columns may slow down the insert times
+
+Q Tip 8.6
+Reapply attributes after filtering or deleting rows from a table
+
 
 
 
