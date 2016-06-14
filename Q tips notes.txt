@@ -1026,7 +1026,7 @@ Unique Attribute
 - q uses a hashing algorithm to find the exact index for the desired element
 - 'u-fail is thrown if there are duplicates 
 
-We can apply the `u attribute to a table that has a single column primary key
+We can/should apply the `u attribute to a table that has a single column primary key
 We must apply `u on the column vector before creating the keyed table
 e.g.
 
@@ -1034,6 +1034,42 @@ tbl[`id]:`u#tbl`id;
 tbl:`id xkey tbl;
 
 Index Apply
+- q has a shorthand for indexing into a list, applying an operation to the elements, and assigning the rsults back to the original list
+
+@ was used as index operator to index into a list/dictionary/table
+@[t;`date]
+
+@ is also used for index apply
+@[t;`date;monadicFunction]
+@[t;`price;dyadictFunction;arg]
+@[t;`price;%;100]
+
+E.g. amend a column to add an attribue
+t:@[t;`date;`u#]
+
+but we don't have to create a new copy of the table. We can use `tblName to amend existing object
+q)@[`t;date;`u#]
+`t
+
+REMEMBER - use in-place amends to avoid unnecessary data copy
+
+Q Tip 8.4
+Use the `u attribute on dictionary keys to increase perfrormance
+
+By default, looking up a value in a list(and therefore a dictionary) performs a linear search through each of the keys until a match is found. That means that keys at the end of a dictionary will have slower retrieval time than keys at the beginning
+
+* Adding the `u attribute to the keys list changes the lookup method from a linear search to a constant time hashing algorithm.
+* For small dictionaries this may make the lookup slower
+* For dictionaries with around 80 elements or more, the `u attribute allows data retrieval to remain constant-time
+
+To define this we apply `u# to the keys
+q)d:(`u#keys)!values
+
+
+
+
+
+
 
 
 
