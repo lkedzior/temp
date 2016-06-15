@@ -1,7 +1,13 @@
 in the parsing tree
 
-nested list `aaa`bbb would indicate list of names/columns
-doubly nested list e.g. enlist ("aaa";"bbb") indicates list of constants
+select from tbl where user=myUser
+enlist (=;`user;`myUser)
+
+select from tbl where user=`myUser
+enlist (=;`user;enlist `myUser)
+
+if `myUser is hardcoded literal then we have to enlist it
+if myUser is a variable then we use `myUser symbol
 
 #runninng moving average with variable number of ticks the average is calculated on
 /n column defines number of ticks to be taken into account when calculating avg
