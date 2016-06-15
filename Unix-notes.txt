@@ -1,0 +1,39 @@
+//SAR
+
+//default command
+sar -f /var/log/sa/sa20 | head
+
+//to get memory stats
+sar -f /var/log/sa/sa20 -r
+
+//number of bytes waiting in input queues
+netstat -anp | grep <PID>
+or 
+netstat -an | grep <PORT> | grep EST
+
+This will show you the socket buffer stats with Recv-Q and Send-Q per socket.
+You can also use lsof | grep <PID>, to get ephemeral port and even socket handle FD number for the process/connection.  
+
+//check unlimit settings to limit process memory
+http://www.linuxhowtos.org/Tips%20and%20Tricks/ulimit.htm
+# ulimit -a 
+core file size          (blocks, -c) 0 
+data seg size           (kbytes, -d) unlimited 
+file size               (blocks, -f) unlimited 
+pending signals                 (-i) 8191 
+max locked memory       (kbytes, -l) 32 
+max memory size         (kbytes, -m) unlimited 
+open files                      (-n) 1024 
+pipe size            (512 bytes, -p) 8 
+POSIX message queues     (bytes, -q) 819200 
+stack size              (kbytes, -s) 8192 
+cpu time               (seconds, -t) unlimited 
+max user processes              (-u) 8191 
+virtual memory          (kbytes, -v) unlimited 
+file locks                      (-x) unlimited 
+
+To monitor see performance at the task/thread level you can use pidstat which is using 
+/proc/pid/task/..
+http://www.thegeekstuff.com/2014/11/pidstat-examples/
+
+

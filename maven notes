@@ -1,0 +1,63 @@
+#Including and unpacking a zip dependency
+
+
+
+In pom.xml file
+    <dependency>
+      <groupId>com.fxq</groupId>
+      <artifactId>myLib</artifactId>
+      <version>0-SNAPSHOT</version>
+      <classifier>dist</classifier>
+      <type>zip</type>
+    </dependency>
+  </dependencies>
+
+and then in assembly descriptor
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>libs</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <unpack>true</unpack>
+        </dependencySet>
+    </dependencySets>
+
+and that seems to be enough, we can see the below in the application zip artifact 
+libs\myLib-0-SNAPSHOT (how to exclude version?)
+
+we can also unpack dependencies during e.g. compile phase but we would do something with them, e.g. maybe include as a fileSet in the assembly descriptr?
+e.g. the below creates target\libs\myLib-0-SNAPSHOT folder
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack-config</id>
+            <phase>compile</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeGroupIds>com.fxq</includeGroupIds>
+              <includeArtifactIds>myLib</includeArtifactIds>
+              <includeClassifiers>dist</includeClassifiers>
+              <outputDirectory>${project.build.directory}/libs</outputDirectory>
+              <stripVersion>true</stripVersion>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      see git and multiple modules
+      http://stackoverflow.com/questions/6727450/releasing-a-multi-module-maven-project-with-git
+      o get it to work I had to tune the scm section of the pom.xml to something like the following. The connections specifically had to be tuned right to work. None of the github ones worked at all.
+
+<scm>
+    <url>https://github.com/XXX/YYY</url>
+    <connection>scm:git:ssh://git@github.com/XXX/YYY.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/XXX/YYY.git</developerConnection>
+</scm>
+
+The XXX in the above example is your github username. You cannot use the :XXX format (git@github.com:XXX/...) because the value past the : is interpreted as being a port number instead. The YYY is obviously your repository name under the XXX account.
+      
+

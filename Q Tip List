@@ -1,0 +1,5 @@
+
+6.3 Use timestamps instead of datetimes
+6.4 Use the dyadic form of deltas, ratios, differ and prev
+6.5 Factor algorithms into small reusable pieces
+6.6 Reserve the last function paramter for data

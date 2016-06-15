@@ -32,6 +32,8 @@ to change to false
 git config --global core.autocrlf false
 or git config --global --edit
 
+/use input if you just want LF files in repo
+
 #false
 Checkout as-is, commit as-is Git will not perform any conversions when checking out or committing text files. Choosing this option is not recommended for cross-platform projects ("core.autocrlf" is set to "false")
 

@@ -83,5 +83,228 @@ alternatives --install /usr/bin/jar jar /opt/java/latest/bin/jar 2
 alternatives --set jar /opt/java/latest/bin/jar
 
 
+#########making new ports public in firewall
+http://www.linuxbrigade.com/centos-7-rhel-7-open-ports/
+[root@riverside1 ~]# firewall-cmd --zone=public --add-port=5000/tcp --permanent
+success
+[root@riverside1 ~]# firewall-cmd --reload
+success
+[root@riverside1 ~]# firewall-cmd --zone=public --list-all
+public (default, active)
+  interfaces: enp5s0
+  sources:
+  services: dhcpv6-client http ssh
+  ports: 8080/tcp 5000/tcp
+  masquerade: no
+  forward-ports:
+  icmp-blocks:
+  rich rules:
 
+[root@riverside1 ~]#
+
+##########stoping firewall 
+https://linuxconfig.org/how-to-stop-start-and-disable-enable-firewall-on-redhat-7-linux-system
+service firewalld stop
+
+In order to completely disable RHEL7 firewall so it would no load after reboot run:
+[root@rhel7 ~]# systemctl disable firewalld
+rm '/etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service'
+rm '/etc/systemd/system/basic.target.wants/firewalld.service'
+
+Now the firewall would not start after system's reboot. To enable the firewall again run:
+[root@rhel7 ~]# systemctl enable firewalld
+ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service'
+ln -s '/usr/lib/systemd/system/firewalld.service' '/etc/systemd/system/basic.target.wants/firewalld.service'
+
+
+#set correct permissions for ssh files after adding new public keys
+[fxq@riverside1:~/.ssh] chmod 700 .ssh
+[fxq@riverside1:~/.ssh] chmod 640 authorized_keys
+
+
+#### install git
+yum install git-all
+
+
+###########seting up jenkins
+Install the git plugin
+Once you can access your Jenkins console,  goto `Manage Jenkins -> Manage Plugins` from the home screen.
+
+Open the ‘Available’ tab and find the plugin entitled Git Plugin.
+
+* setting up keys for jenkins user
+[root@riverside1 ~]# sudo su jenkins -s /bin/bash
+bash-4.2$ cd ~
+bash-4.2$ pwd
+/var/lib/jenkins
+
+bash-4.2$ mkdir .ssh
+bash-4.2$ cd .ssh
+bash-4.2$ ssh-keygen
+Generating public/private rsa key pair.
+...
+bash-4.2$ ls -lrtha
+total 12K
+drwxr-xr-x. 10 jenkins jenkins 4.0K Apr 16 09:40 ..
+-rw-r--r--.  1 jenkins jenkins  400 Apr 16 09:41 id_rsa.pub
+-rw-------.  1 jenkins jenkins 1.7K Apr 16 09:41 id_rsa
+drwxr-xr-x.  2 jenkins jenkins   36 Apr 16 09:41 .
+
+add public key to the bit bucket
+bash-4.2$ cat id_rsa.pub
+...
+got to bitbucket -> profile -> bitbucket settings -> SSH keys, paste the public key
+
+
+..adding the repo server to authorized hosts
+bash-4.2$ git clone git@bitbucket.org:kedziorl/tp.git
+Cloning into 'tp'...
+The authenticity of host 'bitbucket.org (104.192.143.1)' can't be established.
+RSA key fingerprint is 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'bitbucket.org,104.192.143.1' (RSA) to the list of known hosts.
+remote: Counting objects: 68, done.
+remote: Compressing objects: 100% (39/39), done.
+remote: Total 68 (delta 5), reused 0 (delta 0)
+Receiving objects: 100% (68/68), 9.31 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (5/5), done.
+bash-4.2$ cat ~/.ssh/known_hosts
+bitbucket.org,104.192.143.1 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+bash-4.2$
+
+#######################################
+jenkins -> configure system,
+there you need to add java home e.g.
+/opt/java/latest
+
+or Maven home
+or you can let jenkins install latest maven
+
+##############Installing maven on linux
+as root
+cd /tmp
+wget http://apache.spinellicreations.com/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+
+http://preilly.me/2013/05/10/how-to-install-maven-on-centos/
+
+[root@riverside1 tmp]# tar xzf apache-maven-3.3.9-bin.tar.gz -C /usr/local
+
+[root@riverside1 tmp]# cd /usr/local
+
+[root@riverside1 local]# ln -s apache-maven-3.3.9 maven
+
+[root@riverside1 local]# vi /etc/profile.d/maven.sh
+add these lines
+[root@riverside1 local]# cat /etc/profile.d/maven.sh
+export M2_HOME=/usr/local/maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+##############Installing kdb for all users - see above instructions for maven
+
+
+Installing nexus
+was not able to install nexus 3
+
+for nexus 2 follow
+https://books.sonatype.com/nexus-book/reference/installing.html
+https://books.sonatype.com/nexus-book/reference/install-sect-service.html
+http://alexander.holbreich.org/sonatype-nexus-setup/
+
+install in
+/usr/local/nexus
+
+cp nexus-2.12.1-01-bundle.tar.gz /usr/local
+$ cd /usr/local
+$ sudo tar xvzf nexus-2.12.1-01-bundle.tar.gz
+$ sudo ln -s nexus-2.12.1-01 nexus
+
+Create a nexus user with sufficient access rights to run the service
+Copy $NEXUS_HOME/bin/nexus to /etc/init.d/nexus
+Make the /etc/init.d/nexus script executable and owned by the root user -
+chmod 755 /etc/init.d/nexus
+chown root /etc/init.d/nexus
+Edit this script changing the following variables:
+
+Change NEXUS_HOME to the absolute folder location (e.g., NEXUS_HOME="/usr/local/nexus")
+
+Set the RUN_AS_USER to nexus or any other user with restricted rights that you want to use to run the service. You should not be running the repository manager as root.
+
+Change PIDDIR to a directory where this user has read/write permissions. In most Linux distributions, /var/run is only writable by root. The property you need to add to customize the PID file location is wrapper.pidfile. For more information about this property and how it would be configured in wrapper.conf, see: http://wrapper.tanukisoftware.com/doc/english/properties.html.
+
+Change the owner and group of the directories used by the repository manager, including nexus-work configured in nexus.properties defaulting to sonatype-work/nexus, to the nexus user that will run the application.
+
+e.g. nexus-work=/srv/nexus/main-repo 
+
+mkdir /srv/nexus/main-repo
+#Set owner user and group
+chown nexus:nexus /srv/nexus/main-repo  
+
+$ cd /etc/init.d
+$ chkconfig --add nexus
+$ chkconfig --levels 345 nexus on
+$ service nexus start
+Starting Nexus Repository Manager...
+$ tail -f /usr/local/nexus/logs/wrapper.log
+The second command adds nexus as a service to be started and stopped with the service command. chkconfig manages the symbolic links in /etc/rc[0-6].d which control the services to be started and stopped when the operating system restarts or transitions between run-levels. The third command adds nexus to run-levels 3, 4, and 5. The service command starts the repository manager, and the last command tails the wrapper.log to verify that it has been started successfully. If the repository manager has started successfully, you should see a message notifying you that it is listening for HTTP.
+
+#####################change swappines settings
+
+http://www.hostingstuff.net/tweak-swap-centos-7/
+
+You can check the value for the current setting using cat:
+[root@web ~]# cat /proc/sys/vm/swappiness
+60
+
+If we want to temporary change this value we can do it using a simple echo:
+[root@web ~]# echo 10 > /proc/sys/vm/swappiness
+
+or by using the sysctl tool:
+[root@web ~]# sysctl vm.swappiness=10
+
+This setting is not permanent unless we add it to /etc/sysctl.conf. If the value isn’t defined there you can simply add this line at the bottom of the file:
+vm.swappiness = 10
+
+same advice here
+https://scottlinux.com/2010/06/23/adjust-your-swappiness/
+To set the value permanently on your box, edit this file:
+sudo nano /etc/sysctl.conf
+And put in the value you desire, such as:
+vm.swappiness=0
+
+
+###########################installing NTP daemon
+to sync time
+
+http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
+ yum -y install ntp
+ 
+ ntpdate pool.ntp.org
+ /consider updating the config (haven't done that yet)
+ /etc/ntp.conf
+ /server internalntpserver1 iburst
+ /server internalntpserver2 iburst
+ server pool.ntp.org iburst
+ 
+ 
+ chkconfig ntpd on
+ service ntpd start
+  751  history
+
+http://blog.zwiegnet.com/linux-server/configure-ntp-client-on-centos-7/
+
+
+##########################installing zlib for kdb 32-bit version
+
+We need 32-bit zlib if our kdb is 32-bit
+
+At the time we already had 64-bit zlib installed on centos and below did not work
+
+//install 32 bit zlib
+yum install zlib.i686
+
+//the solution was to install both 64 and 32 bit versions
+yum install zlib.x86_64 zlib.i686
+
+############tree command
+ yum install tree
 

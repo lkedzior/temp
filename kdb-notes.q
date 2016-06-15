@@ -38,4 +38,9 @@ pathToTheColumn set `tradeCancel!indecies
 where indecies are calculated with ? as above
 
 
+Kdb can stop with bus error if /dev/shm is too small.
+As a rough guide, it should be large enough for a decompressed partition.
+If a script is iterating over the files, we must be sure to not to keep references to them once they are finished with,
+otherwise they will needlessly occupy the shm memory. 
+
 

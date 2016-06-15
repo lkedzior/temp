@@ -1,0 +1,15 @@
+Jenkinks pipe to push to UAT
+1) First job create a release (new version; mvn deploy; mvn scm:tag)
+2) Second job to deploy to UAT (stop deployInstall start)
+3) Run tests specific for UAT
+
+visualise the flow with pipeline build plugin
+https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin 
+
+Separate manual job 
+* "deploy latest version to PROD (stop deployInstall start) could run e.g. every Saturday
+//extreme case would be to run this job after step 3) but this can be possible only if the processes can be restarted during a week without a data loss
+
+For more complex relations between jobs see  Pipeline Plugin (aka workflow plugin)
+https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
+This one allowes fully programmable pipelines

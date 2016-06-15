@@ -1,0 +1,105 @@
+
+//to chek date inputs
+    If Not IsDate(Cells(3, 3)) Or Not IsDate(Cells(4, 3)) Then
+        MsgBox "Invalid dates"
+        Exit Sub
+    End If
+    
+    If Cells(4, 3) < Cells(3, 3) Then
+        MsgBox "Start date must be <= End date"
+        Exit Sub
+    End If
+    
+//to format date
+Function toKdbDate(dt As Date)
+    toKdbDate = Format(dt, "yyyy.MM.dd")
+End Function
+
+
+    Dim sd As String
+    Dim ed As String
+    sd = toKdbDate(Sheets("FetchData").Cells(3, 3))
+    ed = toKdbDate(Sheets("FetchData").Cells(4, 3))
+    
+Dim fn As String
+fn = "myFunction"
+Dim connStr As String
+
+connStr = "TEXT;http://myHostname:31460/q.csv?" + fn + "[" + sd + ";" + ed + "]"
+
+//download csv data into RawData sheet
+Application.DisplayAlerts = False
+    On Error Resume Next
+    Worksheets("RawData").Delete
+    Application.DisplayAlerts = True
+    On Error GoTo 0
+    
+    Worksheets.Add.Name = "RawData"
+    
+    ActiveWorkbook.Worksheets("RawData").Select
+        
+    With ActiveSheet.QueryTables.Add(Connection:= _
+            connStr _
+            , Destination:=Range("$A$1"))
+            .Name = "1]"
+            .FieldNames = True
+            .RowNumbers = False
+            .FillAdjacentFormulas = False
+            .PreserveFormatting = True
+            .RefreshOnFileOpen = False
+            .RefreshStyle = xlInsertDeleteCells
+            .SavePassword = False
+            .SaveData = True
+            .AdjustColumnWidth = True
+            .RefreshPeriod = 0
+            .TextFilePromptOnRefresh = False
+            .TextFilePlatform = xlWindows
+            .TextFileStartRow = 1
+            .TextFileParseType = xlDelimited
+            .TextFileTextQualifier = xlTextQualifierDoubleQuote
+            .TextFileConsecutiveDelimiter = False
+            .TextFileTabDelimiter = False
+            .TextFileSemicolonDelimiter = False
+            .TextFileCommaDelimiter = True
+            .TextFileSpaceDelimiter = False
+            .TextFileTrailingMinusNumbers = True
+            .Refresh BackgroundQuery:=False
+    End With
+    
+        CleanPivotWorksheet
+    CreatePivotWorkseet
+    
+    Application.DisplayAlerts = False
+    On Error Resume Next
+    
+    Worksheets("RawData").Delete
+    
+    Application.DisplayAlerts = True
+    On Error GoTo 0
+    
+Sub CleanPivotWorksheet()
+    
+    Application.DisplayAlerts = False
+    On Error Resume Next
+    Worksheets("Pivot").Delete
+    Application.DisplayAlerts = True
+    On Error GoTo 0
+        
+    Worksheets.Add.Name = "Pivot"
+    ActiveWorkbook.Worksheets("Pivot").Select
+  
+    For Each PvtTbl In Worksheets("Pivot").PivotTables
+      PvtTbl.TableRange2.Clear
+    Next PvtTbl
+    
+    If Sheets("Pivot").ChartObjects.count > 0 Then
+      Sheets("Pivot").ChartObjects.Delete
+    End If
+    
+End Sub
+
+Sub CreatePivotWorkseet()
+
+  myRecorderMacro
+    
+End Sub
