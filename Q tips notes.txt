@@ -1099,6 +1099,46 @@ adding attributes to too many columns may slow down the insert times
 
 Q Tip 8.6
 Reapply attributes after filtering or deleting rows from a table
+- slecting a subset or deleting rows from tables removes all attributes
+- appending rows that invalidate attributes also removes them
+
+sattr function optimally sets attributes on tables with no key, singlek key or multiple keys
+- single column key will always have the primary identifier as the first column
+- If the table has a single column key, we will apply the unique attribute
+- In all other cases we apply the group attribute `g. This inlucdes the case where there is no kay and hwere the key has multiple colummns
+
+Sorted Multi Column Keys
+- Indexing into a multi-keyed table tat has many unique values in each column of the key can become quite slow. Once the attribute in the first column is used, a linear search is performed for the remaining columns.
+
+To fix this we can sort the table and add a sort attribute `s to the whole key
+- This can inform kdb+ that it can use a binary search algorithm for the composite key
+- We have to write our own function because asc operator sorts dictionaries by value not key
+
+kasc:{
+  $[`sattr k:key x;
+    x; /return here if the key table is already sorted
+    (`s#k i)!value[x]i:iasc k
+   ];
+ };
+
+- iasc operator determine the proper transfromation needed to sort the key
+The iasc operator performs the work behind both asc and xasc
+Instead of actually rearranging the order of list elements, the iasc operator returns the index where each properly sorted element can be found in the original list
+
+The asc operator uses these indices to index into the original list, thus returning a sorted copy
+The benefit of separating out this functionality is that the results of iasc can be used to sort other lists without having to recompute the sort order
+
+our kasc uses the results of iasc to reorder both the kay and value tables of the supplied dictionary
+k:key x
+(`s#k i)!value[x]i 
+
+then at the end we place sort attribute on the key
+
+***check what it means to place `s on the table
+*** check how this works on dictionaries
+
+
+
 
 
 
