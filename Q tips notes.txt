@@ -1225,3 +1225,56 @@ q)'[asc;genList] each 3#5
 0 1 2 3 4
 0 1 2 3 4
 
+9.2 Quotes
+Step Function - can be created with dictionaries by applying `s# on a dictionary (not just on its key)
+
+q)k:0N 5 10 25 50 100
+q)0N!sf:`s#k!v
+`s#`s#0N 5 10 25 50 100!0.01 0.05 0.1 0.25 0.5 1
+   | 0.01
+5  | 0.05
+10 | 0.1
+25 | 0.25
+50 | 0.5
+100| 1
+
+q)sf 5
+0.05
+q)sf 6  //would gen null here without `s# on the dict
+0.05
+q)sf -10
+0.01
+q)
+
+The sort attribute distinguishes the step function from an ordinary dictionary.
+It was added in two places: on dictionary's key and on the dictionary itself
+- it is the very first attribute (on dictionary) that allows the dictionary to be treated as a strep function.
+When we index into the dictionary/step function, q will perform a binary search and return the value associated with the proper key location.
+
+standard dictionary indexing is
+/x - dictionary
+/y - a key value
+di:{value[x] key[x] ? y}
+
+step function indexing
+/x - dictionary
+/y - a key value
+sfi:{value[x] key[x] bin y}
+
+The same applies to a keyed tables
+We can see the `s# is applied to the keyed table as a whole, in addition to the dicctionary's key (a table) and also to the first column of the key
+q)0N!kt:`s#([k]v)
+`s#(`s#+(,`k)!,`s#0N 5 10 25 50 100)!+(,`v)!,0.01 0.05 0.1 0.25 0.5 1
+k  | v
+---| ----
+   | 0.01
+5  | 0.05
+10 | 0.1
+25 | 0.25
+50 | 0.5
+100| 1
+q)
+
+q)kt 15
+v| 0.1
+q)
