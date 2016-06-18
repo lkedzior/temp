@@ -1118,7 +1118,7 @@ kasc:{
   $[`sattr k:key x;
     x; /return here if the key table is already sorted
     (`s#k i)!value[x]i:iasc k
-   ];
+   ]
  };
 
 - iasc operator determine the proper transfromation needed to sort the key
@@ -1135,15 +1135,42 @@ k:key x
 then at the end we place sort attribute on the key
 
 ***check what it means to place `s on the table
+q)a:10 20 30
+q)b:`a`b`c
+
+q)0N!`s#([]a;b)
+`s#+`a`b!(`p#10 20 30;`a`b`c)
+a  b
+----
+10 a
+20 b
+30 c
+q)
+
+/we can see applying `s# on a table does the following
+- places `s# on entire table
+- places `p# on the first column
+
+q)meta `s#([]a;b)
+c| t f a
+-| -----
+a| j   p
+b| s
+q)
+
 *** check how this works on dictionaries
-
-
-
-
-
-
-
-
+q)kasc:{$[`s=attr k:key x;x;(`s#k i)!value[x]i:iasc k]};
+/we see `s# is applied on key list
+q)d:0N!kasc a!b;
+`s#10 20 30!100 200 300
+q)d
+10| 100
+20| 200
+30| 300
+q)d 10
+100
+q)d 15
+0N
 
 
 
