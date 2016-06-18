@@ -1172,5 +1172,56 @@ q)d 10
 q)d 15
 0N
 
+Chapter 9 Trades and Quotes
 
+Minimize calls to each
+
+E.g. assume we have a function which generate a list and we can use it to generate a list of lists with each
+q)genList 5
+4 3 2 1 0
+q)genList each 3#5
+4 3 2 1 0
+4 3 2 1 0
+4 3 2 1 0
+q)
+
+Now we need to sort each of the lists
+q)asc each genList each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+we used 2 each to do that. We can use lambda or composition with @ to minimize calls to each
+
+1) Using lambda
+q){asc genList x} each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+2) Using composition
+q)(asc genList@) each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+We use () and @ to force the creation of function composition before it is applied to each argument
+- since @ operator expects another argument the contents of () can not be fully evaluated 
+- the results is therefore a function composition expecting a single argument
+- composition - joining of 2 functions to create a third function
+- the left most function must be mondadic (asc)
+
+q)type (genList@)
+104h //projection
+q)type (asc genList@)
+105h //composition
+
+' operator can be used to create a composition (first function must be monadic)
+q)'[asc;genList] each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
 
