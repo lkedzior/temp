@@ -93,3 +93,16 @@ if is still unable to allocate it, a `wsfull error is thrown and the process die
 -in addition q can be configured to automatically release blocks of memory that are at least 64MB by setting the -g 1
 
 10.3 Command Line Options
+
+q provides access to list of command line options (excluding the single letter system options) in the .z.x system variable
+
+q opt.q -eod 22:00 -db qdb
+q).z.x
+"-eod"
+"22:00"
+"-db"
+"qdb"
+q)
+
+
+
