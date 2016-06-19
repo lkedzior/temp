@@ -54,3 +54,39 @@ fills - this one can be used to fill a list with last known value (fills forward
 
 Imprementing a Timer Utility
 
+.dot apply operator "."
+e.g. upsert
+q)upsert
+.[;();,;]
+
+We can do drop in place
+.[t;();_;i] where i is a raw to drop
+
+10.2 Logging
+
+q).Q.w[]
+used| 122064      /how much memory is being used for kdb data
+heap| 67108864    /how much memory has been allocated on the heap(pool)/reserved from the operating system
+peak| 67108864
+wmax| 0           /hard limit placed by the user, 0 means no user limit and kdb will use 2*mphy as the limit
+mmap| 0           /amount of memory mapped from disk
+mphy| 4294967295
+syms| 596
+symw| 21622
+q)\w 0
+596 21622
+q)\w
+121936 67108864 67108864 0 0 4294967295
+q)
+
+Kdb+ uses a memory pool to allow memory to be quickly reserved and freed.
+When more memory is needed than exists in the pool/heap, kdb+ will allocate additional multiples of 64MB blocks.
+The current size of heap/pool is second field
+heap| 67108864  
+
+When the process memory limit has been reached, q will coalesce /kəʊ.əˈles/ blocks of unused memory available in the pool/heap
+that are at least 64MB, and return them back to operating system. Kdb+ then tries to allocate the requested block of memory,
+if is still unable to allocate it, a `wsfull error is thrown and the process dies.
+
+- it is possible to request memory to be coalesced by using the .Q.gc[]
+-in addition q can be configured to automatically release blocks of memory that are at least 64MB by setting the -g 1
