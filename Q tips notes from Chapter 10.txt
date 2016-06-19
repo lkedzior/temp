@@ -8,7 +8,7 @@ Chapter 10
 
 \t 0       /turns it off
 
-.z.ts is called with a single argument: the current .z.p time
+.z.ts is called with a single argument: the current .z.p time (always with GMT time)
 
 Nulls and Infinities
 All (but two) Numerical and temporal data types have defined values for null and positive and negative infinity.
