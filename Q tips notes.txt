@@ -1326,3 +1326,4 @@ raze (... q@) each group q`id
 
 This prevents apotentially large allocation of temporary memory.
 
+See Chapter 10 in new file
