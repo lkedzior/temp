@@ -1280,3 +1280,49 @@ v| 0.1
 q)
 
 Rounding to the Nearest Tick
+
+Extending a table, using ,' instead of update
+e.g. we have table wiht `id`time`pirce columns and want to add moving averages for windows of 2 4 6
+q)p:([]price:til 20)
+
+q)w:2 4 6
+q)p,'flip (`$"w",/:string w)!w mavg\: p`price
+price w2   w4   w6
+--------------------
+0     0    0    0
+1     0.5  0.5  0.5
+2     1.5  1    1
+3     2.5  1.5  1.5
+4     3.5  2.5  2
+...
+
+
+To pick only the columns we want
+tbl:`id`time`price#tbl;
+
+9.3 Trades
+
+next - shift left
+prev, xprev - shift right
+
+using prev/shift right is very common with time series data
+q)2 xprev til 5
+0N 0N 0 1 2
+q)
+
+There is not xnext but we can use xprev with a negative left operand
+
+Casting Between Types
+Casting between types ($) can be done with a symbol, character, or numeric representation of the type.
+q)7h$0.4 2.5 3.9
+0 3 4
+q)
+
+Grouping and razing
+
+raze (...@) each q group q`id
+When the eached function returns a result that is smaller than the orginally grouped table, performance improvements can be made by generating the grouped table within the function or composition, and not aoutside
+raze (... q@) each group q`id
+
+This prevents apotentially large allocation of temporary memory.
+
