@@ -83,6 +83,7 @@ Kdb+ uses a memory pool to allow memory to be quickly reserved and freed.
 When more memory is needed than exists in the pool/heap, kdb+ will allocate additional multiples of 64MB blocks.
 The current size of heap/pool is second field
 heap| 67108864  
+When we run .Q.gc we can reduce the current heap size (it's done automatically if we use -g 1) and free some memory to the operating system.
 
 When the process memory limit has been reached, q will coalesce /kəʊ.əˈles/ blocks of unused memory available in the pool/heap
 that are at least 64MB, and return them back to operating system. Kdb+ then tries to allocate the requested block of memory,
@@ -90,3 +91,5 @@ if is still unable to allocate it, a `wsfull error is thrown and the process die
 
 - it is possible to request memory to be coalesced by using the .Q.gc[]
 -in addition q can be configured to automatically release blocks of memory that are at least 64MB by setting the -g 1
+
+10.3 Command Line Options
