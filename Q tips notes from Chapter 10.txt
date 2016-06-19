@@ -1,1 +1,56 @@
 
+Chapter 10
+
+10.1 Timer events
+#The interval is defined in milliseconds
+\t 1000     /using system command
+-t 1000     /from command line
+
+\t 0       /turns it off
+
+.z.ts is called with a single argument: the current .z.p time
+
+Nulls and Infinities
+All (but two) Numerical and temporal data types have defined values for null and positive and negative infinity.
+Kdb uses the smllest value for null
+The next smallest value for negative infinity
+The largest value is used for positive infinity
+
+We can see underlying represenations when integer overflows
+q)0Wi + (1 2 3 -1 0i)
+0N -0W -2147483646 2147483646 0Wi
+
+0Ni < -0Wi < any other integer < 0Wi
+
+The boolean and byte types are the only types that do not have a null value.
+The boolean type, by definition, only has two values: 0b and 1b. Neither of theses are classified as null.
+q)null 01b
+00b
+
+There is no room in the data type to represent a missing value for boolean
+The byte type has the same problem. By definition, a byte can be one of 256 values. Kdb+ does not treat any of these values as null.
+
+Null is used to acknowledge that we do not know a value. Atomic operations propagate null values
+q)1+1 2 0N
+2 3 0N
+
+Aggregate functions tend to ignore them.
+q)avg 1 2 0N
+1.5
+
+But when computing an average of a list of vectors, it's not possible to ignore just a few null elements, in this case, the nulls propagate
+q)avg (1 2 0N; 3 0N 5) /avg on matching indicies
+2 0n 0n
+
+The are 2 operators to fill missing values
+
+"^" dyadic and atomic - fills the list with given value
+q)0 1 ^ (1 2 0N; 3 0N 5)
+1 2 0
+3 1 5
+
+fills - this one can be used to fill a list with last known value (fills forward)
+
+
+Imprementing a Timer Utility
+
