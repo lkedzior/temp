@@ -50,3 +50,4 @@ If a script is iterating over the files, we must be sure to not to keep referenc
 otherwise they will needlessly occupy the shm memory. 
 
 
+http://code.kx.com/wiki/Cookbook/cpuaffinity 
