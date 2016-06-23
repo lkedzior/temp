@@ -51,3 +51,21 @@ otherwise they will needlessly occupy the shm memory.
 
 
 http://code.kx.com/wiki/Cookbook/cpuaffinity 
+
+
+kdb will swtich to debug on error only if we have got nested function call
+q)f
+{[x] if[x; '"Hdb not ready"]}
+q)f 10
+'Hdb not ready
+q)g
+{f 10}
+q)g[]
+{f 10}
+'Hdb not ready
+@
+{[x] if[x; '"Hdb not ready"]}
+10
+q))
+
+
