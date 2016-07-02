@@ -69,3 +69,10 @@ q)g[]
 q))
 
 
+###################
+partitioning by symbol
+i.e. same date partition is saved in all par.txt locations
+Will that help with 32bit limits?
+-w specifies a limit for individual slaves
+but can one process use more than 4GB if slaves stay below 4GB mark?
+
