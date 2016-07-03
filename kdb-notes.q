@@ -50,3 +50,29 @@ If a script is iterating over the files, we must be sure to not to keep referenc
 otherwise they will needlessly occupy the shm memory. 
 
 
+http://code.kx.com/wiki/Cookbook/cpuaffinity 
+
+
+kdb will swtich to debug on error only if we have got nested function call
+q)f
+{[x] if[x; '"Hdb not ready"]}
+q)f 10
+'Hdb not ready
+q)g
+{f 10}
+q)g[]
+{f 10}
+'Hdb not ready
+@
+{[x] if[x; '"Hdb not ready"]}
+10
+q))
+
+
+###################
+partitioning by symbol
+i.e. same date partition is saved in all par.txt locations
+Will that help with 32bit limits?
+-w specifies a limit for individual slaves
+but can one process use more than 4GB if slaves stay below 4GB mark?
+

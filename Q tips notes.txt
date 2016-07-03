@@ -1118,7 +1118,7 @@ kasc:{
   $[`sattr k:key x;
     x; /return here if the key table is already sorted
     (`s#k i)!value[x]i:iasc k
-   ];
+   ]
  };
 
 - iasc operator determine the proper transfromation needed to sort the key
@@ -1135,15 +1135,195 @@ k:key x
 then at the end we place sort attribute on the key
 
 ***check what it means to place `s on the table
+q)a:10 20 30
+q)b:`a`b`c
+
+q)0N!`s#([]a;b)
+`s#+`a`b!(`p#10 20 30;`a`b`c)
+a  b
+----
+10 a
+20 b
+30 c
+q)
+
+/we can see applying `s# on a table does the following
+- places `s# on entire table
+- places `p# on the first column
+
+q)meta `s#([]a;b)
+c| t f a
+-| -----
+a| j   p
+b| s
+q)
+
 *** check how this works on dictionaries
+q)kasc:{$[`s=attr k:key x;x;(`s#k i)!value[x]i:iasc k]};
+/we see `s# is applied on key list
+q)d:0N!kasc a!b;
+`s#10 20 30!100 200 300
+q)d
+10| 100
+20| 200
+30| 300
+q)d 10
+100
+q)d 15
+0N
+
+Chapter 9 Trades and Quotes
+
+Minimize calls to each
+
+E.g. assume we have a function which generate a list and we can use it to generate a list of lists with each
+q)genList 5
+4 3 2 1 0
+q)genList each 3#5
+4 3 2 1 0
+4 3 2 1 0
+4 3 2 1 0
+q)
+
+Now we need to sort each of the lists
+q)asc each genList each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+we used 2 each to do that. We can use lambda or composition with @ to minimize calls to each
+
+1) Using lambda
+q){asc genList x} each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+2) Using composition
+q)(asc genList@) each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+q)
+
+We use () and @ to force the creation of function composition before it is applied to each argument
+- since @ operator expects another argument the contents of () can not be fully evaluated 
+- the results is therefore a function composition expecting a single argument
+- composition - joining of 2 functions to create a third function
+- the left most function must be mondadic (asc)
+
+q)type (genList@)
+104h //projection
+q)type (asc genList@)
+105h //composition
+
+' operator can be used to create a composition (first function must be monadic)
+q)'[asc;genList] each 3#5
+0 1 2 3 4
+0 1 2 3 4
+0 1 2 3 4
+
+9.2 Quotes
+Step Function - can be created with dictionaries by applying `s# on a dictionary (not just on its key)
+
+q)k:0N 5 10 25 50 100
+q)0N!sf:`s#k!v
+`s#`s#0N 5 10 25 50 100!0.01 0.05 0.1 0.25 0.5 1
+   | 0.01
+5  | 0.05
+10 | 0.1
+25 | 0.25
+50 | 0.5
+100| 1
+
+q)sf 5
+0.05
+q)sf 6  //would gen null here without `s# on the dict
+0.05
+q)sf -10
+0.01
+q)
+
+The sort attribute distinguishes the step function from an ordinary dictionary.
+It was added in two places: on dictionary's key and on the dictionary itself
+- it is the very first attribute (on dictionary) that allows the dictionary to be treated as a strep function.
+When we index into the dictionary/step function, q will perform a binary search and return the value associated with the proper key location.
+
+standard dictionary indexing is
+/x - dictionary
+/y - a key value
+di:{value[x] key[x] ? y}
+
+step function indexing
+/x - dictionary
+/y - a key value
+sfi:{value[x] key[x] bin y}
+
+The same applies to a keyed tables
+We can see the `s# is applied to the keyed table as a whole, in addition to the dicctionary's key (a table) and also to the first column of the key
+q)0N!kt:`s#([k]v)
+`s#(`s#+(,`k)!,`s#0N 5 10 25 50 100)!+(,`v)!,0.01 0.05 0.1 0.25 0.5 1
+k  | v
+---| ----
+   | 0.01
+5  | 0.05
+10 | 0.1
+25 | 0.25
+50 | 0.5
+100| 1
+q)
+
+q)kt 15
+v| 0.1
+q)
+
+Rounding to the Nearest Tick
+
+Extending a table, using ,' instead of update
+e.g. we have table wiht `id`time`pirce columns and want to add moving averages for windows of 2 4 6
+q)p:([]price:til 20)
+
+q)w:2 4 6
+q)p,'flip (`$"w",/:string w)!w mavg\: p`price
+price w2   w4   w6
+--------------------
+0     0    0    0
+1     0.5  0.5  0.5
+2     1.5  1    1
+3     2.5  1.5  1.5
+4     3.5  2.5  2
+...
 
 
+To pick only the columns we want
+tbl:`id`time`price#tbl;
 
+9.3 Trades
 
+next - shift left
+prev, xprev - shift right
 
+using prev/shift right is very common with time series data
+q)2 xprev til 5
+0N 0N 0 1 2
+q)
 
+There is not xnext but we can use xprev with a negative left operand
 
+Casting Between Types
+Casting between types ($) can be done with a symbol, character, or numeric representation of the type.
+q)7h$0.4 2.5 3.9
+0 3 4
+q)
 
+Grouping and razing
 
+raze (...@) each q group q`id
+When the eached function returns a result that is smaller than the orginally grouped table, performance improvements can be made by generating the grouped table within the function or composition, and not aoutside
+raze (... q@) each group q`id
 
+This prevents apotentially large allocation of temporary memory.
 
+See Chapter 10 in new file
