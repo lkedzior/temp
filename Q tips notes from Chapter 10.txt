@@ -181,3 +181,14 @@ read0 `:ref.txt /returns list of strings
 
 Reading csv where column names are missing ("," instead of enlist ",")
 Data is returned as nested list so we need to flip `mycol`mycol2! (...)
+
+11.4
+main
+Q Tip 11.8 Initialize programs and libraries with a function call
+Having all the process code inside a 'main' function makes it easy for debuging.
+We can start a process with -debug 1, process will load all the code needed but not run it
+So we can debug line by line
+
+Read complex config files from main
+  ... 0: p`configFile
+  
