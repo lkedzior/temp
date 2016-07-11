@@ -176,3 +176,8 @@ Saving Tables as csv
 To save the file to disk we use 0: again
 `:ref.txt 0: "\t" 0: t
 
+To see the data
+read0 `:ref.txt /returns list of strings
+
+Reading csv where column names are missing ("," instead of enlist ",")
+Data is returned as nested list so we need to flip `mycol`mycol2! (...)
