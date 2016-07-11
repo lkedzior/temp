@@ -169,5 +169,10 @@ Strings however, once all references to a character vector are lost, the memory 
 
 0/1 and Y/N can be read as "B" boolean type
 
+Saving Tables as csv
+/generate list of strings
+"\t" 0: t
 
+To save the file to disk we use 0: again
+`:ref.txt 0: "\t" 0: t
 
