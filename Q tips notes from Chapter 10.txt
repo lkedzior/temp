@@ -106,3 +106,51 @@ q)
 
 Chapter 11
 
+Generic null ::
+We need to wrap it with (::) when performing operations to prevent it from being interpreted as a double assignment
+
+W tip 1.1. Return null from update-only functions
+Returning a null value prevents q from having to reference count the returned value.
+
+In addition, when such a function is executed with a call to each, returning a null value prevents q from allocating memory to save the result vecotr. 
+
+The return value for an event callback function (like upd) should not return anything
+
+namespaces
+if we are running in .md namespace e.g. defining .md.updq
+
+updq:{
+  ...//here if we reference global abc we are assuming .md.abc
+  ...//if we want abc from the root we have to use `abc
+}
+
+Q Tip 11.2 Use if statements to exit functions early
+  if[not  id in key `quote;:(::)];
+
+Remember to maintain a consistent return value type when exit a function early
+
+11.2. Server Sockets
+When kdb+ is started from an interactive terminal, the kdb session will continue running while waiting for updates from STDIN.
+
+When q is started as a server, where STDIN is closed, the process will exit immediately after the last command is executed.
+To prevent the server from exiting we must open a server socket.
+
+Port can be open from command line with -p or at runtime with \p
+
+A positive port number starts kdb in single threaded mode i.e. each client connection is serviced sequentially,
+and modifications to internal data structured are allowed.
+
+Q Tip 11.3 Use negative port to make kdb+ read-only
+A negative port number, puts the server into multi-threaded input queue mode in whcih
+queries can be handled simultaneously.
+To ensure high performance, kdb+ does not lock data structures.
+Allowing multiple simultaneus client queries must therefor require each client to have a read-only view of the data.
+This can be used to our advantage if we want to prevent clients from modifying our data.
+One drawback of multi-threaded mode is that views can not recompute within a client query.
+Doing so would modify the internal state of the server.
+
+To alow the operating system to diynamically allocate the next available port,
+positive and negative infinity 0W may also be used. We can then use \p to retrieve the allocated port.
+
+
+
