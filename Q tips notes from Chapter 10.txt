@@ -191,4 +191,15 @@ So we can debug line by line
 
 Read complex config files from main
   ... 0: p`configFile
-  
+
+main requires current time. This is passed as paramenter to permit flexibility
+
+Q TIP 11.9 Pass event dates and times as parameters instead of using .z.D or .z.p
+
+Time is often an input to calculations. Function which takes time as parameter is much more flexible, reusable, testable
+
+Q Tip 11.10 Always start q with a memory limit
+
+
+Chapter 12 Security
+
