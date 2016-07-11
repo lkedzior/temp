@@ -152,5 +152,22 @@ Doing so would modify the internal state of the server.
 To alow the operating system to diynamically allocate the next available port,
 positive and negative infinity 0W may also be used. We can then use \p to retrieve the allocated port.
 
+11.3 Text Files
+
+0: operator is used to convert lines of text into a table, and back again.
+e.g. to create a table
+/using * for strings
+q)("JSF*";1#",") 0: `:ref.csv
+/we can use space to skip a field from being read/loaded
+/we can have less types than columns (most right columns are not loaded in that case)
+
+string vs symbol
+symbols enables text equility tests to be performed with a single pointer comparison
+
+Symbols are stored in a global map and never deleted.
+Strings however, once all references to a character vector are lost, the memory is recovered.
+
+0/1 and Y/N can be read as "B" boolean type
+
 
 
