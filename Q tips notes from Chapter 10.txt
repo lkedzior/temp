@@ -250,3 +250,81 @@ q)h"`:../test set 123"
 q)h"`:./test set 123"   //only in current dir
 `:./test
 q)
+
+Kdb allows to dissable this restriction by using the -U instead of -u
+
+#########post -u authentication events
+After q performs the -u file based authentication, it triggers two events which allowe furher customization
+First, the ac - authentication cookie .z.ac event allows us to use corporate single sign-on infrastructure to permission a client based on a HTTP cookie.
+
+This callback is only called when HTTP requests are made.
+
+If this event is not customized, or if a TCP socket connection is established, the password .z.pw event is called with two arguments:
+the username passed as a symbol
+and the password passed as a string
+
+We can customize this method to return 1b if the user is allowed access.
+
+12.2 Connecvtion Attributes
+
+Once the client has been authenticated, the connection is considered open, and the port open event .z.po is called with the new network handle.
+
+This event is useful for querying and storing client attributes.
+Many global variables which are normally set to local values, are redefined to provide relevant information about the client. 
+.z.u e.g. `lukasz, username
+.z.a //address as integer representation of four byte tcp/ipaddress e.g. -1062731412i
+.z.w //handle
+
+u-user
+a-address
+w-who
+
+q)"h"$0x0 vs .z.a  /split integer into four bytes and cast to short
+192 168 1 5h
+
+vs can be used to show binary representation
+q)0x0 vs 1i
+0x00000001
+q)0x0 vs -1i
+0xffffffff
+q)"h"$0x0 vs -1i
+255 255 255 255h
+q)
+
+Alternatively .Q.host .z.a gives the host name
+
+Finer Grained event handlers
+.z.pg /port get
+.z.pp /port post
+.z.ph /port http
+
+asynchronous discards all return values
+.z.ps port set
+.z.ws web socket set
+
+All of them can be customized, to start with you might want to log each access request to see who is accessing the server
+
+Messages that re sent over network handles are serialized for network transportation.
+Upon receipt, the messages are then deserialized. This happens on all network handles, except the internal handle 0.
+
+It is possible to see the binary serialized message
+-8!msg
+0x01000....
+-9! performs the deserialization
+
+If an error is encountered during deserialization, a `badmsg error is thrown.
+-9!0x01000...
+'badmsg
+
+To help debug ill-formed network messages, kdb+ allows us to customize the bad message .z.bm callback
+Prior to printing the `badmsg error, .z.bm is called with the bad byte vector. You can print the vector or save it for future inspection.
+
+During the processing of client queries, whether from STDIN, or from a client handle, there is a posibility that a global variable is modified.
+When such an event occurs, the Value Set .z.vs event is triggered.
+The event is passed two parameters: the name of the modified variable as well as a list of indices that were modified.
+In the case of a full assignment, as opposed to a partial amend, the second parameter is passed the empty list().
+The .z.vs event can be used for debugging and logging variable modifications.
+
+.z.exit - keep logic to a minimum
+It is always possible to kill kdb+ process without giving q the ability to call this event
+
