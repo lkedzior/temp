@@ -203,4 +203,50 @@ Q Tip 11.10 Always start q with a memory limit
 
 
 ####################################Chapter 12 Security
+Authentication Username and Password
+A username and password are sent (in clear text) during the initial handshake with clients.
+It is up to the server to decide if the values should be checked and if are acceptable to allow a connection
 
+The values are ignored by default, to enable the check we need to start q process with a -u flag followed by the name of the password file
+
+The password can either be in clear text or encoded with the md5 hasing function
+
+q -u ../passwords.txt -p 5001
+
+now only users mentioned in passwords.txt can connect
+
+###appending to a text file 
+h:hopen `:file.txt
+neg[h] "line1";  /negative file handle will add trailing new line
+
+
+##########
+hopen for networ
+
+q)hopen `::  /connect to itself
+0i          /0 can be used as if it was a connection to a separate process, only the async calls are not allowed ...neg[0]
+q)\p 5000
+q)hopen `::
+'hop: The requested address is not valid in its context.
+
+It is possible to supply a connection timeout
+hopen (`::5001;100) /timeout 100ms
+
+If the password file could be modified from within q, the security of the process would be compromised (users could append to the password file)
+To prevent this, the -u command line argument also limits file modification to only those files below the starting directory
+(Is it why RDB has to cd to HDB root to perform savedown)
+
+Start RDB
+D:\temp\hdbroot>q -u ../passwords.txt -p 5000
+q)`:../test set 123     /this works fine 
+`:../test
+q)
+
+but a client can't write outside current dir
+//client session
+q)h:hopen `::5000:lukasz:qtips
+q)h"`:../test set 123"
+'access
+q)h"`:./test set 123"   //only in current dir
+`:./test
+q)
