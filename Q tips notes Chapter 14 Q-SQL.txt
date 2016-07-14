@@ -1,1 +1,200 @@
 Q-SQL
+Manyoperations available in q-sql can also be done with q operators, but since q-sql syntax is quite strict, q can use
+a combination of lookaheads and parallelism to optimize queries on large datasets.
+
+select id,date,px:price from t
+
+It is important to realize that even though we created a new table by selecting data from t,
+we did not actually make a full copy of the data.
+
+Kdb+ is a column oriented database, and as such, columns are contiguous blocks of memory that can be passed as references.
+
+A reference to a column is kept until the data is modified. When this occurs, q creates a full copy of the data.
+
+where clauses
+The clauses are each applied form left to righ
+each clause is evaluated from right to left
+
+only the rows that are selected by the first clause are passed for evaluation to the second clause and so on. 
+
+, vs and
+Using the and operator in where clause loses the short-circuit features of ","
+
+In contrast, there is no short-circuit syntax for queries looking for rows that match either one condition or another
+
+Q Tip 14.3 Use De Morgan's Laws to optimizewhere clauses
+select from t where (id=1) or date.month=2000.02m
+
+Laws
+not (A or B) is the same as not(A) and not(B)
+
+so A or B -> not not (A or B) -> not(not(A) and not(B))
+
+
+select .... where A or B
+is same as
+delete ..... where not(A), not(B)
+
+select from t where (id=1) or date.month=2000.02m
+delete from t where not id=1, not date.month=2000.02m
+
+An inefficient or statement can be easily converted to use a comma by negating each of the conditions and replacing the select with delete
+
+Exception
+If a condition relies on the result of a uniform or aggregate function, it must be placed as the first where clause.
+All remaining clauses should only use atomic functions(atomic function retuns a list when called with a list).
+If a second condition uses uniform or aggregate functions, the resulting table will not match the original query
+
+Atomic - A functin that returns an atom when called with an atom, and a list when called with a list.
+The return values for a given argument is always the same, regardless if it was called as an atom or a member of a list.
+
+Uniform - Liake an atomic function, but when called with a list, the results depend on other elements within the list.
+The results are therefore not the same as calling the function individually on each element of the list.
+
+Delete statement can also be used to remove columns
+q)delete id from t
+We can't issue a delete statement with both columns and rows specified.
+q)delete id from t where date.month=2000.02m
+'nyi
+
+'nyi (not yet implemented) indicates that the implemenation is in some way controversial.
+
+#######################Update
+
+By themselves select, delete update and where are simple transformations that can be achieved with standard q syntax
+
+select id, date from t => `id`date#t
+
+select from t where date.month=2000.02m => t where 2000.02m="m"$t`date
+
+update func[price] from t => @t[`price;func]
+
+but implementing the by cluse is a bit more involved.
+
+select avg price by id from t
+
+update ret:deltas[0n;log price] by id from t
+
+The by clause performs three actions
+1) groups the data using the columns in the by clause
+2) Iterates over each group(distinct value) and applies our function
+3) Final step depends on whether we used a select or update
+select - will sort the results
+update - will align the results to match the location of the original layout
+
+e.g. only one entry with id=0 in the select case
+and multiple entries with id=0 in the update case (result of update by is not keyed table)
+
+q)t
+id date       price
+----------------------
+0  2000.01.01 100
+0  2000.01.02 100.0632
+0  2000.01.03 100.122
+...
+
+q)select avg price by id from t
+id| price
+--| --------
+0 | 85.8896
+1 | 111.7553
+2 | 56.75649
+3 | 119.7042
+4 | 96.39676
+q)
+
+q)update ret:deltas[0n;log price] by id from t
+id date       price    ret
+------------------------------------
+0  2000.01.01 100
+0  2000.01.02 98.99257 -0.01012537
+0  2000.01.03 99.00905 0.0001664493
+0  2000.01.04 98.0201  -0.01003867
+...
+
+The results of the select query have the `s# or `p# attribute on the first columnn
+q)meta select avg price by id from t
+c    | t f a
+-----| -----
+id   | j   s
+price| f
+q)
+
+q)meta select avg price by id from t
+c    | t f a
+-----| -----
+id   | j   s
+price| f
+
+q)meta select avg price by id,date from t
+c    | t f a
+-----| -----
+id   | j   p
+date | d
+price| f
+q)
+
+In both cases (by one or multiple cols) the key table is sorted / has got `s#
+q)0N!select avg price by id from t;
+(`s#+(,`id)!,`s#0 1 2 3 4)!+(,`price)!,85.8896 111.7553 56.75649 119.7042 96...
+q)0N!select avg price by id,date from t;
+(`s#+`id`date!(`p#0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0..
+q)
+
+[LK]
+Noticed we used aggregate function for select by
+and uniform function for update by
+
+dot notation
+by date.week
+by `week$date
+The functionality is the same but you will notice q changes the column name wehn dot notation is used.
+In either case you can choose the column name yourself
+
+dot notation extracts a "sub" type
+
+But we cast to integers too
+All integer casts
+q)`year`mm`dd`hh`uu`ss$\:2001.09.11D08:46
+2001 9 11 8 46 0i
+q)
+
+dot notation can be used on global variables
+q)tm:0D
+q)tm.minute
+00:00
+q)
+
+dod notation does not work on function parameters or variables. Because of that it is safer to always use
+explicit casting instead of using dot notation
+`minute$x
+
+By Gotchas
+
+/price is return as a list (not as atom as one may think looking at the console result)
+q)select price by id,date from t
+id date      | price
+-------------| --------
+0  2000.01.01| 100
+0  2000.01.02| 98.99257
+0  2000.01.03| 99.00905
+...
+
+q)meta select price by id,date from t
+c    | t f a
+-----| -----
+id   | j   p
+date | d
+price| F
+
+
+By not specifying any columns we get last row
+select by id from t  //simpler query increased performance
+
+###########################Ecec
+select is special case of exec
+select always return table
+exec can return atom, list ditionary, table
+
+
+
