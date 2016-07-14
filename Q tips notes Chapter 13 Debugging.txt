@@ -31,4 +31,29 @@ TO RISE ONE LEVEL IN THE STACK, WE CAN USE THE "'" COMMAND
 IF HOWEVER, WE PREFER TO LET THE CODE CONTINUE BY PROVIDING A VALID RETURN VALUE,
 WE CAN EXIT THE FUNCTION BY ENTERING A COLON ":" OPTIONALLY FOLLOWED BY THE DESIRED RETURN VALUE.
 
-Single backslash \ exists one level of debugging (e.g. if we throw error while in the debugging mode we are moved to next level down)
+Single backslash \ exists one level of debugging (e.g. if we throw error while in the debugging mode we are moved to next level down
+and to exit from there we have to use \ twice)
+
+13.2 Trapping Errors
+There are cases where the process causing the error is another q instance or even a compiled library interfacing with the running q process.
+In either of these two cases, the error message is printed to stdout, but the debugging session is not initiated.
+
+To force debugging mode, we must be running in console mode and turn on the error trapping flag with the \e 1
+(e.g. error thrown from .z.ts will only be printed....using \e 1 will cause the q process to stop in debugging mode
+
+13.3 Breakpoints
+Conditional breakpoints
+Sometimes invalid values only occur under special conditions. For these cases, we can create condition breakpoints.
+We can force q to only enter the debugging session when our special condition is met
+
+q)f:{if[null x;break]; x+y}
+q)f . 1 2
+3
+q)f . 0n 2
+{if[null x;break]; x+y}
+'break
+q))x
+0n
+q))y
+2f
+q))
