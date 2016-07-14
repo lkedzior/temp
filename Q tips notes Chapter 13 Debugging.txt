@@ -1,0 +1,34 @@
+When error is generated from command line session, a debugging more is started.
+
+//no function used - only error is printed (no debug mode needed)
+q)2+`
+'type
+
+
+q){2+`}[]
+{2+`}
+'type
++
+2
+`
+q))
+
+q)0 mod `a
+k){x-y*x div y}   /function receiving an error
+'type
+div               /function that caused the error
+0                 /its arguments
+`a
+q.q))             /namespace where the function (reciving an error) was defined
+
+
+Q Tip 13.1 Function variables dafault to the emtpy list () in the debugger
+We can check how far a function progressed before throewing the exception by checking which variables still have the default value.
+
+IF THE FUNCTION THAT THREW THE ERROR WAS A FEW CALLS DEEP IN THE STACK, WE MAY WANT TO DEBUG THE FUNCTION ONE LEVEL ABOVE.
+TO RISE ONE LEVEL IN THE STACK, WE CAN USE THE "'" COMMAND
+
+IF HOWEVER, WE PREFER TO LET THE CODE CONTINUE BY PROVIDING A VALID RETURN VALUE,
+WE CAN EXIT THE FUNCTION BY ENTERING A COLON ":" OPTIONALLY FOLLOWED BY THE DESIRED RETURN VALUE.
+
+Single backslash \ exists one level of debugging (e.g. if we throw error while in the debugging mode we are moved to next level down)
