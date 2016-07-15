@@ -191,10 +191,119 @@ price| F
 By not specifying any columns we get last row
 select by id from t  //simpler query increased performance
 
-###########################Ecec
+###########################Exec
 select is special case of exec
 select always return table
 exec can return atom, list ditionary, table
 
+/atom
+q)exec first price from t
+100f
 
+/list
+q)exec price from t
+100 98.99257 99.00905 98.0201 97.22984 97.22211 97.48342 96.53205 96.89755 96..
 
+/same but as dictionary
+q)exec px:price from t
+px| 100 98.99257 99.00905 98.0201 97.22984 97.22211 97.48342 96.53205 96.8975..
+
+/dictionary
+q)exec id,date,price from t
+id   | 0          0          0          0          0          0          0   ..
+date | 2000.01.01 2000.01.02 2000.01.03 2000.01.04 2000.01.05 2000.01.06 2000..
+price| 100        98.99257   99.00905   98.0201    97.22984   97.22211   97.4..
+
+The select statement is a layer around exec that, in addition to providing optimizations for querying large historical databases, flips the result of exec.
+
+q)flip exec id,date,price from t
+id date       price
+----------------------
+0  2000.01.01 100
+0  2000.01.02 98.99257
+...
+
+BUT EXEC CAN RETURN FOUR MORE TYPES OF DICTIONARIES, DEPENDING ON THE TYPE OF THE KEY AND VALUE.
+
+1) Using a single column in both the key and value generates a simple dictionary
+q)exec last price by date from t where id=0
+2000.01.01| 100
+2000.01.02| 98.99257
+2000.01.03| 99.00905
+2000.01.04| 98.0201
+2000.01.05| 97.22984
+2000.01.06| 97.22211
+
+2) Selecting multiple values in either the key or value, or explicitly providing a name generates a table.
+
+q)exec price by date:date from t where id=0
+q)exec price:price by date from t where id=0
+q)exec price:price by date:date from t where id=0
+q)exec px:last price by id,date from t where id=0
+
+######################Exec by
+
+We have seen how q returns the last row of every key when a select by query does not specify any columns.
+
+By performing an exec by query we can apply any operation across multiple columns.
+
+For example, instead of selecting the first date and price for every ID
+q)select first date, first price by id from t
+id| date       price
+--| ----------------
+0 | 2000.01.01 100
+1 | 2000.01.01 100
+2 | 2000.01.01 100
+q)
+
+We can exec a table and use first operator a single time.
+q)exec first ([]date;price) by id:id from t
+id| date       price
+--| ----------------
+0 | 2000.01.01 100
+1 | 2000.01.01 100
+2 | 2000.01.01 100
+q)
+
+This works because calling first on the table creates a dictionary.
+The by clause causes one dictionary to be created for each id, and the resulting list of dictionaries is then promoted to a table.
+
+Q Tip 14.6 Simplify queries by using exec by
+
+When the result of each statement within an exec by query is a dictionary with conforming keys that are symbols, q will promote the list of dictionaries to a table.
+
+TO GENERATE A DICTIONARY WE CAN EITHER PERFORM A SINGLE OPERATION ON A TABLE,
+OR ASSIGN A KEY TO A FUCNTION THAT RETURNS MULTIPLE VALUES.
+
+e.g. ohlc function
+We are prerforming a list of functions on the same dataset
+q)select o:first price, h:max price, l:min price , c:last price by id,date from t
+id date      | o        h        l        c
+-------------| -----------------------------------
+0  2000.01.01| 100      100      100      100
+0  2000.01.02| 103.0084 103.0084 103.0084 103.0084
+0  2000.01.03| 104.5936 104.5936 104.5936 104.5936
+0  2000.01.04| 103.8289 103.8289 103.8289 103.8289
+0  2000.01.05| 103.7782 103.7782 103.7782 103.7782
+0  2000.01.06| 103.4662 103.4662 103.4662 103.4662
+
+q)ohlc:{`o`h`l`c!(first;max;min;last)@\:x}
+q)exec ohlc price by id,date from t
+id date      | o        h        l        c
+-------------| -----------------------------------
+0  2000.01.01| 100      100      100      100
+0  2000.01.02| 103.0084 103.0084 103.0084 103.0084
+0  2000.01.03| 104.5936 104.5936 104.5936 104.5936
+0  2000.01.04| 103.8289 103.8289 103.8289 103.8289
+0  2000.01.05| 103.7782 103.7782 103.7782 103.7782
+
+another example with different function with summary statistics
+q)summary:{`n`mn`mx`md`dv!(count;min;max;med;sdev)@\:x}
+q)exec summary price by id,date from t
+id date      | n mn       mx       md       dv
+-------------| -------------------------------
+0  2000.01.01| 1 100      100      100
+0  2000.01.02| 1 103.0084 103.0084 103.0084
+0  2000.01.03| 1 104.5936 104.5936 104.5936
+
+################14.2 Pivot Tables
