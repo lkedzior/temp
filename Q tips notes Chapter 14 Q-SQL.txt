@@ -307,3 +307,70 @@ id date      | n mn       mx       md       dv
 0  2000.01.03| 1 104.5936 104.5936 104.5936
 
 ################14.2 Pivot Tables
+q)"i"$.util.pivot 2!select date,id,price from t
+date      | 0   1   2
+----------| -----------
+2000.01.01| 100 100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
+2000.01.04| 104 106 98
+
+Q Tip 14.8 Only transorm tables into pivot tables for presenation
+
+Generating or a pivot table should be one of the last steps in any analysis. Adding an extra summary column and row at the end
+and bottom of the table is probably the only adjustment we are likely to make to our pivot table.
+
+When deciding which field to place in the column headers (date or id?)) - we should place the field with the fewest distinct items tin te column headers (so id not date)
+
+Our pivot table takes single argument a keyed table
+It derives all configuration parameters from the incoming table.
+
+1) using exec by crete a dictionary
+q)exec id!price by date from t
+2000.01.01| 0 1 2!100 100 100i
+2000.01.02| 0 1 2!103 104 99i
+2000.01.03| 0 1 2!105 103 100i
+2000.01.04| 0 1 2!104 106 98i
+
+2) turn it into a table by giving name to the key
+q)exec id!price by date:date from t
+date      |
+----------| ------------------
+2000.01.01| 0 1 2!100 100 100i
+2000.01.02| 0 1 2!103 104 99i
+2000.01.03| 0 1 2!105 103 100i
+2000.01.04| 0 1 2!104 106 98i
+
+And to promote the list of dictionaries to a table we need to convert the keys to symbols
+q)exec (`$string id)!price by date:date from t
+date      | 0   1   2
+----------| -----------
+2000.01.01| 100 100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
+2000.01.04| 104 106 98
+
+These are the basic operations 
+1) use exec by and give name to the key to get a table
+2) make sure the pivot column names are symbol
+
+This will not work if we are missing some values and dictionaries do not conform
+e.g. when we remove id=0 for 2000.01.01
+q)exec (`$string id)!price by date:date from 1_t
+date      |
+----------| -------------
+2000.01.01| `1`2!100 100i
+2000.01.02| `0`1`2!103 104 99i
+2000.01.03| `0`1`2!105 103 100i
+
+That's why we must endure each dictionary has the same number, and ordering, of elements.
+
+We can do this by first construting a unique list of ids and then use take operator on the dictionary so that
+null is returned for missing cases
+
+q)exec u#(`$string id)!price by date:date from 1_t
+date      | 0   1   2
+----------| -----------
+2000.01.01|     100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
