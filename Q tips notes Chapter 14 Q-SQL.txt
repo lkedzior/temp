@@ -375,3 +375,26 @@ date      | 0   1   2
 2000.01.01|     100 100
 2000.01.02| 103 104 99
 2000.01.03| 105 103 100
+
+
+
+###############
+select[5] from t /first 5 rows, works for memory and splayed tables only
+select[-5] from t /last 5 rows
+select[5 2] from t /returns 2 rows, 5 is the initial row number
+
+####Sorting
+Instead of using xasc and xdesc to sort a table after it has been created, we can specify which comparison
+operation to use at the time of table selection.
+Using this technique is useful when the sorting criteria is not an existing column in the table
+q)select[< abs price] from t   /sort by absolute price (ascending)
+
+To sort by multiple columns
+/sort descending by date but ascending by ID
+q)select[>([]date;neg id)] from t
+
+/we can combine the row selectio and sorting
+
+
+#######################fby
+q)select[5 5;>([]date;neg id)] from t
