@@ -368,6 +368,7 @@ That's why we must endure each dictionary has the same number, and ordering, of 
 We can do this by first construting a unique list of ids and then use take operator on the dictionary so that
 null is returned for missing cases
 
+q)u:`$string distinct t`id
 q)exec u#(`$string id)!price by date:date from 1_t
 date      | 0   1   2
 ----------| -----------
