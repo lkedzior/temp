@@ -1,0 +1,4 @@
+Emails
+The SMTP has already been configured, so all you need to do to benefit from this is
+configure your project(s) to utilise the email features of Jenkins (post-build steps, notifications etc.)
+using your full email address.
