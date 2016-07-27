@@ -345,3 +345,9 @@ total 88K
 [root@riverside1 sa]#
 
 
+#Configure top to show memory in MB
+http://unix.stackexchange.com/questions/122475/human-readable-memory-sizes-in-top/122477
+You can switch the memory unit by pressing e. E will select the memory unit in the top summary bar.
+
+Use W to permanently write your configuration to /home/user/.toprc and see also ? for more configuration options.
+
