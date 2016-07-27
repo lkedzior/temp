@@ -349,5 +349,8 @@ total 88K
 http://unix.stackexchange.com/questions/122475/human-readable-memory-sizes-in-top/122477
 You can switch the memory unit by pressing e. E will select the memory unit in the top summary bar.
 
+Use c to show full command
+
 Use W to permanently write your configuration to /home/user/.toprc and see also ? for more configuration options.
+
 
