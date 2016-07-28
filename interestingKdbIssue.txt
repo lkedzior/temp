@@ -1,0 +1,9 @@
+Say there are 100 feedhandlers/connections into tp process
++ 1 feedmaper connection (FM)
+FM is getting data from another 100 feedhanler connection
+
+so tp has 101 upstream connections
+flow on FM connection is around 100x bigger than on each of the other 100 connections
+
+tp will be running select on 101 connection and consuming limited buffer size from ech incoming queue
+It is likely the FM updates will be delayed, tp will become slow consumer, FM memory usage will go up
