@@ -56,6 +56,7 @@ add:{
     .[`.u.w;(x;i;1);union;y]; /existing client
     w[x],:enlist(.z.w;y) /new client
    ];
+  /
   (x;$[99=type v:value x;sel[v]y;0#v])
  }
 
@@ -63,6 +64,10 @@ add:{
 /example .u.sub[`trade;`sym1`sym2]
 /function updates the .u.w subscription list using .u.add
 /Subsequent to this the caller will be updated asynchronously via the .u.pub
+/Note what is returned by sub/add functions to the client
+/If it's a non key table that it is simply (`tbl;schema) pair or list of pairs if clients subscribe for all tables
+/But if the table client subscribe to is keyed (e.g. client subscribes to c.q publisher tp->c.q->client) 
+/then .u.sub will return all keyed table data (e.g. all aggregations for each symbol)
 sub:{
   if[x~`;:sub[;y]each t];
   if[not x in t;'x];
