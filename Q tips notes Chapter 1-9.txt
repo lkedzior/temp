@@ -40,7 +40,8 @@ s.k - implentation of an SQL interface for ODBC clients
 QHOME is needed to load q.k correctly
 
 In kdb banner, the number of licensed cores appear within the parentheses (
-It is possible to reduce the number of cores visible to the q binary on Linux by changing the CPU affinity with the taskset utility.
+It is possible to reduce the number of cores visible to the q binary on Linux by changing the CPU affinity
+with the taskset utility.
 
 q needs k4.lic, by default it looks in the same dir as q.k
 QLIC env variable can be usde to customise this
