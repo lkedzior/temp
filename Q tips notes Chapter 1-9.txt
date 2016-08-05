@@ -7,7 +7,7 @@ With q, analytics can be sent to the data.
 
 When the results of a vactor operation are used as the inputs of the next operation,
 all the data stored in the CPU's memory cache can be accessed immediately without needing
-to search in the slower/larger caches or even the slowest and largest memory sotre located on the motherboard.
+to search in the slower/larger caches or even the slowest and largest RAM memory located on the motherboard.
 
 1.2. What is Q
 I will reserve the term operator for any function that is provided by the q language (implemented in C or in q)
