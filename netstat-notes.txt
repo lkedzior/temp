@@ -1,0 +1,3 @@
+netstat -lap | grep myHostName
+
+that will give a list of all processes on the server which have a connection open to myHostName
