@@ -76,3 +76,25 @@ Will that help with 32bit limits?
 -w specifies a limit for individual slaves
 but can one process use more than 4GB if slaves stay below 4GB mark?
 
+
+
+###################
+byMinQuery:{[tbl;n]
+  select ...
+  by n xbar time.minute
+  from tbl
+ }
+
+bySecondQuery:{[tbl;n]
+  select ...
+  by n xbar time.second
+  from tbl
+ } 
+ 
+can be done with 
+select ...
+by n xbar time
+from tbl
+
+where n=0D00:01 or 0D00:02 or 0D00:05 for minute bins
+or n=0D00:00:01 or 0D00:00:02 or 0D00:00:05 for second bins
