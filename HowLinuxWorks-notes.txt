@@ -1,0 +1,17 @@
+fork() - Program(P) creates a copy process
+exec(program) - Program(P) starts a new program to replace iteself (replace P)
+
+e.g. type ls in shell and press enter
+  -> shell calls fork() to create copy of the shell
+  -> new shell calls exec(ls)
+  
+A shell is a program that runs commands. It also serves as a small programming env.
+
+All different Unix skells derive several of their features from the Bourne shell (/bin/sh),
+a standard shell developed for early versions of Unix.
+Every Unix system needs the Bourne shell in order to function correctly.
+
+Linux uses an enhanced version of the Bourne shell called bash or the "Bourne-again" shell
+
+The bash shell is the dafault shell on most Linux distributions,
+and /bin/sh is normall a link to bash on a Linux system.
