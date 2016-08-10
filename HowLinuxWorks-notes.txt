@@ -27,9 +27,19 @@ To assign a value to a shell variable
 STUFF=blah
 
 An environment variable is like a shell variable, but it's not specific to the shell.
+STUFF=blah
 export STUFF
+or
+export STUFF=blah
+
 ALL PROCESSES ON UNIX SYSTEMS HAVE ENVIRONMENT VARIABLE STORAGE.
 
 
 The difference is that the environment variables are passed to programs that the shell runs,
 whereas shell variables cannot be accessed in the commands that you run.
+
+2.9 The Command Path
+PATH is a special environment variable that contains the directories that the shell searches when trying to locate a command.
+If programs with the same name appear in several directories in the path, the shell runs the first matching program.
+
+2.10 Special Characters
