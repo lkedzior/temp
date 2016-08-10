@@ -15,3 +15,21 @@ Linux uses an enhanced version of the Bourne shell called bash or the "Bourne-ag
 
 The bash shell is the dafault shell on most Linux distributions,
 and /bin/sh is normall a link to bash on a Linux system.
+
+2.5.6 find and locate
+locate file
+locte searches an index that the system builds periodically.
+
+2.8 Environment and Shell Variables
+The shell can store TEMPORARY variables, called shell variables, containing the values of text strings.
+
+To assign a value to a shell variable
+STUFF=blah
+
+An environment variable is like a shell variable, but it's not specific to the shell.
+export STUFF
+ALL PROCESSES ON UNIX SYSTEMS HAVE ENVIRONMENT VARIABLE STORAGE.
+
+
+The difference is that the environment variables are passed to programs that the shell runs,
+whereas shell variables cannot be accessed in the commands that you run.
