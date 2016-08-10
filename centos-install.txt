@@ -271,6 +271,29 @@ sudo nano /etc/sysctl.conf
 And put in the value you desire, such as:
 vm.swappiness=0
 
+#########Increase limit of open files
+https://naveensnayak.wordpress.com/2015/09/17/increasing-file-descriptors-and-open-files-limit-centos-7/
+#check limit ulimit -n
+
+To increase edit nano /etc/sysctl.conf add the below line, save and exit  (that's total number by all users?)
+fs.file-max = 100000
+
+We also need to increase hard and soft limits
+Edit /etc/security/limits.conf add the below lines before the #End, save and exit
+
+* soft nofile 65535
+* hard nofile 65535
+
+Next run the command
+sysctl -p
+
+from man pages
+ -p[FILE], --load[=FILE]
+              Load  in  sysctl settings from the file specified or /etc/sysctl.conf if none given.  Specifying -
+              as filename means reading data from standard input.  Using this  option  will  mean  arguments  to
+              sysctl are files, which are read in the order they are specified.  The file argument may be speci‐
+              fied as regular expression.
+
 
 ###########################installing NTP daemon
 to sync time
