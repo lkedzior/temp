@@ -76,3 +76,19 @@ If you want to run multiple shells, run each program in a separate terminl windo
 put noninteractive processes in the background (bg),
 or learn to use the screen program.
 
+2.16.4 Background Processes
+Normally, when you run a Unix command from the shell, you don't get the shell prompt back
+until the program finishes executing.
+However, you can detach a process from the shell and put it in the "background" with the (&)
+which gives you the prompt back, e.g.
+
+$ gunzip file.gz &
+
+The shell should respond by printing the PID of the new background process, and the prompt should return immediately.
+
+THE PROCESS WILL CONTINUE TO RUN AFTER YOU LOG OUT
+?
+
+The dark side of running background process is that they may expect to work with the standard input
+(or worse, read directly from the terminal)
+If a program tries to read something from the standard input when it's in the background, it can freeze or terminate
