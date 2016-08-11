@@ -90,3 +90,37 @@ git config --global core.autocrlf inpt (on macOS|Linux)
 To see the value just skip the value
 git config --global core.autocrlf
 
+#Init git in a project
+git init <repo-name>
+cd <repo-name>
+
+That will create .git folder and default master branch
+
+Different trees
+-working (new & modified files)
+-staging
+-history
+
+working tree - everything that is not known to git yet
+to make stuff known to git
+we do git add
+
+-now in staging tree (files that are known to git)
+
+then we commit to move the files to the history tree
+git commit
+
+changes anr in the hitory tree
+
+#Creating a branch
+git branch myBranch
+git checkout myBranch
+
+then do a change
+
+then
+git checkout master
+git merge myBranch
+
+git branch --merged
+git branch -d myBranch /-d is shortcut for --delete
