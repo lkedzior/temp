@@ -57,3 +57,6 @@ head /proc/cpuinfo
 Most commands accept file names
 
 $$ - shell variable that evaluates to the current shell's PID
+
+Using Ctrl-c to terminate a process that is running in the current terminal
+is the same as using kill with the INT (interrupt) signal
