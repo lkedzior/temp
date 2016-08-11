@@ -72,5 +72,7 @@ type jobs
 To brigng it to foreground type fg
 fg jobNumber (as seen in jobs)
 
-
+If you want to run multiple shells, run each program in a separate terminl window,
+put noninteractive processes in the background (bg),
+or learn to use the screen program.
 
