@@ -60,3 +60,17 @@ $$ - shell variable that evaluates to the current shell's PID
 
 Using Ctrl-c to terminate a process that is running in the current terminal
 is the same as using kill with the INT (interrupt) signal
+
+2.16.3 Job control
+Shells support job control, which i a way to send TSTP and CONT signals to programs.
+Ctrl-Z sends a TSTP signal to stop/suspend a process
+
+to see list of stopped processes (STAT=T)
+T    stopped, either by a job control signal or because it is being traced.
+type jobs
+
+To brigng it to foreground type fg
+fg jobNumber (as seen in jobs)
+
+
+
