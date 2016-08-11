@@ -124,3 +124,68 @@ git merge myBranch
 
 git branch --merged
 git branch -d myBranch /-d is shortcut for --delete
+
+
+###Cloning a repo
+
+git clone <URL>
+cd <repo-name>
+
+
+git push origin --delete <branch_name>
+####
+
+
+puning local branches that are no longer in remote
+git fetch --prune
+
+git config --global fetch.prune true
+
+#############git log
+git log
+git log --oneline
+git log --oneline --graph
+git log --oneline --graph --decorate
+git log --oneline --graph --decorate --all
+git log --stat
+git log --patch
+git log --stat origin/<someones-branch>. .master
+
+git config --global alias.lol "log --oneline --graph --decorate --all"
+now
+git lol
+
+##############Fixing problems
+
+git revert <SHA1>
+revert to <SHA1> (it is which is globally unique)
+
+git merge master
+Conflict
+git diff to see what's the confict 
+diff --cc hello.txt
+
+edit file
+git add
+git commit -m "Fixed merged conflicts"
+
+############
+git checkout -- <file/folder>
+reset a file/folder to the last committed version on a branch, loosing all not committed changes
+
+Rewriting History
+
+git reset --soft <SHA1>
+reset <SHA1> keeping staged status of files/folders
+
+git reset <SHA1>
+reset to <SHA1> also resettign staged status of files/folders
+
+git reset --hard <SHA1>
+reset <SHA1> resetting files/folders and staged status
+
+git reflog
+reference log for the last 90 days
+
+git cherry-pick <SHA1>
+apply changes introduced by <SHA1>
