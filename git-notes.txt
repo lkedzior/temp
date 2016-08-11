@@ -62,4 +62,31 @@ git tag -a 7.4.1+b8 -m "TMI-1185 fix for missing gfx_mi hdb ports in setPorts.sh
 git push origin 7.4.1+b8
 
 
+##################################Training
+Configuration levels
+--system
+Set for you (remotely?)
+
+--global (inherits from system and overrides them)
+This one if for your user account
+
+--local
+This one if for project level
+
+#Print system and global settings
+git config --global --list
+
+git config --global user.name "Lukasz Kedzior"
+git config --global user.email "..."
+
+#Use simple push
+git config --global  push.default simple
+
+git config --global core.editor "atom --wait"
+
+git config --global core.autocrlf true (on Windows?)
+git config --global core.autocrlf inpt (on macOS|Linux)
+
+To see the value just skip the value
+git config --global core.autocrlf
 
