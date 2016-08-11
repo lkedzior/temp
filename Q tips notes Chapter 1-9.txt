@@ -1053,6 +1053,14 @@ q)@[`t;date;`u#]
 `t
 
 REMEMBER - use in-place amends to avoid unnecessary data copy
+ALSO remember that these in-place amends works only with global variable names
+E.g. `t must be global if for the below to work
+{
+  ...
+  @[`t;date;`u#];
+ }[]
+
+
 
 Q Tip 8.4
 Use the `u attribute on dictionary keys to increase perfrormance
