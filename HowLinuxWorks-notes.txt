@@ -43,3 +43,17 @@ PATH is a special environment variable that contains the directories that the sh
 If programs with the same name appear in several directories in the path, the shell runs the first matching program.
 
 2.10 Special Characters
+
+2.14 Redirecting streams
+
+ls /dummy > out.txt 2> err.txt
+or
+ls /dummy > out.txt 2>&1
+
+To channel a file to a program's standard input, use <
+head < /proc/cpuinfo
+same as
+head /proc/cpuinfo 
+Most commands accept file names
+
+$$ - shell variable that evaluates to the current shell's PID
