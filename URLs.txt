@@ -1,1 +1,2 @@
 https://software.intel.com/en-us/top-down-microarchitecture-analysis-method-win
+http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-manual-325462.html
