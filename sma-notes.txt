@@ -1,0 +1,11 @@
+1) maintain last by bar 
+i.e. separate tables with last min15 min30 hour1 etc
+
+2) current sma can be calculated from last on demand
+avg -100#min15
+avg -50#min15
+avg -20#min15
+etc
+
+3) historical ones has to be saved when they become available 
+when update has new bar we can save sma10 20 50 for the previous bar (we now previous bar will not changed now)
