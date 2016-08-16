@@ -92,3 +92,13 @@ THE PROCESS WILL CONTINUE TO RUN AFTER YOU LOG OUT
 The dark side of running background process is that they may expect to work with the standard input
 (or worse, read directly from the terminal)
 If a program tries to read something from the standard input when it's in the background, it can freeze or terminate
+
+The best way to make sure that a background process does not bother you is to redirect its output and possibly input
+
+If spurious output from background processes gets in your way redraw the content of your terminal window.
+
+The bash shell support CTRL-L to redraw the entire sreen
+
+If a program is reading from the standard input, CTRL-R usually redraws the current line
+
+2.17 File MOdes and Permissions
