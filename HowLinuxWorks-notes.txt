@@ -102,3 +102,11 @@ The bash shell support CTRL-L to redraw the entire sreen
 If a program is reading from the standard input, CTRL-R usually redraws the current line
 
 2.17 File MOdes and Permissions
+
+Some executable files have an s in the user permissions listing instead of an x.
+This indicates that the executable is setuid, meaning that when you execute the program,
+it runs as though the file owner is the user instead of you.
+Many programs use this setuid bit to run as root in order to get the privileges they need to change system files.
+One example is the passwd program, which needs to change the /etc/passwd file.
+
+2.17.1
