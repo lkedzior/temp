@@ -110,3 +110,68 @@ Many programs use this setuid bit to run as root in order to get the privileges 
 One example is the passwd program, which needs to change the /etc/passwd file.
 
 2.17.1
+You can list the contents of a directory if it's readable, but you can only access a file in a directory if the directory is exacutable.
+
+You can specify a set of default permissions with the umask shell command, which applies a predefined set of permisssions to any new file you create.
+In general, use umask 022 if you want everyone to be able to see all of the files and directories that you create,
+and use umask 077 if you don't.
+
+2.18.1 gzip
+GNU ZIP is one of the current standard Unix compression programs
+gunzip file.gz
+gzip file
+
+2.18.2 tar
+gzip does not create archives of files; that is, it does not pack multiple files and directories into one file.
+To create an archive, use tar instead:
+
+tar cvf archive.tar file 1 file2 ...
+
+.tar suffix is a convention, it isn't required
+c flag activates create mode
+v - verbose diagnostic
+f - The f flag denotes the file option. The next argument after th f flag must be the file name for the archive.
+You must use this option followed by a finename at all times, except with tape drives.
+To use standard input or output, enter a dash(-) instead of the filename.
+
+Unpacking tar files
+
+tar xvf archive.tar
+x - flag puts tar into extract/unpack mode
+
+You can extract individual parts of the archive by entering names at the end of the command
+
+Table of contents mode
+Use t instead of the x flag
+
+When unpacking, consider using the p option to preserve permissions.
+Use this in extract mode to override your mask and get the exact permissions specified in the archive
+
+The p option is the default when working ast the superuser.
+
+2.18.3 Compressed ARchives (tar.gz)
+gunzip file.tar.gz
+tar xvf file.tar
+
+to create it
+tar first
+then gzip
+
+2.18.4 zcat
+
+zcat file.tar.gz | tar xvf -
+
+The zcat command is the same as gunzip -dc
+-d option decompresses 
+the -c option sends the result to standard output stream (in this case to tar)
+
+You can use z as an option to automatically invoke gzip on the archive
+This works both for extacting archive and creating one
+
+E.g. 
+tar ztvf file.tar.gz
+will verify a compressed archive
+
+tar.gz AKA .tgz
+
+
