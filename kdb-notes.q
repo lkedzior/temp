@@ -98,3 +98,6 @@ from tbl
 
 where n=0D00:01 or 0D00:02 or 0D00:05 for minute bins
 or n=0D00:00:01 or 0D00:00:02 or 0D00:00:05 for second bins
+
+////f1 in q instead of k
+f1:{x@{(y>)x/x y}[x?1+x] each til count x} 
