@@ -101,3 +101,25 @@ or n=0D00:00:01 or 0D00:00:02 or 0D00:00:05 for second bins
 
 ////f1 in q instead of k
 f1:{x@{(y>)x/x y}[x?1+x] each til count x} 
+
+given list, e.g.
+
+
+x:8 2 4 1 6 0 5 3 7 9
+
+
+for each find the smallest number to the right that is >=, e.g.
+
+
+f x
+   9 3 5 3 7 3 7 7 9 0N
+
+
+
+
+also:
+
+
+x:-10000?10000
+\t f x
+
