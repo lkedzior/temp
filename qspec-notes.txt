@@ -1,0 +1,16 @@
+#Settip up q spec
+
+1) In the QINIT file define the following
+.utl.QPATH:enlist `:/home/fxq/qpath;
+system"l /home/fxq/qpackages/qutil/lib/bootstrap.q"
+
+the qpath folder
+ls -l /home/fxq/qpath
+lrwxrwxrwx. 1 fxq fxq 29 Aug 25 07:48 qspec -> /home/fxq/qpackages/qspec/lib
+lrwxrwxrwx. 1 fxq fxq 29 Aug 25 07:47 qutil -> /home/fxq/qpackages/qutil/lib
+
+On windows I could not get the symbolic links to work and I just copied the lib/* files to Z:\qpath\qspec & Z:\qpath\qutil
+.utl.QPATH:enlist `:z:/qpath;
+system"l z:/qpackages/qutil/lib/bootstrap.q";
+
+z:/qpackages has got qutil and qspec cloned from github
