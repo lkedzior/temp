@@ -420,6 +420,9 @@ X may be a list. For example, to convert days, hours, minutes, seconds to second
 q)0 24 60 60 sv 2 3 5 7   / 2 days, 3 hours, 5 minutes, 7 seconds
 183907
 
+2*24*60*60+3*60*60+5*60+7
+
+
 / over adverb
 changes a dyadic function into a monadic function that takes a single list of values
 - function takes previous value as the first argument and the second will be the next value from the list
