@@ -99,7 +99,8 @@ f(1;2;3) creates a list and does f[(1;2;3)]
 
 ##Leading whitespaces
 q continues to accumulate text for parsing until it finds anohter command starting flush left (no leading whitespaces)
-- if we forget to indent every line of a function and q parser encounters a line that is flush left, it assumes a new definitiona has begun (our unction will be incomplete).
+- if we forget to indent every line of a function and q parser encounters a line that is flush left,
+it assumes a new definitiona has begun (our unction will be incomplete).
 
 
 #############################Chapter3
