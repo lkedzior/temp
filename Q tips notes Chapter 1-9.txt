@@ -184,13 +184,15 @@ q)10?0Nc
 q)rand 0Ng
 ee846e93-69c9-8697-52cb-20d9f12c9963 //internally vector of bytes
 
-internal K structure is 16 bytes
+internal K structure is 16 bytes (this is for non numberic data like guid)
 8 bytes for metadata type,reference count, attributes
 8 bytes to store an atom
 
 To see an atom byte representation
 q)0x0 vs 2h   /vector from scalar
-0x0002 /2 bytes out of 8 available bytes within K structure is used
+0x0002 /short is 2 byte integer number (int16)
+integer is int32
+long is int64
 
 scalar from vector
 q)0x0 sv 0x0002
