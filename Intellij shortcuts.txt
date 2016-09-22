@@ -10,3 +10,7 @@ Ctrl q
 
 /Show recently opened files
 Ctrl e
+
+Go Back
+Navigate -> Back
+Navigate -> Forward
