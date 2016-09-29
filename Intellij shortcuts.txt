@@ -1,4 +1,27 @@
-Surround with/inserting code
+//Search everywhere
+2xShift 
+
+//Actions
+Ctrl Shift A
+
+//
+ctrl j
+
+//Create test fro a class
+Ctrl Shift T
+
+//Generate
+Alt insert
+
+Alt 1 2 3 egc to switch to windows
+
+//Recent files
+Ctrl e
+
+//See class members and super types
+Go to Structure and use all buttons
+
+//Surround with/inserting code
 Ctrl Alt t
 
 Find usage
@@ -8,9 +31,6 @@ Ctrl Alt F7
 Show javadoc
 Ctrl q
 
-/Show recently opened files
-Ctrl e
-
 Go Back
-Navigate -> Back
+Navigate -> Back or Ctrl Alt left arrow
 Navigate -> Forward
