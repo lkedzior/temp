@@ -376,4 +376,8 @@ Use c to show full command
 
 Use W to permanently write your configuration to /home/user/.toprc and see also ? for more configuration options.
 
+######
+check OMM settings
+sysctl vm.overcommit_memory (/proc/sys/vm/overcommit_memory)
+http://unix.stackexchange.com/questions/136291/will-linux-start-killing-my-processes-without-asking-me-if-memory-gets-short/136294#136294
 
