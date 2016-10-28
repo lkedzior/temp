@@ -37,3 +37,6 @@ To monitor see performance at the task/thread level you can use pidstat which is
 http://www.thegeekstuff.com/2014/11/pidstat-examples/
 
 
+Process Monitoring with pidstat
+Start logging to a file
+pidstat -rud -h -p 30861 5 > pidstat.test1.log & echo $!
