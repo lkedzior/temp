@@ -124,6 +124,11 @@ x:-10000?10000
 \t f x
 
 ###############################c.q storing n last bucket prices
+
+most of the time we can use this construct
+we update exisitng cache using apply and dyadic function which operates on existing cache and incoming data table
+@[table;key incomingDataTable;dyadicfunc;value incomingDataTable]    
+
 t:([sym:`a`b]time:(10:00 10:01 10:02;10:00 10:01 10:02);price:(1.1 1.11 1.2;1.1 1.09 1.1));
 d:([]sym:`a`b`a`b`b`a;time:10:01:01.10 10:01:01.20 10:02:02.20 10:02:02.20 10:02:02.30 10:02:02.40;price:1.1 1.1 1.2 1.3 1.3 1.2);
 t1:select first[time]!first price by sym from t ;
