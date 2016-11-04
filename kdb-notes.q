@@ -129,6 +129,19 @@ most of the time we can use this construct
 we update exisitng cache using apply and dyadic function which operates on existing cache and incoming data table
 @[table;key incomingDataTable;dyadicfunc;value incomingDataTable]    
 
+see this debug output
+kt:([a:`a`b`c] v:10 20 30);
+updKt:([a:`a`b] v:100 200);
+@[kt;key updKt; {[x;y] -1"func running ";0N!x;0N!y;(x+y)}; value updKt]
+
+q)func running
+(,`v)!,10
+(,`v)!,100
+func running
+(,`v)!,20
+(,`v)!,200
+
+
 t:([sym:`a`b]time:(10:00 10:01 10:02;10:00 10:01 10:02);price:(1.1 1.11 1.2;1.1 1.09 1.1));
 d:([]sym:`a`b`a`b`b`a;time:10:01:01.10 10:01:01.20 10:02:02.20 10:02:02.20 10:02:02.30 10:02:02.40;price:1.1 1.1 1.2 1.3 1.3 1.2);
 t1:select first[time]!first price by sym from t ;
