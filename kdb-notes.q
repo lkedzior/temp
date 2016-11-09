@@ -201,3 +201,11 @@ another aproach
   d:`sym xgroup 0!select last price by sym, time:time.minute from data;
   @[t;key d;{(key;value)@\:-3 sublist (exec time!price from x),exec time!price from y};value d]
 }[t;d] 
+
+#####################pulling large table
+assuming large table t is on remote process
+h:hopen remote process
+t:();
+//on the remote server 
+h({n:$[count[t]<25000;count t;25000];neg[.z.w] each flip (insert[`t];n cut t);};`);
+h({n:$[count[t]<25000;count t;25000];.z.w each flip (insert[`t];n cut t);};`);
