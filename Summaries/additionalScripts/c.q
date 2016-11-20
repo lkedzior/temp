@@ -17,8 +17,12 @@ if[x~"last";upd:{[t;x].[t;();,;r::select by sym from x]}]
 if[x~"last5";upd:{[t;x].[t;();,;select by sym,5 xbar time.minute from x]}]
 
 / all trades with then current quote
+/ creates tq table with all trades enriches with quote price
 if[x~"tq";
- upd:{[t;x]$[t~`trade;tq,:x lj .u.q;.u.q,:select by sym from x]}]
+ upd:{[t;x]
+   $[t~`trade;
+     tq,:x lj .u.q;
+     .u.q,:select by sym from x]}]
 
 / vwap for each sym
 if[x~"vwap";t:`trade;
