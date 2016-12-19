@@ -38,7 +38,51 @@ q){floor x % 2}\[7]
 7 3 1 0
 /(7)(7%2)(3%2)(1%2)(0%2=0)
 
+Practical example of this is finding the parent id
 
+//table with id and previous id columns
+q)t:([]id:1 2 3 4 5; prevId:0N 1 2 3 0N)
+q)t
+id prevId
+---------
+1
+2  1
+3  2
+4  3
+5
+
+//Create a m dictionary
+q)m:exec last prevId by id from t
+q)m
+1|
+2| 1
+3| 2
+4| 3
+5|
+q)
+
+//use the ditionary as a function with the scan
+//it stops when we index with null and null is returned
+q)update origId:(m\) each prevId from t
+id prevId origId
+------------------
+1         ,0N
+2  1      1 0N
+3  2      2 1 0N
+4  3      3 2 1 0N
+5         ,0N
+q)
+
+//same but drop last null
+q)update origId:(-1_) each (m\) each prevId from t
+id prevId origId
+------------------
+1         `long$()
+2  1      ,1
+3  2      2 1
+4  3      3 2 1
+5         `long$()
+q)
 
 ////    ADVERBS for dyadic functions    ////
 f\:[L;a]	 /each left		L f\: a
