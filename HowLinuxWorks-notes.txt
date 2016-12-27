@@ -175,4 +175,6 @@ will verify a compressed archive
 tar.gz AKA .tgz
 
 2.19 Linuz Directory Hierarchy Essentials
+See MS word doc
 
+Chapter 3 Devices
