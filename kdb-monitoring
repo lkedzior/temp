@@ -11,6 +11,34 @@ e.g.
 pidstat -rud -h -p 22985 -p 27119 -p 32671 5
 r - is for mem stats
 -r     Report page faults and memory utilization.
+When reporting statistics for individual tasks, the following values are displayed:
+
+              PID
+                     The identification number of the task being monitored.
+
+              minflt/s
+                     Total number of minor faults the task has made per second, those which have not required loading a memory page from disk.
+
+              majflt/s
+                     Total number of major faults the task has made per second, those which have required loading a memory page from disk.
+
+              VSZ
+                     Virtual Size: The virtual memory usage of entire task in kilobytes.
+
+              RSS
+                     Resident Set Size: The non-swapped physical memory used by the task in kilobytes.
+
+
+              When reporting global statistics for tasks and all their children, the following values are displayed:
+
+              PID
+                     The identification number of the task which is being monitored together with its children.
+
+              minflt-nr
+                     Total number of minor faults made by the task and all its children, and collected during the interval of time.
+
+              majflt-nr
+                     Total number of major faults made by the task and all its children, and collected during the interval of time.
 
 u - is for cpu stats
        -u     Report CPU utilization.
