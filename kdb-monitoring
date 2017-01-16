@@ -80,3 +80,6 @@ d - is for disk i/o stats
 
 -h     Display all activities horizontally on a single line. This is intended to make it easier to be parsed by other programs.
 
+####Sample command to start writing stats to a file
+"I"$first system"pidstat -rud -h -p 125205 -p 125540 5 > /tmp/statsmon_kdbadm_fifo & echo $!"
+that gives back the pid of the new pidstat process which writes stats to a file every 5 secs
