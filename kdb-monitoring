@@ -86,3 +86,5 @@ d - is for disk i/o stats
 ####Sample command to start writing stats to a file
 "I"$first system"pidstat -rud -h -p 125205 -p 125540 5 > /tmp/statsmon_kdbadm_fifo & echo $!"
 that gives back the pid of the new pidstat process which writes stats to a file every 5 secs
+
+e.g. we could have one file for each module
