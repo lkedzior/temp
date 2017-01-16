@@ -9,3 +9,6 @@ Inputs
 On request the service should start monitoring the pid and record stats
 e.g.
 pidstat -rud -h -p 22985 -p 27119 -p 32671 5
+r - is for mem stats
+u - is for cpu stats
+d - is for disk i/o stats
