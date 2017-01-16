@@ -1,1 +1,11 @@
 test
+
+So what we want is a service where a process can register with for monitoring 
+
+Inputs
+- pid
+- processName
+
+On request the service should start monitoring the pid and record stats
+e.g.
+pidstat -rud -h -p 22985 -p 27119 -p 32671 5
