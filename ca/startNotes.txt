@@ -1,0 +1,15 @@
+1) talk to head of FX support ~ Dan
+- ask if anyone in the team would be interested in learning more about kdb
+tell them I would like to delegate as much respnsibilities and ownership as possible
+- need a dedicated resource, point of contact in order for this to work
+
+2) someone who can help prioritize JIRAs
+on business side or it side
+- expecting constant stream of requests, will need someone to talk to e.g. weekly
+to agree on priorities
+
+3) go through hardware resources, file systems, chekc sizes, growth etc
+
+4) systems used for servers monitoring/stats 
+e.g. memory / cpu / i/o / netwrok usage
+
