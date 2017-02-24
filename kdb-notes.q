@@ -209,3 +209,9 @@ t:();
 //on the remote server 
 h({n:$[count[t]<25000;count t;25000];neg[.z.w] each flip (insert[`t];n cut t);};`);
 h({n:$[count[t]<25000;count t;25000];.z.w each flip (insert[`t];n cut t);};`);
+
+
+
+#############loading text file as a string
+read1 `$:file.txt //returns byte list
+`char$read1 `$:file.txt //`char$ turns byte list into a string/char list
