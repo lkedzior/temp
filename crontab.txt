@@ -1,0 +1,18 @@
+SHELL=/bin/bash
+
+#Min     0 to 59
+#Hour    0 to 23
+#Day     1 to 31
+#Month   1 to 12
+#Weekday 0 to 6, 0 for Sunday, 6 for Saturday
+
+#-----------------------------------------------------------------------------
+#Min     Hour    Day     Month   Weekday Command
+#-----------------------------------------------------------------------------
+00        20      *       *       0       $HOME/apps/KdbConfig/current/kdbpm.sh start_all
+00        03      *       *       6       $HOME/apps/KdbConfig/current/kdbpm.sh stop_all
+15        04      *       *       *       $HOME/apps/KdbConfig/current/kdbpm.sh backup_sym_all
+
+
+30        20      *       *       0       /home/fxq/apps/java/oandaPricesFeedhandler/prod/startProdPrices10010FH.sh
+30        23      *       *       5       /home/fxq/apps/java/oandaPricesFeedhandler/prod/stopProdPrices10010FH.sh
