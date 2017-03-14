@@ -1,0 +1,35 @@
+Branching and merging
+
+Create the following folders in your repo
+
+trunk
+branches
+trunk
+
+under trunk place your projects
+trunk/projectA
+trunk/projectB
+trunk/projectC
+
+Branching
+Right click on trunk->Branch/Tag
+From .../trunk
+To path /branches/testBranch
+
+Then do SVN update to get the new branch from remote to local env
+
+Make changes inside new branch 
+Commit branch changes
+
+SWITCH BACK TO TRUNK BEFORE MERGING
+
+Right clink on trunk
+1) Merge
+2) Merge type -> choose Merge a range of revisions (default)
+3)Next
+-URL to merge from ..../branches/testBranch
+- select all revisions
+- make sure working copy is .../trunk
+4)Next and Merge
+
+Now local trunk should have the branch changes and the last step is commit trunk changes to remote server
