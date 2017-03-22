@@ -46,3 +46,9 @@ e.g.
 pgrep -u fxq  //get all fxq user processes
 pgrep -u fxq -f "\-p 10010" //f flag for full command line and greps for '-p 10010'
 
+########################Calculate directory location from a shell script
+script="`readlink -f "${BASH_SOURCE[0]}"`"
+echo "script=$script"
+dirpath="`dirname "$script"`"
+echo "dirpath=$dirpath"
+
