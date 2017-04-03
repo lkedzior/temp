@@ -52,3 +52,7 @@ echo "script=$script"
 dirpath="`dirname "$script"`"
 echo "dirpath=$dirpath"
 
+###################ptp log file shows current drift offset
+ls -l /var/log/sfptplog
+
+on ptp we should see less than 40 mikro sec
