@@ -1,0 +1,9 @@
+Actual syscall has overhead, in Linux is much smaller due vsyscall and vdso
+(http://stackoverflow.com/questions/19938324/what-are-vdso-and-vsyscall)
+
+http://www.windowstimestamp.com/description#C_5 (C# perspective)
+https://shipilev.net/blog/2014/nanotrusting-nanotime/ (Java perspective)
+
+
+blog on PTP in finance from LMAX
+https://www.lmax.com/blog/staff-blogs/2015/11/27/solving-mifid-ii-clock-synchronisation-minimum-spend-part-1/
