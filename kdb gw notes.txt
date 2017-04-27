@@ -9,3 +9,13 @@
   @[neg[h];res;
     {[h;errorMsg].log.error"...."; neg[h](0b;errorMsg)}[h]]}
  };
+
+.gw.dispatchCollect[queries; handlers; asynReturnFunc]{
+  //dispatch queries to given handlers
+  //collect results
+  //return results
+ };
+ 
+userGwFunc:{
+// see email
+}
