@@ -1,0 +1,11 @@
+
+//function passed to the server (e.g. HDB / RDB) from the gw function
+//runs the query and puts results/error msg back on to gw connection
+.ipc.asyncReturn:{[q;t]
+  h:.z.w;
+  //.admin.token:...;
+  res:@[{(1b;value x)};q;{(0b;x)}];
+  //put results back to client
+  @[neg[h];res;
+    {[h;errorMsg].log.error"...."; neg[h](0b;errorMsg)}[h]]}
+ };
