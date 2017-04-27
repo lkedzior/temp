@@ -16,6 +16,23 @@
   //return results
  };
  
-userGwFunc:{
-// see email
-}
+userGwFunc:{[user syms cols etc]
+  //retrieve handlers needed for this query
+  //this is highest level user function so at this level it is acceptable to reference global variables
+  handlers:...
+  
+  //lower level reusable lib functions should not reference global variables
+  
+  //this place may be good to test handlers and throw error or log error if any is NULL (depending on user use case)
+  
+  //define user queries
+  queries:...
+  
+  //define asyncReturnFunc that should be used e.g.
+  syncReturnFunc:.cfg.defaultAsyncReturnFunc (e.g. .ipc.asyncReturn)
+  
+  //delegate to dispatchCollect or to a dispatchCollectWrapper function with some additional funcionality
+  res:.gw.dispatchCollect[handlers;queries; asyncReturnFunc]
+  
+  :res
+ };
