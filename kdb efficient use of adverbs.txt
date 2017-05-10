@@ -86,6 +86,23 @@ f/[list]
 #################################################
 III Higher valence functions
 
+1) over and scan
+q)({x+y+z}\)[1;2 3 4;5 6 7]
+8 17 28
+
+In this example the first iteration will use 1 as the x param, 2 as the y param and 5 as the z param.
+The result of of this iteration (8)  is passed as x with 3 as y and 6 as the z parameter.
+
+The length of second and third arg must be the same. If one of them is an atom then it will be used in each iteration.
+
+
+####################################################
+IV Combining Adverbs
+
+
+
+
+
 
 
 
