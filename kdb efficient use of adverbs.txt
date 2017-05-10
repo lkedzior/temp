@@ -1,0 +1,11 @@
+Adverbs with mondadic functions
+f'
+f':
+f/
+f\
+
+1) each both f'
+When used with a monadic function will apply f to each element of a list
+
+q)type'[(1; 2h; 3.2)]
+-7 -5 -9h
