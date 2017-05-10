@@ -1,4 +1,4 @@
-Adverbs with mondadic functions
+Adverbs with mondadic functions (each right/left don't work with monads)
 f'
 f':
 f/
@@ -9,3 +9,30 @@ When used with a monadic function will apply f to each element of a list
 
 q)type'[(1; 2h; 3.2)]
 -7 -5 -9h
+
+Same behavior can be achieved using the each function
+(each is a function)
+type each (1; 2h; 3.2)
+
+2) peach or each-prior
+q)parse"peach"
+k){x':y}
+
+': will have peach effect when used with monadic function
+
+': is typically used with dyadic functions e.g.
+q)deltas
+-':
+
+3) over f/ and scan
+Run f recursively n times
+q){2*x}/[10;2]
+2048
+
+q){2*x}\[10;2]
+2 4 8 16 32 64 128 256 512 1024 2048
+
+######################################
+II Dyadic functions
+
+
