@@ -66,3 +66,27 @@ k){x\y}
 q)parse"over"
 k){x/y}
 q)
+
+3)Each-Right
+If the left arg is an atom then the each-both adverb will produce the same result as the each right adverb.
+Howeve, if the left argument is a list then the each-right adverb must be used.
+
+q)` sv/: `:/mydb/2013.05.01/trade,/:key[`:/mydb/2013.05.01/trade]except `.d
+`:/mydb/2013.05.01/trade/sym
+`:/mydb/2013.05.01/trade/time
+`:/mydb/2013.05.01/trade/price
+`:/mydb/2013.05.01/trade/size
+`:/mydb/2013.05.01/trade/ex
+
+4)Over and Scan
+Two variations
+f/[a;list]
+f/[list]
+
+#################################################
+III Higher valence functions
+
+
+
+
+
