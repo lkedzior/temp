@@ -34,5 +34,35 @@ q){2*x}\[10;2]
 
 ######################################
 II Dyadic functions
+1)Each both
 
+a) If both params are atoms - no effect
+q)1 ~' 1
+1b
 
+b) If one arg is an atom and the other is a list
+then atom will act as if it is a list of the same length as the non-atom argument.
+q)1 ~' 1 2 3
+100b
+
+c) If both params are lists then they must be of the same length
+q)(1 2),'(10 20)
+1 10
+2 20
+
+2) Each-Prior
+Common use of this in the deltas function
+-':
+
+Also differ function uses ':
+differ definition is negation of ~':
+not ~':
+
+The prior function is defined as ': (same as scan and over function provide keyword for \ and /)
+q)parse"prior"
+k){x':y}
+q)parse"scan"
+k){x\y}
+q)parse"over"
+k){x/y}
+q)
