@@ -20,16 +20,16 @@ q)f/[5;2]
 4294967296
 q)
 
-/ 2) while - recursive calls as long as condition is true (stops after first false)
-f\[g;arg]	 /recursive calls until g return true, g must return 0b/1b
+2) while(cond) - recursive calls as long as condition is true (stops after first false)
+f\[cond;100]
 
 q)f:{x+1}
-q)g:{x<105}
-q)f\[g;100]
+q)cond:{x<105}
+q)f\[cond;100]
 100 101 102 103 104 105
 
-/ alternate syntax
-q)g f\100
+//alternative syntax
+q)cond f\100
 100 101 102 103 104 105
 
 / 3) recurive calls until argument = result (converge)
