@@ -25,12 +25,24 @@ q)deltas
 -':
 
 3) over f/ and scan
-Run f recursively n times
+3a)Run f recursively n times
 q){2*x}/[10;2]
 2048
 
 q){2*x}\[10;2]
 2 4 8 16 32 64 128 256 512 1024 2048
+
+3b) while(cond) - recursive calls as long as condition is true (stops after first false)
+f\[cond;100]
+
+q)f:{x+1}
+q)cond:{x<105}
+q)f\[cond;100]
+100 101 102 103 104 105
+
+//alternative syntax
+q)cond f\100
+100 101 102 103 104 105
 
 ######################################
 II Dyadic functions
