@@ -44,6 +44,15 @@ q)f\[cond;100]
 q)cond f\100
 100 101 102 103 104 105
 
+3c) recurive calls until argument = result (converge)
+f\[arg]
+q){floor x % 2}\[7]
+7 3 1 0
+/(7)(7%2)(3%2)(1%2)(0%2=0)
+
+Practical example of this is finding the parent id
+See example in Adverbs.q
+
 ######################################
 II Dyadic functions
 1)Each both
