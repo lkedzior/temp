@@ -24,7 +24,12 @@ k){x':y}
 q)deltas
 -':
 
-3) over f/ and scan
+3) over f/ and scan for recursion
+f/[n;arg]
+f/[cond;arg]   //cond functions is passed a result of each f[arg] iteration
+f/[arg] -runs until arg=f[arg] or f[arg] = original arg passed at the very begining
+
+
 3a)Run f recursively n times
 q){2*x}/[10;2]
 2048
@@ -45,6 +50,8 @@ q)cond f\100
 100 101 102 103 104 105
 
 3c) recurive calls until argument = result (converge)
+//runs until arg=f[arg] or f[arg] = original arg passed at the very begining
+
 f\[arg]
 q){floor x % 2}\[7]
 7 3 1 0
@@ -52,6 +59,8 @@ q){floor x % 2}\[7]
 
 Practical example of this is finding the parent id
 See example in Adverbs.q
+
+or flattenList function raze/ or ,// discussed later
 
 ######################################
 II Dyadic functions
@@ -139,10 +148,89 @@ q)(raze (1 2 3),/:\:L2)~ (1,/:L2),(2,/:L2),(3,/:L2)
 We can see that f/:\: is applying each left on f/:
 Right to left evaluation
 
+Another example: flatten a nested list repeatedly until it cannot be flattened anymore
+raze is defined as ,/
+
+running it as scan to see intermediate results
+q)(,\)[(1 2; (4 5; 6); 7)]
+1 2
+(1;2;4 5;6)
+(1;2;4 5;6;7)
+
+q)(,\)[(1;2;4 5;6)]
+,1
+1 2
+1 2 4 5
+1 2 4 5 6
+q)
+
+q)(,\)[1 2 4 5 6]
+,1
+1 2
+1 2 4
+1 2 4 5
+1 2 4 5 6
+
+raze is monadic
+we already now that
+3c) recurive calls until argument = result (converge)
+f/[arg]
+
+now running ,// or raze/
+q)(,//)[(1 2; (4 5; 6); 7)]
+1 2 4 5 6 7
+
+/////////////////////////////////////////////
+example with combined each-both
+q)lst:(3 2 8;(3.2;6h);("AS";4))
+q)lst
+3 2 8
+(3.2;6h)
+("AS";4)
+q)type'[lst]
+7 0 0h
+q)type''[lst]
+-7 -7 -7h
+-9 -5h
+10 -7h
+q)type'''[lst]
+-7 -7 -7h
+-9 -5h
+(-10 -10h;-7h)
+q)
+
+/////////////////////////
+Adverbs and tables
+table is a list of dictionaries
+
+q)a:([]a:`a`b`c`d;b:1 2 3 4;c:(1 2;2 3;3 4;4 5))
+q)type a
+98h
+q)type'[a]
+99 99 99 99h
+q)type''[a]
+a   b  c
+--------
+-11 -7 7
+-11 -7 7
+-11 -7 7
+-11 -7 7
+q)
+
+q)distinct type’’[a]
+a   b  c
+--------
+-11 -7 7
+q)
 
 
-
-
+q)a:([]a:`a`b`c`d;b:1 2 3 4;c:(1 2;2 3;3 4.;4 5))
+q)distinct type’’[a]
+a   b  c
+--------
+-11 -7 7
+-11 -7 9
+q)
 
 
 
