@@ -230,3 +230,7 @@ q)` sv/: `:myPath,/:key[`:.]
 q)hFilePaths:{` sv/: x,/:key x}
 q)hFilePaths `:.
 `:./a`:./b`:./c
+
+
+#################checking types in table columns
+distinct type''[tbl]
