@@ -149,8 +149,14 @@ q)L2:10 20 30
 q)(raze (1 2 3),/:\:L2)~ (1,/:L2),(2,/:L2),(3,/:L2)
 1b
 
-We can see that f/:\: is applying each left on f/:
-Right to left evaluation
+We can see that f/:\: is running as g\: (g each-left List) where g:(f/:)
+(1 g L2)
+(2 g L2)
+(3 g L2)
+
+(1 ,/: L2)
+(2 ,/: L2)
+(3 ,/: L2)
 
 Another example: flatten a nested list repeatedly until it cannot be flattened anymore
 raze is defined as ,/
