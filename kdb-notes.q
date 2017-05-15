@@ -215,3 +215,18 @@ h({n:$[count[t]<25000;count t;25000];.z.w each flip (insert[`t];n cut t);};`);
 #############loading text file as a string
 read1 `$:file.txt //returns byte list
 `char$read1 `$:file.txt //`char$ turns byte list into a string/char list
+
+
+################generating file paths
+q)key[`:.]
+`s#`a`b`c
+q)`:myPath,/:key[`:.]
+:myPath a
+:myPath b
+:myPath c
+q)` sv/: `:myPath,/:key[`:.]
+`:myPath/a`:myPath/b`:myPath/c
+
+q)hFilePaths:{` sv/: x,/:key x}
+q)hFilePaths `:.
+`:./a`:./b`:./c
