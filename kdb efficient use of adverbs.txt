@@ -1,6 +1,6 @@
 Adverbs with mondadic functions (each right/left don't work with monads)
 f'
-f': (peach)
+f': (peach and prior are implemented as {x':y})
 f/ (over)
 f\ (scan)
 
@@ -20,6 +20,9 @@ f peach L
 
 q)parse"peach"
 k){x':y}  //x is our function, y is our argument
+q)parse"prior"
+k){x':y}
+
 
 ': is typically used with dyadic functions e.g.
 q)deltas
