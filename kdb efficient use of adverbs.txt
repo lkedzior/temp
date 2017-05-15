@@ -1,8 +1,8 @@
 Adverbs with mondadic functions (each right/left don't work with monads)
 f'
-f':
-f/
-f\
+f': (peach)
+f/ (over)
+f\ (scan)
 
 1) each both f'
 When used with a monadic function will apply f to each element of a list
@@ -14,11 +14,12 @@ q)type each (1; 2h; 3.2)
 -7 -5 -9h
 q)
 
-2) peach or each-prior
-q)parse"peach"
-k){x':y}
+2) ': works as peach when used with monadic function
+f':[L]
+f peach L
 
-': will have peach effect when used with monadic function
+q)parse"peach"
+k){x':y}  //x is our function, y is our argument
 
 ': is typically used with dyadic functions e.g.
 q)deltas
