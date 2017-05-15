@@ -6,13 +6,13 @@ f\
 
 1) each both f'
 When used with a monadic function will apply f to each element of a list
+Same behavior can be achieved using the each function
 
 q)type'[(1; 2h; 3.2)]
 -7 -5 -9h
-
-Same behavior can be achieved using the each function
-(each is a function)
-type each (1; 2h; 3.2)
+q)type each (1; 2h; 3.2)
+-7 -5 -9h
+q)
 
 2) peach or each-prior
 q)parse"peach"
