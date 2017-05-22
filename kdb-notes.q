@@ -209,7 +209,10 @@ t:();  //create a table the remote will be insert into
 
 //run async so that remote can insert (deadlock otherwise)
 neg[h]({[tbl]
+  //we can cut by sym or just each over different i ranges where i within ...
   syms:exec distinct sym from ...
+  //is it safer to do .z.w instead neg[.z.w] because the remote
+  //does not multiple chunks if the local was busy processing something else?
   {[tbl;s] .z.w(insert[tbl]; select from tbl where ...,sym=s);}[tbl] each syms;
 }[`t]);
 
