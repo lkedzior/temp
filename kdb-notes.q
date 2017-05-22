@@ -205,11 +205,13 @@ another aproach
 #####################pulling large table
 assuming large table t is on remote process
 h:hopen remote process
-t:();
-//on the remote server 
-h({n:$[count[t]<25000;count t;25000];neg[.z.w] each flip (insert[`t];n cut t);};`);
-h({n:$[count[t]<25000;count t;25000];.z.w each flip (insert[`t];n cut t);};`);
+t:();  //create a table the remote will be insert into
 
+//run async so that remote can insert (deadlock otherwise)
+neg[h]({[tbl]
+  syms:exec distinct sym from ...
+  {[tbl;s] .z.w(insert[tbl]; select from tbl where ...,sym=s);}[tbl] each syms;
+}[`t]);
 
 
 #############loading text file as a string
