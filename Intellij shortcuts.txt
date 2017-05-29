@@ -34,3 +34,6 @@ Ctrl q
 Go Back
 Navigate -> Back or Ctrl Alt left arrow
 Navigate -> Forward
+
+#location of the qcode-intellij.xml
+C:\Users\Lukasz\.IdeaIC2016.2\config\filetypes
