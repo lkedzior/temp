@@ -239,3 +239,21 @@ q)hFilePaths `:.
 
 #################checking types in table columns
 distinct type''[tbl]
+
+#################adding multiple columns to a table
+//use `t if you need in-place update
+q)f:{(100 200 300; 1000 2000 3000)}
+q)t:([]a:10 20 30)
+q)![t;();0b;(`c`d)!f[]]
+a  c   d
+-----------
+10 100 1000
+20 200 2000
+30 300 3000
+q)@[t;`aa`bb;:;f[]]
+a  aa  bb
+-----------
+10 100 1000
+20 200 2000
+30 300 3000
+q)
