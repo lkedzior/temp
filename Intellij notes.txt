@@ -37,3 +37,14 @@ Navigate -> Forward
 
 #location of the qcode-intellij.xml
 C:\Users\Lukasz\.IdeaIC2016.2\config\filetypes
+
+#Eclipse synteax colours
+Follow the blog
+https://blog.raychenon.com/2014/07/27/how-to-change-ui-theme-on-intellij-and-android-studio/
+Download jar from here
+http://color-themes.com/?view=index
+
+E.g. http://color-themes.com/?view=theme&id=563a1a6b80b4acf11273ae67
+
+Import to IntelliJ or Android Studio by going to File -> import settings -> and select the  .jar file you downloaded.
+Select All . press OK. Then Restart your IDE.
