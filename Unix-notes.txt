@@ -56,3 +56,10 @@ echo "dirpath=$dirpath"
 ls -l /var/log/sfptplog
 
 on ptp we should see less than 40 mikro sec
+
+
+#############top configuration
+add fields - press f
+sort by fields - press shift f
+sort by mem, add last use cpu filed
+save - press W in the main display
