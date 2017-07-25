@@ -59,5 +59,30 @@ e.g. the below creates target\libs\myLib-0-SNAPSHOT folder
 </scm>
 
 The XXX in the above example is your github username. You cannot use the :XXX format (git@github.com:XXX/...) because the value past the : is interpreted as being a port number instead. The YYY is obviously your repository name under the XXX account.
+
+
+
+
+
+###########################generating a timestamp from pom and including it in the artifact name in the assembly descriptor
+
+//in the application pom.xml
+<properties>
+  <!-- final name or archive generated and root directory inside it will be suffixed by time stamp -->
+  <maven.build.timestamp.format>yyyyMMdd.HHmm</maven.build.timestamp.format>
+  <artifact-name-suffix>-${maven.build.timestamp}</artifact-name-suffix>
+  
+//in the pom.xml in plugin configuration
+  <plugin>
+    <artifactId>maven-assembly-plugin</artifactId>
+    <version>2.4.1</version>
+    <configuration>
+      <finalName>${project.build.finalName}${artifact-name-suffix}</finalName>
+    </configuration>
+
+//in the assembly descriptor
+<baseDirectory>${project.build.finalName}${artifact-name-suffix}</baseDirectory>
+
+
       
 
