@@ -1,0 +1,4 @@
+If you have some in momory data you want to make available for multiple clients
+IPC is not the only option
+you could make this data make avaiable via shared memory
+and your clients could read shared memory without blocking each other
