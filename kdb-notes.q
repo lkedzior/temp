@@ -257,3 +257,7 @@ a  aa  bb
 20 200 2000
 30 300 3000
 q)
+
+#######################################.Q.dpft vs in memory sym
+Saving with .Q.dpft and poining to new location will override in-memory sym variable with new values
+
