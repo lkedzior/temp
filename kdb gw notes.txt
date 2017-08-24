@@ -36,3 +36,28 @@ userGwFunc:{[user syms cols etc]
   
   :res
  };
+
+
+//using -30! in the gateway
+//multiple clients can connect to gw at the same time usync sync mode
+//gw then needs to have full async protocol with RDB and HDB
+gw .z.pg
+
+.z.pg:{
+  -30!(::); //releasing the handler for other clients
+  //dispatch to rdb & hdb using full async (record id and client .z.w somewhere in the table)
+  //important don't block here
+  //end of .z.pg
+ };
+ 
+.z.ps:{
+  //process replies from the rdb & hdb
+  send results back to client
+  -30!(clientHandle;1b;res) 
+  or -30!(clientHandle;0b;"errorString") 
+ };
+
+
+
+
+
