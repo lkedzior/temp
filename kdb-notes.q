@@ -260,4 +260,23 @@ q)
 
 #######################################.Q.dpft vs in memory sym
 Saving with .Q.dpft and poining to new location will override in-memory sym variable with new values
+So if we were to use HDB process to .Q.dpft to new location we would need to re-load the initial HDB location
+to be able to read its data again
+
+E.g. 
+q)t:([] time:.z.t+til 2; sym:`a`b; v:til 2)
+q)t
+time         sym v
+------------------
+12:59:22.109 a   0
+12:59:22.110 b   1
+q).Q.dpft[`:hdb1;.z.d;`sym;`t]
+`t
+q)sym
+`a`b
+q)t:([] time:.z.t+til 2; sym:`b`c; v:til 2)
+q).Q.dpft[`:hdb2;.z.d;`sym;`t]
+`t
+q)sym
+`b`c
 
