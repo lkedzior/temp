@@ -44,10 +44,13 @@ userGwFunc:{[user syms cols etc]
 gw .z.pg
 
 .z.pg:{
-  -30!(::); //releasing the handler for other clients
+  
   //dispatch to rdb & hdb using full async (record id and client .z.w somewhere in the table)
   //important don't block here
   //end of .z.pg
+  
+  //block existing client until -30!(.z.w;0b;res) is called, other clients won't be blocked cause .z.pg ends here
+  -30!(::); //releasing the handler for other clients
  };
 
 
