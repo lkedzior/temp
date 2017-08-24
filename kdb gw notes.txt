@@ -39,7 +39,7 @@ userGwFunc:{[user syms cols etc]
 
 
 //using -30! in the gateway
-//multiple clients can connect to gw at the same time usync sync mode
+//multiple clients can connect to gw at the same time using sync mode
 //gw then needs to have full async protocol with RDB and HDB
 gw .z.pg
 
@@ -49,12 +49,14 @@ gw .z.pg
   //important don't block here
   //end of .z.pg
  };
- 
+
+
+gw.ps
 .z.ps:{
   //process replies from the rdb & hdb
   send results back to client
-  -30!(clientHandle;1b;res) 
-  or -30!(clientHandle;0b;"errorString") 
+  -30!(clientHandle;0b;res) 
+  or -30!(clientHandle;1b;"errorString") 
  };
 
 
