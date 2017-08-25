@@ -1,3 +1,9 @@
+//Show All implementations of an interface (show Hierarchy)
+Click on the interface then Ctrl+h
+
+Show All usages of an interface method (show method Hierarchy)
+Click on the method then Ctro+Alt+h
+
 //Search everywhere
 2xShift 
 
