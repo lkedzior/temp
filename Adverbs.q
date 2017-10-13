@@ -39,7 +39,7 @@ q){floor x % 2}\[7]
 /(7)(7%2)(3%2)(1%2)(0%2=0)
 
 Practical example raze/ to flatten out a nested list to the level of simple list
-last call raze[flatList] => flatList
+raze is monadic, last call raze[flatList] = flatList
 
 Practical example of this is finding the parent id
 
