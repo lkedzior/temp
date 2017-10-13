@@ -21,7 +21,7 @@ q)f/[5;2]
 q)
 
 2) while(cond) - recursive calls as long as condition is true (stops after first false)
-f\[cond;100]
+fMonad\[monadicCondFunction;100]
 
 q)f:{x+1}
 q)cond:{x<105}
@@ -37,6 +37,9 @@ f\[arg]
 q){floor x % 2}\[7]
 7 3 1 0
 /(7)(7%2)(3%2)(1%2)(0%2=0)
+
+Practical example raze/ to flatten out a nested list to the level of simple list
+last call raze[flatList] => flatList
 
 Practical example of this is finding the parent id
 
@@ -177,9 +180,9 @@ q)
 
 / example using ^ and scan to implement fills
 f\ [0n 10 20 0n 0n 30 0n 40]
-"0n 10  => 10"
-"10 20  => 20"
-"20 0n  => 20"
+"0n^10  => 10"
+"10^20  => 20"
+"20^0n  => 20"
 ...
 
 q)fills
@@ -188,7 +191,7 @@ q)fills 0n 10 20 0n 0n 30 0n 40
 0n 10 20 20 20 30 30 40
 q)
 
-/scan & over when left argument is a list
+//scan & over works the same way when left argument is a list, 
 q)f:{show -3!(x;y); x+y}
 q)(f\)[10 100; 1 2 3]
 "(10 100;1)"
@@ -205,7 +208,9 @@ q)(f/)[10 100; 1 2 3]
 16 106
 q)
 
+##############/scan & over for multivalent functions
 
+##########scan with triadic function
 q)f:{show -3!(x;y;z); x+y+z}
 q)(f\)[1;10 20 30; 100 200 300]
 "1 10 100"
@@ -213,8 +218,6 @@ q)(f\)[1;10 20 30; 100 200 300]
 "331 30 300"
 111 331 661
 q)
-
-/scan & over for multivalent functions
 
 q)f
 {show -3!(x;y;z); x+y+z}
@@ -254,6 +257,17 @@ combining adverbs
 ####example 1
 (1 2 3),/:\:4 5 6
  -> (1,/:4 5 6),(2,/:4 5 6),(3,/:4 5 6) -> ((1 4i;1 5i;1 6i);(2 4i;2 5i;2 6i);(3 4i;3 5i;3 6i))
+
+(1 2 3),/:\:4 5 6
+  => (1 2 3) f\: 4 5 6   //f=,/:
+  => 1 f 4 5 6
+     2 f 4 5 6
+     3 f 4 5 6
+  => 1 ,/: 4 5 6
+     2 ,/: 4 5 6
+     3 ,/: 4 5 6
+  => ((1 4i;1 5i;1 6i);(2 4i;2 5i;2 6i);(3 4i;3 5i;3 6i))
+
 
 ([]p:raze (1 2 3),/:\:4 5 6)
 ([]p:raze (1 2 3),\:/:4 5 6)
