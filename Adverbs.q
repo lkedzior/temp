@@ -253,6 +253,9 @@ x:til 10
 sum abs x-til 3
 
 combining adverbs
+in general f adverb1 advert2
+  => (f adverb1) adverb2
+  => g adverb2 where g=(f adverb1)
 
 ####example 1
 (1 2 3),/:\:4 5 6
@@ -269,8 +272,18 @@ combining adverbs
   => ((1 4i;1 5i;1 6i);(2 4i;2 5i;2 6i);(3 4i;3 5i;3 6i))
 
 
-([]p:raze (1 2 3),/:\:4 5 6)
-([]p:raze (1 2 3),\:/:4 5 6)
+q)([]p:raze (1 2 3),/:\:4 5 6)
+p
+---
+1 4
+1 5
+1 6
+2 4
+2 5
+2 6
+3 4
+3 5
+3 6
 
 ####example 2
 raze is implemented as raze
