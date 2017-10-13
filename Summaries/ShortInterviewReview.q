@@ -126,12 +126,25 @@ q)
 
 			 ////    @ and .    ////
 
+
+1a) dyadic @ . =>indexing at top level @[L;I] or at depth .[L;I]
+1b) /daɪˈæd.ɪk/ @ . with function => apply @[fMonadic;a], .[fMultiValen;(a1;a2;...)]
+
+2) /traɪ.ædɪk/ @ . => amend in place using monadic f, amend at top level (@) or at depth (.)
+@[L;I;monadicFunc]
+
+3a) 4 args with @ . => amend in place using dyadic f
+@[L;I;dyadicFunc;x]	 /I, x same shape or x atom which will be expanded to the List
+
+3b) 4 args with @ . with function => try catch
+############# 1a)  dyadic @ .
 /INDEXING LISTS, APPLY FOR FUNCTIONS 
 @ /index at top level
 . /indexing at depth
 @[L;I]		 /@[L;0 2] or L[0 2]
 .[L;I]		 /.[L;0 2] or L[0;2]
 
+############# 1b)  dyadic @ .
 @ /apply for mondadic
 . /apply multi valent
 @[f;1 2]		 /f[1 2]
@@ -141,13 +154,11 @@ q)
 f@ON /with niladic f
 f. enlist ON /with niladic f
 
+############# 2)  /traɪ.ædɪk/ @ . => amend in place using monadic f
 /amend, @ top leve, . at depth
 /to modify original list/dict/table refer by name e.g. `L
 f - monadic
 @[L;I;f]
-
-q)@[0 1 2 3 4; 1 2; neg]
-0 -1 -2 3 4
 
 q)@[0 1 2 3 4; 1 2; neg]
 0 -1 -2 3 4
@@ -159,6 +170,7 @@ q)@[`.; `L; 2#]		 /amend in place
 q)L
 0 1
 
+############# 3a) 4 args with @ . => amend in place using dyadic f
 f - dyadic
 @[L;I;f;x]	 /I, x same shape
 / e.g.
@@ -174,6 +186,7 @@ q).[((1 2);(3 4));0 1;+;10]
 1 12
 3 4
 
+############# 3b)
 /protected evaluation
 @[f; arg; expr_fail]
 .[f; L; expr_fail]
