@@ -112,11 +112,16 @@ q)3 0N # til 10
 / i+=1 from c/c++
 i+:1
 
-/create aliases, .z.b shows all set dependencies
-a::x+y
+/create views, .z.b shows all set dependencies
+q)a::x+y
+q)view `a
+"x+y"
 q).z.b
 x| a
 y| a
+q)views[]
+,`a
+q)
 
 
 			 ////    @ and .    ////
