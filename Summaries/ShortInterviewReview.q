@@ -90,9 +90,13 @@ q)3#9
 
 /A list of length 2 specifies the "shape" of the resulting
 /two dimensional matrix (KDB+ 2.3 and above).
-q)2 3#til 6
+q)2 3#til 20
 0 1 2
 3 4 5
+
+q)2 3#til 2
+0 1 0
+1 0 1
 
 /Using a null integer for either part of the "shape"
 /will cause that dimension to be maximal:
