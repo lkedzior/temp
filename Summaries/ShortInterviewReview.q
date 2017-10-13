@@ -170,6 +170,10 @@ q)@[`.; `L; 2#]		 /amend in place
 q)L
 0 1
 
+similar thing with (::) does not work
+q)@[L;(::);2#]
+'type
+
 ############# 3a) 4 args with @ . => amend in place using dyadic f
 f - dyadic
 @[L;I;f;x]	 /I, x same shape
