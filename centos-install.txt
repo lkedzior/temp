@@ -381,3 +381,5 @@ check OMM settings
 sysctl vm.overcommit_memory (/proc/sys/vm/overcommit_memory)
 http://unix.stackexchange.com/questions/136291/will-linux-start-killing-my-processes-without-asking-me-if-memory-gets-short/136294#136294
 
+###### check disks, logical volumes and mountpoint with lsblk command
+install the command if missing
