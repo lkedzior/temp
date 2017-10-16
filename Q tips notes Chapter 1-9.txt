@@ -347,6 +347,13 @@ x-avg x
 if our intention is to assign results back to x we can modify x list in place
 - another way to update a data structure without creating a copy is to use "Index Apply" . or @
 
+NOTE - I don't see speed improvement when measuring time with \ts
+x:`float$til 10000
+\ts:10000 x:x-avg x  //64 131344j
+
+x:`float$til 10000
+\ts:10000 x-:avg x  //62 131232j
+
 4.2 Box-Muller
 
 Q Tip 4.5 Limit control flow statements to a single line (to help with debuginin)
