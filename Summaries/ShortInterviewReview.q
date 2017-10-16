@@ -136,7 +136,7 @@ q)
 3a) 4 args with @ . => amend in place using dyadic f
 @[L;I;dyadicFunc;x]	 /I, x same shape or x atom which will be expanded to the List
 
-3b) 4 args with @ . with function => try catch
+3b) 3 args with @ . with function => try catch
 ############# 1a)  dyadic @ .
 /INDEXING LISTS, APPLY FOR FUNCTIONS 
 @ /index at top level
@@ -170,6 +170,14 @@ q)@[`.; `L; 2#]		 /amend in place
 q)L
 0 1
 
+q).[((1 2);(10 20));0 0;neg]
+-1 2
+10 20
+q).[((1 2);(10 20));(0;0);neg]
+-1 2
+10 20
+q)
+
 similar thing with (::) does not work
 q)@[L;(::);2#]
 'type
@@ -192,7 +200,7 @@ q).[((1 2);(3 4));0 1;+;10]
 
 ############# 3b)
 /protected evaluation
-@[f; arg; expr_fail]
+@[fMonad; arg; expr_fail]
 .[f; L; expr_fail]
 
 
