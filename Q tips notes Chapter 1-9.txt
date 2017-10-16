@@ -978,16 +978,16 @@ Sort Attribute
 - appending an item that invalidates the sorted order will remove the attribute from the list
 - asc operation will apply the `s# automatically
 - `s# adds no memory overhead to the process
-- q never modifies a variable unless we use in-place assighment but behaviour when applying sort attribute is different 
+- q never modifies a variable unless we use in-place assighment but behaviour when applying sort attribute is different e.g.
 
 q)x:til 3
 q)`u#x
 `u#0 1 2
-q)x
+q)x    //x has not changed after applyin `u#
 0 1 2
 q)`s#x
 `s#0 1 2
-q)x
+q)x    //here whe can see x has changed after applying `s#
 `s#0 1 2
 q)
 q)`#x
