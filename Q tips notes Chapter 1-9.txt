@@ -26,7 +26,7 @@ This flexibility adds a runtime penalty as both the function def and variable ty
 
 * Kdb+ processes can be written as event handlers. Without concurrency, all q functions run in a single main thread.
 To enable interaction with other processes q implements the reactor design pattern.
-It demultiplexes the concurrent messages and synchronously inokes callbacks.
+It demultiplexes the concurrent messages and synchronously invokes callbacks.
 Responding to multiple asynchronous events allows kdb+ processes to be used as a Complex Event Processor
 
 
