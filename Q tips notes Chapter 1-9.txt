@@ -777,7 +777,7 @@ Dot notation is more strict than indexing a namespace, it throws an error if a f
 q).stat.missing
 '.stat.missing
 
-Indexing just returns generic null (::)
+Indexing .stat`missing returns generic null (::) not an error
 
 ##############7.2 Tables
 Table is a flipped dictionary of lists
