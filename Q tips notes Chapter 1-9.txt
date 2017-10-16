@@ -680,12 +680,11 @@ q)deltas[first L;L]
 q)
 
 /prev is like right shift?
-q)L:2 3 5 7 11
-q)prev L
-0N 2 3 5 7
-q)prev[0; L]
-0 2 3 5 7
-q)
+
+q)prev 2 3 5 7 11
+->    0N 2 3 5 7
+q)prev[0; 2 3 5 7 11]
+->        0 2 3 5 7
 
 Ranges
 
