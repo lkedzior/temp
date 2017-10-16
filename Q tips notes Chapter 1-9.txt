@@ -1036,6 +1036,12 @@ If not sorted or there are many repeated values we can consider the remaining at
 `g maps the value to a list of indices
 `p maps the value to an index and count
 
+example          overhead            
+`s#2 2 3 sorted  0                   
+`u#2 4 5 unique  16*u                
+`p#2 2 1 parted  (4*u;16*u;4*u+1)    
+`g#2 1 2 grouped (4*u;16*u;4*u+1;4*n)
+
 Unique Attribute
 
 - `u is used with lists that have no duplicate entries
