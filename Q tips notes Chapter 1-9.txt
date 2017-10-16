@@ -1080,7 +1080,8 @@ E.g. `t must be global if for the below to work
 Q Tip 8.4
 Use the `u attribute on dictionary keys to increase perfrormance
 
-By default, looking up a value in a list(and therefore a dictionary) performs a linear search through each of the keys until a match is found. That means that keys at the end of a dictionary will have slower retrieval time than keys at the beginning
+By default, looking up a value in a list(and therefore a dictionary) performs a linear search through each of the keys until a match is found.
+That means that keys at the end of a dictionary will have slower retrieval time than keys at the beginning
 
 * Adding the `u attribute to the keys list changes the lookup method from a linear search to a constant time hashing algorithm.
 * For small dictionaries this may make the lookup slower
