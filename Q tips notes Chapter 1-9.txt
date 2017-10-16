@@ -564,9 +564,9 @@ q).qtips
 a| 1
 q)
 
-Accessing global variables from root directory in another namespace
-value `..a
-`. `.  /juxtaposition
+Once in .qtips directory how do I access global a from `.  ?
+value `.`a
+`. `a  /juxtaposition
 `.[`a] /bracket notation
 `.@`a /index operator "@"
 
