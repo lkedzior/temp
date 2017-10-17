@@ -447,4 +447,20 @@ t:`a`b`c xcol t
 /xcols - reordering the columns
 t:`c3`c2`c1 xcols t
 
+#############################
+null and infinity values
+Integer.MAX_VALUE =  2147483647
+Integer.MIN_VALUE = -2147483648
+0Ni(-2147483648i), -0Wi(-2147483647i), -2147483646i,...,2147483646i, 0Wi(2147483647i)
+q)-2147483647i
+-0Wi
+q)(-2147483647i)-(1i)
+0Ni
+q)0Wi-1i
+2147483646i
+q)0Ni<0Wi
+1b
+
+
+
 
