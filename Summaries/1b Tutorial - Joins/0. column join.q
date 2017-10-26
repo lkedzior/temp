@@ -2,6 +2,10 @@
 /t1,'t2 joins records to records
 t1 ,' t2
 
+//another way to do it is with ^
+t1^t2
+
+
 q)t:([]a:1 2;b:`a`b)
 q)r:([]c:10 20;d:1.2 3.4)
 
