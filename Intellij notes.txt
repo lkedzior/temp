@@ -44,6 +44,9 @@ Navigate -> Forward
 #location of the qcode-intellij.xml
 C:\Users\Lukasz\.IdeaIC2016.2\config\filetypes
 
+#go back to previous tab when closing current one
+https://stackoverflow.com/questions/16336283/intellij-idea-12-return-to-last-active-tab
+
 #Eclipse synteax colours
 Follow the blog
 https://blog.raychenon.com/2014/07/27/how-to-change-ui-theme-on-intellij-and-android-studio/
