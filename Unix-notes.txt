@@ -75,3 +75,9 @@ add fields - press f
 sort by fields - press shift f
 sort by mem, add last use cpu filed
 save - press W in the main display
+
+show all threads/tasks of your process
+-H from command line or 'H" while top is running
+
+show the CPU usage broken by all cores
+press 1 while top is running
