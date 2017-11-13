@@ -88,7 +88,7 @@ That's why a lot of operators is overloaded
 
 {} braces or curly brackets
 [] brackets
-() 
+() /pəˈrɛnθɪsɪs/
 
 () are not used for function invocation
 f(1;2;3) creates a list and does f[(1;2;3)]
