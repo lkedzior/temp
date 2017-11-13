@@ -93,7 +93,8 @@ That's why a lot of operators is overloaded
 () are not used for function invocation
 f(1;2;3) creates a list and does f[(1;2;3)]
 
-#Operator precendence - there is non , statements evaluated from right to left
+
+#Operator precendence /ˈprɛsɪd(ə)ns,prɪˈsiːd(ə)ns/ - there is none, statements evaluated from right to left
 (2*3)+4 -> 4+2*3
 () are used to enforce operator precedence
 
