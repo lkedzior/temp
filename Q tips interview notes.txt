@@ -32,3 +32,36 @@ Once EOF is reached, the process will terminate
 
 echo '1 "hello world\n";' | q
 hello world
+
+2.3 Syntax Rules
+() are not used for function invocation
+f(1;2;3) creates a list and does f[(1;2;3)]
+
+##Leading whitespaces
+q continues to accumulate text for parsing until it finds anohter command starting flush left (no leading whitespaces)
+- if we forget to indent every line of a function and q parser encounters a line that is flush left,
+it assumes a new definitiona has begun (our unction will be incomplete).
+
+#############################Chapter3
+- kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
+once the type has been checked, performing arithementic oprations on uniform lists can be implemented in highly optimized C or assembly code
+
+Using set/get to dynamically assign/access variables (where name is only known at runtime)
+ This works only for global variables
+ 
+#All monadic k operators has been given a keyword in q e.g.
+q)first
+*:
+
+internal K structure is 16 bytes (this is for non numberic data like guid)
+8 bytes for metadata type,reference count, attributes
+8 bytes to store an atom
+
+#################Chapter 4 Functions #########################
+Functions
+-  can have 1-8 arguments
+- niladic functions are called with (::) assigned to the x parameter, x is silently ignored
+- void functions return (::)
+- functions can modify global state, avoid this, the good practice is to design the functions so that
+  - data that needs to be modified is passed as an arg
+  - modified values is passed back as a return value from the function
