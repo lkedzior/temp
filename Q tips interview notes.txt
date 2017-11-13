@@ -1,1 +1,34 @@
+With q, analytics can be sent to the data.
 
+When the results of a vactor operation are used as the inputs of the next operation,
+all the data stored in the CPU's memory cache can be accessed immediately without needing
+to search in the slower/larger caches or even the slowest and largest RAM memory located on the motherboard.
+
+1.3 Programming Paradigms
+* Q is interpreted because it requires no compilation phase.
+ALL FUNCTIONS are compiled into bytecode at run time.
+Definitions are compiled at startup and are lazily resolved.
+They must be syntactically correct at startup, but the ordering of compilation is not important.
+
+//Chapter 2
+QHOME is needed to load q.k correctly
+
+q needs k4.lic, by default it looks in the same dir as q.k
+QLIC env variable can be usde to customise this
+
+Q then loads q.q from QHOME
+QINIT can be used to customise the init file
+
+//2.2 Basics
+
+#q as shebang script
+#!/$QHOME/$QARCH/q
+we can run ./script.q without referencing q binaries
+
+#Redirecting the output from a separate process
+When q is started interactively (q console), input is read from the STDIN file handle which is attached to the terminal.
+If we redirect the output from a separate process into q's STDIN, it will accept commands from that process instead.
+Once EOF is reached, the process will terminate
+
+echo '1 "hello world\n";' | q
+hello world
