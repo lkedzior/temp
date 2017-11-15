@@ -185,3 +185,13 @@ NAMESPACES vs DIRECTORIES
 - partitioned databases can not be loaded into directories
 
 SCOPE FUNCTIONS WITH DIRECTOREIS BUT DATASETS WITH NAMESPACES
+
+
+Q Tip - Multiply instead of divide
+e.g. 0.5*... instead of %2
+
+- q has implemented vector division by an atom as multiplication by the atom's reciprocal /rI'sIpr.k.l/
+- when comparing floating numbers q is using equility with tolerance
+- two floating point numbers are considered equal if the abs difference is < than 2^-43 * larger number
+- The only number equal to zero is 0
+- to test for equality without tolerance ALWAYS compare with 0
