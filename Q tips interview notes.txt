@@ -114,3 +114,8 @@ if our intention is to assign results back to x we can modify x list in place
 ########Throwing Exceptions
 '`myError  /using symbol
 '"myError" /using strings
+
+Vector conditional
+?[;;]
+- accepts a boolean or a list of booleans
+- evealutate both y and z (unlikely the $ operator)
