@@ -272,8 +272,8 @@ q)-6+sum 12?1f
 Function parameters
 - if we reference autmatic variable 'z' in the code then funciton will defined as 3 args func even if we don't reference x or y
 - Explicitly defining function parameters prevents automatic variables (x y z) from being created
-- monadic functions can be called without []
-- build in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unlsess they are added to the .q namespace)
+- monadic functions can be called without [] e.g. f`
+- build-in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unlsess they are added to the .q namespace)
 - similarly to monadic functions, List and dictionaries can be indexed without [] brackets as well
 This is called Juxtaposition
 
