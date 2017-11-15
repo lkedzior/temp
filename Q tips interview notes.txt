@@ -137,3 +137,51 @@ q)` vs `:/tmp/dir1/dir2
 `:/tmp/dir1`dir2
 q)
 
+
+##########Namespaces#########
+q)qtips.a:1
+q)qtips.b:2
+q)\v qtips
+`s#`a`b
+q)qtips
+ | ::
+a| 1
+b| 2
+q)
+
+It is just a mapping/dictionary, ` -> :: is added automatically for us
+The root namespace (value `.) is designed for data
+There is another type of namespace that is designed for functions and related configuration data
+These special namespaces are called directories and begin with a single dot "."
+
+directory .qtips.a:1 vs namespace qtips.a:1
+
+with directories we can change directory with the directory \d command
+q)\d .qtips
+q.qtips)a:1
+q.qtips)\d .
+q).qtips
+ | ::
+a| 1
+
+Once in .qtips directory how do I access global a from `.  ?
+value `.`a
+`. `a  /juxtaposition
+`.[`a] /bracket notation
+`.@`a /index operator "@"
+
+a global var is created if we define namespace or directory from within a function
+q){abc.a:10}[]
+q)abc
+ | ::
+a| 10
+q)
+
+NAMESPACES vs DIRECTORIES
+- all directories are namespaces (namespaces are not directories)
+- q was designed to store data in namespaces not directories
+- directories can not contain views
+- automatic logging with the -l flag only records data updated in the root directory
+- partitioned databases can not be loaded into directories
+
+SCOPE FUNCTIONS WITH DIRECTOREIS BUT DATASETS WITH NAMESPACES
