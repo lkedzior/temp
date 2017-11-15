@@ -119,3 +119,21 @@ Vector conditional
 ?[;;]
 - accepts a boolean or a list of booleans
 - evealutate both y and z (unlikely the $ operator)
+
+Q Tip 5.1 Build path names by joining symbols, not character vectors
+` sv separates symbols with "."
+q)` sv `a`b`c
+`a.b.c
+
+` sv can separate symbols with / to create a file path
+Joining a list of symbols whose first element is a hndle creates a single file path (it will have platform specific separator)
+q)` sv `:/tmp`dir1`dir2`file.txt
+`:/tmp/dir1/dir2/file.txt
+
+vs creates a directory handle and trailing file or subdirector
+q)` vs `:/tmp/dir1/dir2/file.txt
+`:/tmp/dir1/dir2`file.txt
+q)` vs `:/tmp/dir1/dir2
+`:/tmp/dir1`dir2
+q)
+
