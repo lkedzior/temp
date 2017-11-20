@@ -108,6 +108,7 @@ tick:{
   if[not min(`time`sym~2#key flip value@)each t;'`timesym];
   @[;`sym;`g#]each t;
   d::.z.D;
+  //that's kx way to run tick without a tp log file (if y is "" then we don't use tp log file)
   if[l::count y;L::`$":",y,"/",x,10#".";l::ld d]
  };
 
