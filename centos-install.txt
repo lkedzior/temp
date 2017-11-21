@@ -272,6 +272,7 @@ And put in the value you desire, such as:
 vm.swappiness=0
 
 #########Increase limit of open files
+https://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
 https://naveensnayak.wordpress.com/2015/09/17/increasing-file-descriptors-and-open-files-limit-centos-7/
 #check limit ulimit -n
 
@@ -282,6 +283,8 @@ On older red hat / centos distribution the fx.file-max limit is set with this fi
 cat  /proc/sys/fs/file-max
 78452005
 
+to check the current value 
+sysctl -a | grep file
 
 We also need to increase hard and soft limits
 Edit /etc/security/limits.conf add the below lines before the #End, save and exit
