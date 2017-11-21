@@ -278,6 +278,11 @@ https://naveensnayak.wordpress.com/2015/09/17/increasing-file-descriptors-and-op
 To increase edit nano /etc/sysctl.conf add the below line, save and exit  (that's total number by all users?)
 fs.file-max = 100000
 
+On older red hat / centos distribution the fx.file-max limit is set with this file
+cat  /proc/sys/fs/file-max
+78452005
+
+
 We also need to increase hard and soft limits
 Edit /etc/security/limits.conf add the below lines before the #End, save and exit
 
@@ -293,6 +298,7 @@ from man pages
               as filename means reading data from standard input.  Using this  option  will  mean  arguments  to
               sysctl are files, which are read in the order they are specified.  The file argument may be speci‐
               fied as regular expression.
+
 
 
 ###########################installing NTP daemon
