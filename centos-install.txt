@@ -272,6 +272,37 @@ And put in the value you desire, such as:
 vm.swappiness=0
 
 #########Increase limit of open files
+https://www.cyberciti.biz/faq/linux-increase-the-maximum-number-of-open-files/
+
+//100000 files normal user can have open in single login session
+[fxq@riverside1:~] cat /proc/sys/fs/file-max
+100000
+
+To change this permanently edit sysctl.conf and add below line
+[fxq@riverside1:~] grep file /etc/sysctl.conf
+fs.file-max = 100000
+
+Save and close the file. Users need to log out and log back in again to changes take effect or just type the following command:
+# sysctl -p
+Verify your settings with command:
+# cat /proc/sys/fs/file-max
+
+User Level FD Limits
+The above procedure sets system-wide file descriptors (FD) limits. However, you can limit user to specific limits by editing /etc/security/limits.conf file, enter:
+# vi /etc/security/limits.conf
+
+[fxq@riverside1:~] grep nofile /etc/security/limits.conf
+#        - nofile - max number of open file descriptors
+* soft nofile 65535
+* hard nofile 65535
+
+//verify hard and soft values
+[fxq@riverside1:~] ulimit -Hn
+65535
+[fxq@riverside1:~] ulimit -Sn
+65535
+
+
 https://serverfault.com/questions/122679/how-do-ulimit-n-and-proc-sys-fs-file-max-differ
 https://naveensnayak.wordpress.com/2015/09/17/increasing-file-descriptors-and-open-files-limit-centos-7/
 #check limit ulimit -n
@@ -292,15 +323,7 @@ Edit /etc/security/limits.conf add the below lines before the #End, save and exi
 * soft nofile 65535
 * hard nofile 65535
 
-Next run the command
-sysctl -p
 
-from man pages
- -p[FILE], --load[=FILE]
-              Load  in  sysctl settings from the file specified or /etc/sysctl.conf if none given.  Specifying -
-              as filename means reading data from standard input.  Using this  option  will  mean  arguments  to
-              sysctl are files, which are read in the order they are specified.  The file argument may be speci‐
-              fied as regular expression.
 
 
 
