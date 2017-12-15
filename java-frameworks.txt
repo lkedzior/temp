@@ -1,0 +1,6 @@
+
+https://github.com/OpenHFT
+https://github.com/OpenHFT/Chronicle-Queue (memory mapping queues)
+
+//queue collections (e.g. unordered queue)
+https://github.com/JCTools/JCTools
