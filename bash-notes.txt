@@ -6,3 +6,8 @@ NON-INTERACTIVE mode loads .bashrc only, .bash_profile is not loaded
 
 What we normally want is to give interactive users same shell as we have for bashrc (bash remote controlled)
 so we do load .bashrc from .bash_profile
+
+
+to test this
+ssh user:host # interactive mode .bash_profile
+ssh user:host : # : here is used as empty command and should enambe rc(remote command / non interactive mode .bashrc)
