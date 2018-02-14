@@ -1,0 +1,8 @@
+When connecting from putty to a server
+Or ssh user@host to a server we start INTERACTIVE session (.bash_profile is loaded)
+
+When we do 'ssh user@host command' we run the command in NON-INTERACTIVE mode
+NON-INTERACTIVE mode loads .bashrc only, .bash_profile is not loaded
+
+What we normally want is to give interactive users same shell as we have for bashrc (bash remote controlled)
+so we do load .bashrc from .bash_profile
