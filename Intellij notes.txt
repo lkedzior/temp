@@ -57,3 +57,7 @@ E.g. http://color-themes.com/?view=theme&id=563a1a6b80b4acf11273ae67
 
 Import to IntelliJ or Android Studio by going to File -> import settings -> and select the  .jar file you downloaded.
 Select All . press OK. Then Restart your IDE.
+
+#Configure line separator for new files
+https://www.jetbrains.com/help/idea/configuring-line-separators.html
+settings -> Editor -> Code Style -> Line separator
