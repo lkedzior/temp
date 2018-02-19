@@ -37,6 +37,7 @@ userGwFunc:{[user syms cols etc]
   :res
  };
 
+SEE CHARLES' SOLUTION SENT TO K4 ON 2018.02.16
 
 //using -30! in the gateway
 //multiple clients can connect to gw at the same time using sync mode
