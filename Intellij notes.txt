@@ -61,3 +61,19 @@ Select All . press OK. Then Restart your IDE.
 #Configure line separator for new files
 https://www.jetbrains.com/help/idea/configuring-line-separators.html
 settings -> Editor -> Code Style -> Line separator
+
+
+######################intellij color schema changes ##################
+Settings->Editor->Color Scheme
+Choose Language Defaults
+Keyword: 7F0055 (127 0 85)
+
+String: 2800FF (42 0 255)
+
+Line comment
+3F7F5F (63 127 95)
+
+Choose Custom, (you can use Tick User inherited attributes and use Langugage Defaults)
+aKeyword1: 7F0055 (127 0 85)
+
+######################
