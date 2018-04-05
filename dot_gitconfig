@@ -1,0 +1,10 @@
+[user]
+	email = lukasz.kedzior@gmail.com
+	name = Lukasz Kedzior
+[core]
+	excludesfile = ~/.gitignore_global
+	autocrlf = input
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
