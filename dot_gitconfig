@@ -2,7 +2,7 @@
 	email = lukasz.kedzior@gmail.com
 	name = Lukasz Kedzior
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore
 	autocrlf = input
 [filter "lfs"]
 	required = true
