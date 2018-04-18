@@ -77,3 +77,8 @@ Choose Custom, (you can use Tick User inherited attributes and use Langugage Def
 aKeyword1: 7F0055 (127 0 85)
 
 ######################
+
+
+#### grouping projects
+https://intellij-support.jetbrains.com/hc/en-us/community/posts/115000758044-can-t-create-a-modules-group
+Use qualified names e.g. java.projA java.projB kdb.projA for module names
