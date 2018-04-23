@@ -1,3 +1,9 @@
+#cygwin packages
+1) git: Distributed version control system
+2) vim Vi Improved enhanced vi editor
+3) chere package
+4) rsync from Net Category
+5) openssh from Net Category (server and client programs)
 
 
 .bashrc
