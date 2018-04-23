@@ -1,0 +1,6 @@
+#Fan issue on 8th gen laptops
+https://www.youtube.com/watch?v=8ay13H6NEJo
+Goto Control Panel > Hardware and Sound > Power Options
+Change Plan Settings
+Change advanced power setings
+Processor power management
