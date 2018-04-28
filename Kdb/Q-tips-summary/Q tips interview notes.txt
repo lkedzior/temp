@@ -38,22 +38,22 @@ hello world
 f(1;2;3) creates a list and does f[(1;2;3)]
 
 ##Leading whitespaces
-q continues to accumulate text for parsing until it finds anohter command starting flush left (no leading whitespaces)
+q continues to accumulate text for parsing until it finds another command starting flush left (no leading whitespaces)
 - if we forget to indent every line of a function and q parser encounters a line that is flush left,
-it assumes a new definitiona has begun (our unction will be incomplete).
+it assumes a new definition has begun (our function will be incomplete).
 
 #############################Chapter3
 - kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
-once the type has been checked, performing arithementic oprations on uniform lists can be implemented in highly optimized C or assembly code
+once the type has been checked, performing arithmetic operations on uniform lists can be implemented in highly optimized C or assembly code
 
-Using set/get to dynamically assign/access variables (where name is only known at runtime)
+Using set/get to dynamically assign/access global variables (where name is only known at runtime)
  This works only for global variables
  
 #All monadic k operators has been given a keyword in q e.g.
 q)first
 *:
 
-internal K structure is 16 bytes (this is for non numberic data like guid)
+internal K structure is 16 bytes (this is for non numeric data like guid)
 8 bytes for metadata type,reference count, attributes
 8 bytes to store an atom
 
@@ -67,16 +67,17 @@ Functions
   - modified values is passed back as a return value from the function
 
 Function parameters
-- if we reference autmatic variable 'z' in the code then funciton will defined as 3 args func even if we don't reference x or y
+- if we reference automatic variable 'z' in the code then function will defined as 3 args func even if we don't reference x or y
 - Explicitly defining function parameters prevents automatic variables (x y z) from being created
 - monadic functions can be called without [] e.g. f`
-- build-in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unlsess they are added to the .q namespace)
+- build-in q dyadic functions can use in-fix notation (x op y), this does not work for user functions
+(unless they are added to the .q namespace)
 - similarly to monadic functions, List and dictionaries can be indexed without [] brackets as well
 This is called Juxtaposition
 
 ############## Reference Counts #################
 * Q copies, assigns, and passes variables by reference
-* All references point to the same underlying data structure until a modification is attmepted
+* All references point to the same underlying data structure until a modification is attempted
 * Once a modification is made, new memory is allocated and the underlying structure is copied
 * Any references to the original value remains unaltered
 * This model is known as copy-on-write
@@ -118,7 +119,8 @@ if our intention is to assign results back to x we can modify x list in place
 Vector conditional
 ?[;;]
 - accepts a boolean or a list of booleans
-- evealutate both y and z (unlikely the $ operator)
+- evaluates both y and z (unlikely the $ operator)
+I guess this make sense, evaluation just one would work only for all 1s or all 0s case
 
 Q Tip 5.1 Build path names by joining symbols, not character vectors
 ` sv separates symbols with "."
@@ -126,11 +128,11 @@ q)` sv `a`b`c
 `a.b.c
 
 ` sv can separate symbols with / to create a file path
-Joining a list of symbols whose first element is a hndle creates a single file path (it will have platform specific separator)
+Joining a list of symbols whose first element is a handle creates a single file path (it will have platform specific separator)
 q)` sv `:/tmp`dir1`dir2`file.txt
 `:/tmp/dir1/dir2/file.txt
 
-vs creates a directory handle and trailing file or subdirector
+vs creates a directory handle and trailing file or subdirectory
 q)` vs `:/tmp/dir1/dir2/file.txt
 `:/tmp/dir1/dir2`file.txt
 q)` vs `:/tmp/dir1/dir2
@@ -179,19 +181,19 @@ q)
 
 NAMESPACES vs DIRECTORIES
 - all directories are namespaces (namespaces are not directories)
-- q was designed to store data in namespaces not directories
-- directories can not contain views
+- q was designed to store data in namespaces not directories (directories are for functions and related configuration)
+- directories can not contain views (namespaces can!)
 - automatic logging with the -l flag only records data updated in the root directory
 - partitioned databases can not be loaded into directories
 
-SCOPE FUNCTIONS WITH DIRECTOREIS BUT DATASETS WITH NAMESPACES
+SCOPE FUNCTIONS WITH DIRECTORIES BUT DATASETS WITH NAMESPACES
 
 
 Q Tip - Multiply instead of divide
 e.g. 0.5*... instead of %2
 
 - q has implemented vector division by an atom as multiplication by the atom's reciprocal /rI'sIpr.k.l/
-- when comparing floating numbers q is using equility with tolerance
+- when comparing floating numbers q is using equality with tolerance
 - two floating point numbers are considered equal if the abs difference is < than 2^-43 * larger number
 - The only number equal to zero is 0
 - to test for equality without tolerance ALWAYS compare with 0
@@ -201,8 +203,12 @@ q).Q.addmonths[.z.d;0 2]
 
 if we have a list of pairs we can create dictionary
 (!) . flip pairs
+q)(!) . flip ((`a;10);(`b;20))
+a| 10
+b| 20
 
-By default, a binary q operator, such as "!" is an infix dyadic verb. That is, it must be surrounded by left and right operands or called with bracket notation.
+By default, a binary q operator, such as "!" is an infix dyadic verb.
+That is, it must be surrounded by left and right operands or called with bracket notation.
 To pass it as an argument to the dot apply operator ".", we must convert it into a noun.
 - a verb must be passed a noun as an argument
 - a noun can be passed as an argument to a verb
@@ -212,7 +218,8 @@ Aggregate functions can be applied to the dictionary's values but the results ar
 q)avg dict
 103.78
 
-ICTIONARY LOOKUPS ARE PERFORMED BY ITERATING OVER EACH KEY ELEMENT UNTIL AN EXACT MATCH IS FOUND and the coresponding value is then returned.
+DICTIONARY LOOKUPS ARE PERFORMED BY ITERATING OVER EACH KEY ELEMENT UNTIL AN EXACT MATCH IS FOUND
+and the corresponding value is then returned (only the first match is returned).
 
 Q Tip 7.1 Ensure dictionary keys are unique
 - it is possible to introduce duplicate keys
