@@ -12,11 +12,11 @@ Chapter 10
 
 Nulls and Infinities
 All (but two) Numerical and temporal data types have defined values for null and positive and negative infinity.
-Kdb uses the smllest value for null
+Kdb uses the smallest value for null
 The next smallest value for negative infinity
 The largest value is used for positive infinity
 
-We can see underlying represenations when integer overflows
+We can see underlying representations when integer overflows
 q)0Wi + (1 2 3 -1 0i)
 0N -0W -2147483646 2147483646 0Wi
 
@@ -38,7 +38,8 @@ Aggregate functions tend to ignore them.
 q)avg 1 2 0N
 1.5
 
-But when computing an average of a list of vectors, it's not possible to ignore just a few null elements, in this case, the nulls propagate
+But when computing an average of a list of vectors, it's not possible to ignore just a few null elements,
+in this case, the nulls propagate
 q)avg (1 2 0N; 3 0N 5) /avg on matching indicies
 2 0n 0n
 
@@ -52,7 +53,7 @@ q)0 1 ^ (1 2 0N; 3 0N 5)
 fills - this one can be used to fill a list with last known value (fills forward)
 
 
-Imprementing a Timer Utility
+Implementing a Timer Utility
 
 .dot apply operator "."
 e.g. upsert
@@ -81,9 +82,11 @@ q)
 
 Kdb+ uses a memory pool to allow memory to be quickly reserved and freed.
 When more memory is needed than exists in the pool/heap, kdb+ will allocate additional multiples of 64MB blocks.
+e.g in 3.5 we see increases by 64MB each time
 The current size of heap/pool is second field
 heap| 67108864  
-When we run .Q.gc we can reduce the current heap size (it's done automatically if we use -g 1) and free some memory to the operating system.
+When we run .Q.gc we can reduce the current heap size (it's done automatically if we use -g 1)
+and free some memory to the operating system.
 
 When the process memory limit has been reached, q will coalesce /kəʊ.əˈles/ blocks of unused memory available in the pool/heap
 that are at least 64MB, and return them back to operating system. Kdb+ then tries to allocate the requested block of memory,
@@ -112,7 +115,7 @@ We need to wrap it with (::) when performing operations to prevent it from being
 W tip 1.1. Return null from update-only functions
 Returning a null value prevents q from having to reference count the returned value.
 
-In addition, when such a function is executed with a call to each, returning a null value prevents q from allocating memory to save the result vecotr. 
+In addition, when such a function is executed with a call to each, returning a null value prevents q from allocating memory to save the result vector.
 
 The return value for an event callback function (like upd) should not return anything
 
@@ -141,7 +144,7 @@ A positive port number starts kdb in single threaded mode i.e. each client conne
 and modifications to internal data structured are allowed.
 
 Q Tip 11.3 Use negative port to make kdb+ read-only
-A negative port number, puts the server into multi-threaded input queue mode in whcih
+A negative port number, puts the server into multi-threaded input queue mode in which
 queries can be handled simultaneously.
 To ensure high performance, kdb+ does not lock data structures.
 Allowing multiple simultaneus client queries must therefor require each client to have a read-only view of the data.
@@ -149,7 +152,7 @@ This can be used to our advantage if we want to prevent clients from modifying o
 One drawback of multi-threaded mode is that views can not recompute within a client query.
 Doing so would modify the internal state of the server.
 
-To alow the operating system to diynamically allocate the next available port,
+To allow the operating system to dynamically allocate the next available port,
 positive and negative infinity 0W may also be used. We can then use \p to retrieve the allocated port.
 
 11.3 Text Files
@@ -162,7 +165,7 @@ q)("JSF*";1#",") 0: `:ref.csv
 /we can have less types than columns (most right columns are not loaded in that case)
 
 string vs symbol
-symbols enables text equility tests to be performed with a single pointer comparison
+symbols enables text equality tests to be performed with a single pointer comparison
 
 Symbols are stored in a global map and never deleted.
 Strings however, once all references to a character vector are lost, the memory is recovered.
@@ -185,7 +188,7 @@ Data is returned as nested list so we need to flip `mycol`mycol2! (...)
 11.4
 main
 Q Tip 11.8 Initialize programs and libraries with a function call
-Having all the process code inside a 'main' function makes it easy for debuging.
+Having all the process code inside a 'main' function makes it easy for debugging.
 We can start a process with -debug 1, process will load all the code needed but not run it
 So we can debug line by line
 
@@ -207,9 +210,10 @@ Authentication Username and Password
 A username and password are sent (in clear text) during the initial handshake with clients.
 It is up to the server to decide if the values should be checked and if are acceptable to allow a connection
 
-The values are ignored by default, to enable the check we need to start q process with a -u flag followed by the name of the password file
+The values are ignored by default, to enable the check we need to start q process with a -u flag
+followed by the name of the password file
 
-The password can either be in clear text or encoded with the md5 hasing function
+The password can either be in clear text or encoded with the md5 hashing function
 
 q -u ../passwords.txt -p 5001
 
@@ -221,7 +225,7 @@ neg[h] "line1";  /negative file handle will add trailing new line
 
 
 ##########
-hopen for networ
+hopen for network
 
 q)hopen `::  /connect to itself
 0i          /0 can be used as if it was a connection to a separate process, only the async calls are not allowed ...neg[0]
@@ -232,7 +236,8 @@ q)hopen `::
 It is possible to supply a connection timeout
 hopen (`::5001;100) /timeout 100ms
 
-If the password file could be modified from within q, the security of the process would be compromised (users could append to the password file)
+If the password file could be modified from within q, the security of the process would be compromised
+(users could append to the password file)
 To prevent this, the -u command line argument also limits file modification to only those files below the starting directory
 (Is it why RDB has to cd to HDB root to perform savedown)
 
@@ -255,11 +260,13 @@ Kdb allows to dissable this restriction by using the -U instead of -u
 
 #########post -u authentication events
 After q performs the -u file based authentication, it triggers two events which allowe furher customization
-First, the ac - authentication cookie .z.ac event allows us to use corporate single sign-on infrastructure to permission a client based on a HTTP cookie.
+First, the ac - authentication cookie .z.ac event allows us to use corporate single sign-on infrastructure
+to permission a client based on a HTTP cookie.
 
 This callback is only called when HTTP requests are made.
 
-If this event is not customized, or if a TCP socket connection is established, the password .z.pw event is called with two arguments:
+If this event is not customized, or if a TCP socket connection is established,
+the password .z.pw event is called with two arguments:
 the username passed as a symbol
 and the password passed as a string
 
@@ -319,7 +326,8 @@ If an error is encountered during deserialization, a `badmsg error is thrown.
 To help debug ill-formed network messages, kdb+ allows us to customize the bad message .z.bm callback
 Prior to printing the `badmsg error, .z.bm is called with the bad byte vector. You can print the vector or save it for future inspection.
 
-During the processing of client queries, whether from STDIN, or from a client handle, there is a posibility that a global variable is modified.
+During the processing of client queries, whether from STDIN, or from a client handle,
+there is a posibility that a global variable is modified.
 When such an event occurs, the Value Set .z.vs event is triggered.
 The event is passed two parameters: the name of the modified variable as well as a list of indices that were modified.
 In the case of a full assignment, as opposed to a partial amend, the second parameter is passed the empty list().

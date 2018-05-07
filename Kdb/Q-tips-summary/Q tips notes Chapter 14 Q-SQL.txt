@@ -1,6 +1,6 @@
 Q-SQL
-Manyoperations available in q-sql can also be done with q operators, but since q-sql syntax is quite strict, q can use
-a combination of lookaheads and parallelism to optimize queries on large datasets.
+Many operations available in q-sql can also be done with q operators, but since q-sql syntax is quite strict, q can use
+a combination of lookaheads and parallelism to optimize queries on large data sets.
 
 select id,date,px:price from t
 
@@ -12,7 +12,7 @@ Kdb+ is a column oriented database, and as such, columns are contiguous blocks o
 A reference to a column is kept until the data is modified. When this occurs, q creates a full copy of the data.
 
 where clauses
-The clauses are each applied form left to righ
+The clauses are each applied form left to right
 each clause is evaluated from right to left
 
 only the rows that are selected by the first clause are passed for evaluation to the second clause and so on. 
@@ -22,7 +22,7 @@ Using the and operator in where clause loses the short-circuit features of ","
 
 In contrast, there is no short-circuit syntax for queries looking for rows that match either one condition or another
 
-Q Tip 14.3 Use De Morgan's Laws to optimizewhere clauses
+Q Tip 14.3 Use De Morgan's Laws to optimize where clauses
 select from t where (id=1) or date.month=2000.02m
 
 Laws
@@ -45,10 +45,10 @@ If a condition relies on the result of a uniform or aggregate function, it must 
 All remaining clauses should only use atomic functions(atomic function retuns a list when called with a list).
 If a second condition uses uniform or aggregate functions, the resulting table will not match the original query
 
-Atomic - A functin that returns an atom when called with an atom, and a list when called with a list.
+Atomic - A function that returns an atom when called with an atom, and a list when called with a list.
 The return values for a given argument is always the same, regardless if it was called as an atom or a member of a list.
 
-Uniform - Liake an atomic function, but when called with a list, the results depend on other elements within the list.
+Uniform - Like an atomic function, but when called with a list, the results depend on other elements within the list.
 The results are therefore not the same as calling the function individually on each element of the list.
 
 Delete statement can also be used to remove columns
@@ -57,7 +57,7 @@ We can't issue a delete statement with both columns and rows specified.
 q)delete id from t where date.month=2000.02m
 'nyi
 
-'nyi (not yet implemented) indicates that the implemenation is in some way controversial.
+'nyi (not yet implemented) indicates that the implementation is in some way controversial.
 
 #######################Update
 
@@ -67,9 +67,9 @@ select id, date from t => `id`date#t
 
 select from t where date.month=2000.02m => t where 2000.02m="m"$t`date
 
-update func[price] from t => @t[`price;func]
+update func[price] from t => @[t;`price;func]
 
-but implementing the by cluse is a bit more involved.
+but implementing the by clause is a bit more involved.
 
 select avg price by id from t
 
@@ -79,10 +79,10 @@ The by clause performs three actions
 1) groups the data using the columns in the by clause
 2) Iterates over each group(distinct value) and applies our function
 3) Final step depends on whether we used a select or update
-select - will sort the results
-update - will align the results to match the location of the original layout
+select - will sort the results (returns keyed table)
+update - does not return a keyed table, will align the results to match the location of the original layout
 
-e.g. only one entry with id=0 in the select case
+e.g. notice only one raw with id=0 in the select results
 and multiple entries with id=0 in the update case (result of update by is not keyed table)
 
 q)t
@@ -112,13 +112,7 @@ id date       price    ret
 0  2000.01.04 98.0201  -0.01003867
 ...
 
-The results of the select query have the `s# or `p# attribute on the first columnn
-q)meta select avg price by id from t
-c    | t f a
------| -----
-id   | j   s
-price| f
-q)
+The results of the select query have the `s# or `p# attribute on the first column
 
 q)meta select avg price by id from t
 c    | t f a
@@ -148,18 +142,18 @@ and uniform function for update by
 dot notation
 by date.week
 by `week$date
-The functionality is the same but you will notice q changes the column name wehn dot notation is used.
+The functionality is the same but you will notice q changes the column name when dot notation is used.
 In either case you can choose the column name yourself
 
 dot notation extracts a "sub" type
 
-But we cast to integers too
+We can cast to integers too
 All integer casts
 q)`year`mm`dd`hh`uu`ss$\:2001.09.11D08:46
 2001 9 11 8 46 0i
 q)
 
-dot notation can be used on global variables
+dot notation can be used on global variables only
 q)tm:0D
 q)tm.minute
 00:00
@@ -194,7 +188,7 @@ select by id from t  //simpler query increased performance
 ###########################Exec
 select is special case of exec
 select always return table
-exec can return atom, list ditionary, table
+exec can return atom, list dictionary, table
 
 /atom
 q)exec first price from t
@@ -214,7 +208,8 @@ id   | 0          0          0          0          0          0          0   ..
 date | 2000.01.01 2000.01.02 2000.01.03 2000.01.04 2000.01.05 2000.01.06 2000..
 price| 100        98.99257   99.00905   98.0201    97.22984   97.22211   97.4..
 
-The select statement is a layer around exec that, in addition to providing optimizations for querying large historical databases, flips the result of exec.
+The select statement is a layer around exec that, in addition to providing optimizations for querying large historical databases,
+flips the result of exec.
 
 q)flip exec id,date,price from t
 id date       price
@@ -315,9 +310,9 @@ date      | 0   1   2
 2000.01.03| 105 103 100
 2000.01.04| 104 106 98
 
-Q Tip 14.8 Only transorm tables into pivot tables for presenation
+Q Tip 14.8 Only transform tables into pivot tables for presentation
 
-Generating or a pivot table should be one of the last steps in any analysis. Adding an extra summary column and row at the end
+Generating of a pivot table should be one of the last steps in any analysis. Adding an extra summary column and row at the end
 and bottom of the table is probably the only adjustment we are likely to make to our pivot table.
 
 When deciding which field to place in the column headers (date or id?)) - we should place the field with the fewest distinct items tin te column headers (so id not date)
@@ -365,7 +360,7 @@ date      |
 
 That's why we must endure each dictionary has the same number, and ordering, of elements.
 
-We can do this by first construting a unique list of ids and then use take operator on the dictionary so that
+We can do this by first constructing a unique list of ids and then use take operator on the dictionary so that
 null is returned for missing cases
 
 q)u:`$string distinct t`id
@@ -393,8 +388,12 @@ To sort by multiple columns
 /sort descending by date but ascending by ID
 q)select[>([]date;neg id)] from t
 
-/we can combine the row selectio and sorting
-
+/we can combine the row selection and sorting
+q)select[5 5;>([]date;neg id)] from t
 
 #######################fby
-q)select[5 5;>([]date;neg id)] from t
+
+How to select rows from a table with max price per symbol?
+
+########################Using q-SQL on Dictionaries (update & delete, select?)
+
