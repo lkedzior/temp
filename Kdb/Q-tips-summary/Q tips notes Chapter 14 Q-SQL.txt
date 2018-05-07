@@ -393,7 +393,50 @@ q)select[5 5;>([]date;neg id)] from t
 
 #######################fby
 
-How to select rows from a table with max price per symbol?
+How to select rows from a table with max price for each symbol?
+
+q)t:([]sym:`aaa`aaa`aaa`bbb;date:.z.d;price:10 10 9 100)
+q)t
+sym date       price
+--------------------
+aaa 2018.05.07 10
+aaa 2018.05.07 10
+aaa 2018.05.07 9
+bbb 2018.05.07 100
+
+We could sort the table by price and select last row by sym
+
+q)select by sym from `price xasc t
+sym| date       price
+---| ----------------
+aaa| 2018.05.07 10
+bbb| 2018.05.07 100
+q)
+
+but it is possible to ahieve the same much more efficiently without sorting with fby
+q)select from t where 0=(rank;neg price) fby sym
+
+The rank operator provides the ordinal ranking of a list where the smallest value receives a rank of 0
+q)rank 1 1 2 2 3
+0 1 2 3 4
+q)rank 3 1 1 2 2
+4 0 1 2 3
+
+It is also possible to rank values/list between a min and max rank
+e.g. max ran is 5
+
+q)5 xrank til 10
+0 0 1 1 2 2 3 3 4 4
+
+q)select from t where 0=(rank;neg price) fby sym
+sym date       price
+--------------------
+aaa 2018.05.07 10
+bbb 2018.05.07 100
+q)
+
+Grouping by more than one column requires a table to be specified
+select from t where 0=(rank;neg price) fby ([]sym;date.year)
 
 ########################Using q-SQL on Dictionaries (update & delete, select?)
 
