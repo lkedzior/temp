@@ -771,7 +771,7 @@ page 79
 Namespaces revisited
 directory .qtips.a:1 vs namespace qtips.a:1
 
-namespace/directory is a dictionary that stores variables and functin definitions
+namespace/directory is a dictionary that stores variables and function definitions
 
 We can index into the directory to find the function definition
 q).stat`pctile
@@ -798,10 +798,10 @@ or
 t[4;`price]
 
 Table is still stored as a dictionary of lists
-- Using the plip operator on a matrix does transpose the data (expensive operation)
+- Using the flip operator on a matrix does transpose the data (expensive operation)
 - Using flip on a dictionary of lists does not transpose the data. It only records the fact that the data should be treated as a table.
 
-Looking at the intrnal representation shows us that it is still a flipped dictionary of lists 
+Looking at the internal representation shows us that it is still a flipped dictionary of lists
 q)0N!t
 +`sym`time`v!(`a`b`c;11:40:31.831 11:40:31.832 11:40:31.833;10 10 10)
 sym time         v
@@ -848,7 +848,7 @@ q)t`sym`v
 a  b  c
 10 10 10
 
-2#t - frist 2 rows
+2#t - first 2 rows
 
 To take first or last few columns we can amend # with /:
 table is a list of dictionaries so from each dictionary we take 2# keys and create a list of sub-dictionaries
@@ -861,14 +861,14 @@ b   11:40:31.832
 c   11:40:31.833
 q)
 
-In practice, a kdb+ table is not a list of dictionaries, but is a flipped dictionary of lists.
+In memory, a kdb+ table is not a list of dictionaries, but is a flipped dictionary of lists.
 And as such, the "#/:" operator merely performs the constant time operation of taking the first two columns.
 
 7.3 Keyed Tables
 
 Keyed table is a dictionary that maps key table with value table
 
-Just as dictionaries allow us to access values by key, a kayed table allows us to access rows by key as well
+Just as dictionaries allow us to access values by key, a keyed table allows us to access rows by key as well
 
 - we can define keys within ([...]
 or use key ! operator on existing table to indicate the number of keyed columns
@@ -888,7 +888,7 @@ to unkey
 kt!t
 
 Indexing the keyed table - Dictionary of tables
-q) (0;2000.01.01)
+q)t (0;2000.01.01)
 price| 100
 
 to query multiple records
@@ -909,7 +909,7 @@ price
 98
 97
 
-See only unkeyed / value table is returned
+Notice only unkeyed / value table is returned
 
 Remember keyed table is a dictionary that maps key table to value table
 - dictionary maps a list of keys to a list of values
@@ -918,7 +918,7 @@ Remember keyed table is a dictionary that maps key table to value table
 
 key kt
 value kt 
-works as exected, they return respective tables
+works as expected, they return respective tables
 
 
 Chapter 8.1 Looping
@@ -964,7 +964,7 @@ It is important that the tables being razed not be keyed
 - so function should return a table then it can be run with each and results razed
 
 8.2 Attributes
-- By default, q uses a linear serach algorithm to find values within lists
+- By default, q uses a linear search algorithm to find values within lists
 - Other options we have are: binary search for sorted data, or hashing algorithm for unique, grouped or partitioned data
 
 attr operator obtains the attribute associated with any q value, can return the below. 
@@ -984,7 +984,7 @@ Sort Attribute
 - appending an item that invalidates the sorted order will remove the attribute from the list
 - asc operation will apply the `s# automatically
 - `s# adds no memory overhead to the process
-- q never modifies a variable unless we use in-place assighment but behaviour when applying sort attribute is different e.g.
+- q never modifies a variable unless we use in-place assignment but behaviour when applying sort attribute is different e.g.
 
 q)x:til 3
 q)`u#x
@@ -1037,7 +1037,7 @@ Use \t:n and \ts:n to time multiple runs of a single command
 The sort attribute is good for data that has a high number of distinct values all listed in increasing order (e.g. time)
 If not sorted or there are many repeated values we can consider the remaining attributes which rely on a hashing algorithm
 
-- u g and p attributes need extra memory and use a hashing algortigh
+- u g and p attributes need extra memory and use a hashing algorithm
 `u maps the value to a single index
 `g maps the value to a list of indices
 `p maps the value to an index and count
@@ -1055,14 +1055,15 @@ Unique Attribute
 - 'u-fail is thrown if there are duplicates 
 
 We can/should apply the `u attribute to a table that has a single column primary key
-We must apply `u on the column vector before creating the keyed table
+In order to do it we must apply `u on the column vector before creating the keyed table
 e.g.
 
 tbl[`id]:`u#tbl`id;
 tbl:`id xkey tbl;
 
 Index Apply
-- q has a shorthand for indexing into a list, applying an operation to the elements, and assigning the rsults back to the original list
+- q has a shorthand for indexing into a list, applying an operation to the elements,
+and assigning the results back to the original list
 
 @ was used as index operator to index into a list/dictionary/table
 @[t;`date]
@@ -1072,7 +1073,7 @@ Index Apply
 @[t;`price;dyadictFunction;arg]
 @[t;`price;%;100]
 
-E.g. amend a column to add an attribue
+E.g. amend a column to add an attribute
 t:@[t;`date;`u#]
 
 but we don't have to create a new copy of the table. We can use `tblName to amend existing object
@@ -1081,7 +1082,7 @@ q)@[`t;date;`u#]
 
 REMEMBER - use in-place amends to avoid unnecessary data copy
 ALSO remember that these in-place amends works only with global variable names
-E.g. `t must be global if for the below to work
+E.g. `t must be global for the below to work
 {
   ...
   @[`t;date;`u#];
@@ -1090,7 +1091,7 @@ E.g. `t must be global if for the below to work
 
 
 Q Tip 8.4
-Use the `u attribute on dictionary keys to increase perfrormance
+Use the `u attribute on dictionary keys to increase performance
 
 By default, looking up a value in a list(and therefore a dictionary) performs a linear search through each of the keys until a match is found.
 That means that keys at the end of a dictionary will have slower retrieval time than keys at the beginning
@@ -1116,7 +1117,7 @@ Applying `g to a list causes q to create a mapping from the distinct hash values
 Used in rdb `g#sym
 This ensure fast query times. q updates its internal grouping map whenever new rows are added. This makes each update slower, but ensures fast query performance.
 
-Performance Considerations
+Performance Considerations, consider keyed table with multiple keys
 To perform a table lookup, q first finds all rows in the table that match according to the first keyed column.
 Once all matches are found, it is able to narrow the search for any subsequent columns in the key.
 Adding an attribute on the first column of the key allows q to narrow the search (no need for linear search on all rows).
@@ -1136,36 +1137,39 @@ adding attributes to too many columns may slow down the insert times
 
 Q Tip 8.6
 Reapply attributes after filtering or deleting rows from a table
-- slecting a subset or deleting rows from tables removes all attributes
+- selecting a subset or deleting rows from tables removes all attributes
 - appending rows that invalidate attributes also removes them
 
-sattr function optimally sets attributes on tables with no key, singlek key or multiple keys
+sattr function optimally sets attributes on tables with no key, single key or multiple keys
 - single column key will always have the primary identifier as the first column
 - If the table has a single column key, we will apply the unique attribute
-- In all other cases we apply the group attribute `g. This inlucdes the case where there is no kay and hwere the key has multiple colummns
+- In all other cases we apply the group attribute `g. This includes the case where there is no key and where the key has multiple columns
 
 Sorted Multi Column Keys
-- Indexing into a multi-keyed table tat has many unique values in each column of the key can become quite slow. Once the attribute in the first column is used, a linear search is performed for the remaining columns.
+- Indexing into a multi-keyed table tat has many unique values in each column of the key can become quite slow.
+Once the attribute in the first column is used, a linear search is performed for the remaining columns.
 
 To fix this we can sort the table and add a sort attribute `s to the whole key
 - This can inform kdb+ that it can use a binary search algorithm for the composite key
 - We have to write our own function because asc operator sorts dictionaries by value not key
 
 kasc:{
-  $[`sattr k:key x;
+  $[`s~attr k:key x;
     x; /return here if the key table is already sorted
     (`s#k i)!value[x]i:iasc k
    ]
  };
 
-- iasc operator determine the proper transfromation needed to sort the key
+- iasc operator determine the proper transformation needed to sort the key
 The iasc operator performs the work behind both asc and xasc
-Instead of actually rearranging the order of list elements, the iasc operator returns the index where each properly sorted element can be found in the original list
+Instead of actually rearranging the order of list elements, the iasc operator returns the index
+where each properly sorted element can be found in the original list
 
 The asc operator uses these indices to index into the original list, thus returning a sorted copy
-The benefit of separating out this functionality is that the results of iasc can be used to sort other lists without having to recompute the sort order
+The benefit of separating out this functionality is that the results of iasc can be used to sort other lists
+without having to recompute the sort order
 
-our kasc uses the results of iasc to reorder both the kay and value tables of the supplied dictionary
+our kasc uses the results of iasc to reorder both the key and value tables of the supplied dictionary
 k:key x
 (`s#k i)!value[x]i 
 
@@ -1249,7 +1253,7 @@ We use () and @ to force the creation of function composition before it is appli
 - since @ operator expects another argument the contents of () can not be fully evaluated 
 - the results is therefore a function composition expecting a single argument
 - composition - joining of 2 functions to create a third function
-- the left most function must be mondadic (asc)
+- the left most function must be monadic (asc)
 
 q)type (genList@)
 104h //projection
@@ -1286,7 +1290,8 @@ q)
 The sort attribute distinguishes the step function from an ordinary dictionary.
 It was added in two places: on dictionary's key and on the dictionary itself
 - it is the very first attribute (on dictionary) that allows the dictionary to be treated as a strep function.
-When we index into the dictionary/step function, q will perform a binary search and return the value associated with the proper key location.
+When we index into the dictionary/step function, q will perform a binary search
+and return the result of the bin operation rather than '?' lookup.
 
 standard dictionary indexing is
 /x - dictionary
@@ -1299,7 +1304,8 @@ step function indexing
 sfi:{value[x] key[x] bin y}
 
 The same applies to a keyed tables
-We can see the `s# is applied to the keyed table as a whole, in addition to the dicctionary's key (a table) and also to the first column of the key
+We can see the `s# is applied in 3 places,
+to the keyed table as a whole, in addition to the dictionary's key (a table) and also to the first column of the key
 q)0N!kt:`s#([k]v)
 `s#(`s#+(,`k)!,`s#0N 5 10 25 50 100)!+(,`v)!,0.01 0.05 0.1 0.25 0.5 1
 k  | v
@@ -1318,7 +1324,7 @@ q)
 
 Rounding to the Nearest Tick
 
-Extending a table, using ,' instead of update
+####Adding new columns using ,' instead of update
 e.g. we have table wiht `id`time`pirce columns and want to add moving averages for windows of 2 4 6
 q)p:([]price:til 20)
 
@@ -1357,10 +1363,49 @@ q)
 
 Grouping and razing
 
-raze (...@) each q group q`id
-When the eached function returns a result that is smaller than the orginally grouped table, performance improvements can be made by generating the grouped table within the function or composition, and not aoutside
-raze (... q@) each group q`id
+q)id:20?10
+q)id
+8 1 7 2 4 5 4 2 7 8 5 6 4 1 3 3 7 8 2 1
+q)group id
+8| 0 9 17
+1| 1 13 19
+7| 2 8 16
+2| 3 7 18
+4| 4 6 12
+5| 5 10
+6| ,11
+3| 14 15
+q)t:([] id;v:til 20)
+q)t
+id v
+-----
+8  0
+1  1
+7  2
+2  3
+...
+q)t group id
+8| +`id`v!(8 8 8;0 9 17)
+1| +`id`v!(1 1 1;1 13 19)
+7| +`id`v!(7 7 7;2 8 16)
+2| +`id`v!(2 2 2;3 7 18)
+4| +`id`v!(4 4 4;4 6 12)
+5| +`id`v!(5 5;5 10)
+6| +`id`v!(,6;,11)
+3| +`id`v!(3 3;14 15)
+q)
 
-This prevents apotentially large allocation of temporary memory.
+When we use the dictionary of indices ot index back into the original table,
+we obtain a list of tables which we can iteratively apply a function
+
+Grouping a table and eaching over the groups is a common operation.
+
+raze (...func...@) each q group q`id
+raze (...func... q@) each group q`id  //indexing into q within the composition
+
+When the eached function returns a result that is smaller than the orginally grouped table,
+performance improvements can be made by generating the grouped table within the function or composition, and not outside
+
+This prevents a potentially large allocation of temporary memory.
 
 See Chapter 10 in new file

@@ -1,4 +1,4 @@
-When error is generated from command line session, a debugging more is started.
+When error is generated from command line session, a debugging mode is started.
 
 //no function used - only error is printed (no debug mode needed)
 q)2+`
@@ -22,8 +22,8 @@ div               /function that caused the error
 q.q))             /namespace where the function (reciving an error) was defined
 
 
-Q Tip 13.1 Function variables dafault to the emtpy list () in the debugger
-We can check how far a function progressed before throewing the exception by checking which variables still have the default value.
+Q Tip 13.1 Function variables default to the emtpy list () in the debugger
+We can check how far a function progressed before throwing the exception by checking which variables still have the default value.
 
 IF THE FUNCTION THAT THREW THE ERROR WAS A FEW CALLS DEEP IN THE STACK, WE MAY WANT TO DEBUG THE FUNCTION ONE LEVEL ABOVE.
 TO RISE ONE LEVEL IN THE STACK, WE CAN USE THE "'" COMMAND
@@ -35,7 +35,8 @@ Single backslash \ exists one level of debugging (e.g. if we throw error while i
 and to exit from there we have to use \ twice)
 
 13.2 Trapping Errors
-There are cases where the process causing the error is another q instance or even a compiled library interfacing with the running q process.
+There are cases where the process causing the error is another q instance
+or even a compiled library interfacing with the running q process.
 In either of these two cases, the error message is printed to stdout, but the debugging session is not initiated.
 
 To force debugging mode, we must be running in console mode and turn on the error trapping flag with the \e 1
