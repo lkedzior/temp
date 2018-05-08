@@ -491,6 +491,67 @@ ej[`id;price;ref]
 
 For cases where the table has multiple rows with the same matching criteria, the result will have more rows that the equivalent inner join.
 
+###Asof Joins
+aj[`id`time;t;select from quotes where date=dt]
+The last specified join column must be the temporal column.
+All asof joins use the binary search algorithm to find the proper rows to join.
+For this to work propertly, the temporal column must be sorted in ascending order.
+All non-temporal join columns are used to find an exact match to narrow the rows before performing the binary search.
+It is within the narrowed set of rows that the temporal column must be sorted - not the whole column.
+
+aj returns the time from the left table
+aj0 operator returns the time from the right table
+To get both
+aj[`id`time;t] select id, time, qtime:time, bp,ap from quotes
+
+######Performance of the aj
+Pefrormance of the asof join is very sensitive to how fast the exact match can be performed.
+Matching on more than two columns can slow the join down. After the first column is matched, any attribute on the second column will be LOST, resulting in a linear search.
+
+Instead of performing a 3-column asof join
+t:select from trades
+aj[`date`id`time;t] select from quotes
+
+it is much more efficient to do it daily
+(less memory used and attributes within each quote partition are preserved)
+t:select from trades
+g:t group t`date
+q)t group t`date
+2018.05.08| +`date`id`size`price!(,2018.05.08;,0;,10;,101)
+2018.05.09| +`date`id`size`price!(,2018.05.09;,1;,20;,102)
+2018.05.10| +`date`id`size`price!(,2018.05.10;,2;,30;,103)
+
+raze {[dt;events]aj[`id`time;events] select from quotes where date=dt}'[key g;g]
+
+We have to have `p or `g attribute on the first exact match column in the right table
+
+#############Stopping kdb/query
+Once a query has started, we have three ways to stop it.
+1) The SIGTERM(15) signal (default kill signal) allows the current thread to complete and then calls the .z.exit callback before exiting.
+2) The SIGINT(2) signal will interrupt the current thread of execution, if possible, and then call the .z.exit
+3) The SIGKILL(9) as a last resort
+
+###########wj join
+There are two assumptions about the data that must be true.
+Firstly, in addtion to the time column, there can only be a single column which uniquely identifies a record.
+And secondly, the table must be sorted first by the identifier and then by time with the partion attribute `p on the identifier column.
+
+Other joins allow the data to be unpartitioned as long as a `g attribute is placed on the identfier column.
+THE wj OPERATOR, HOWEVER, DOES NOT ALLOW THIS.
+The query will execute, but the reults will be meaningless.
+
+For this reason it is not possible to use the wj operator across multiple ids on a real-time database.
+It is meant to be used on an historical database where data has been sorted within partitioned sections.
+
+wj[t.time+/: -0D00:00:01 0D;`id`time;t](q;(avg;`bp);(avg;`ap)
+
+wj considers preveiling quote
+wj1 does not consider events outside the window
+
+Due to its implementation, the wj operator can only work with integer temporal values.
+This means that the datetime and any other float value can not be used with wj or wj1
+
+
 
 
 
