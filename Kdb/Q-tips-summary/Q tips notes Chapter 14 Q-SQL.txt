@@ -440,3 +440,65 @@ select from t where 0=(rank;neg price) fby ([]sym;date.year)
 
 ########################Using q-SQL on Dictionaries (update & delete, select?)
 
+######14.4 Joining datasets
+lj example
+
+#The select statement returns an unkeyed table, so we must re-apply the key
+price lj 1! select id,ts from ref
+
+#If we don't have to rename the columns we can use this notation which does not require re-applying the key
+#(1#`ts) is used to enlist
+The #/: operator leaves the table's key in-place and takes "#" the requested fields
+price lj (1#`ts)#/:ref
+
+Althoughit uses the each notation, it is optimized to pick just the requested columns from the table instead of splitting the table
+into a list of dictionaries.
+q)kt:([id:1 2 3] a:1 2 3;b:10 20 30)
+q)kt
+id| a b
+--| ----
+1 | 1 10
+2 | 2 20
+3 | 3 30
+q)(1#`a)#/:kt
+id| a
+--| -
+1 | 1
+2 | 2
+3 | 3
+q)
+
+###
+Once the datasets become large, the join speed depends on how quickly q can find the correct row of the right table for every row of the left table.
+Without any attributes on the first keyed column, matches are found by sequentially searching each row until equality is found.
+
+Attributes are expensive to add, so q does not create them by default. In addition, when elements are removed from a list its attribute is dropped as well. Sorted lists, for example remain sorted even after removing elelements. The problem occurs with the other attributes that maintain internal hash tables: `u,`p and `g.
+Building these hash tables is expensive, and removing elements can cause memory reallocation accompanied by erratic performance delays.
+It is therefore left to the developer to determine when to add attributes.
+
+Only the upsert and compund assignment operators have the ability to preserve attributes. All other operations return copies of the data structure, and thus lose the attribute, even if the attribute is still valid.
+
+
+####pj
+The pj operator behaves exactly like the left join operator, except that all columns taht exist in both tables are added together,
+with missing entries filled with 0.
+
+lj, pj, ij require a primary key in the right table.
+A primary key indicates a uniqueness of values in a single column, or multiple columns for a composite key.
+#### Equi join ej
+ej allows us to join two tables where there is no primary key on either table, but yet we wish to specify a set of columns to use for the join.
+ej[`id;price;ref]
+
+For cases where the table has multiple rows with the same matching criteria, the result will have more rows that the equivalent inner join.
+
+
+
+
+
+
+
+
+
+
+
+
