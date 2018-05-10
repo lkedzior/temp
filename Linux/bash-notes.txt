@@ -11,3 +11,15 @@ so we do load .bashrc from .bash_profile
 to test this
 ssh user:host # interactive mode .bash_profile
 ssh user:host : # : here is used as empty command and should enambe rc(remote command / non interactive mode .bashrc)
+
+
+####Returning value from bash function
+https://www.linuxjournal.com/content/return-values-bash-functions
+function myfunc()
+{
+    local  myresult='some value'
+    echo "$myresult"
+}
+
+result=$(myfunc)   # or result=`myfunc`
+echo $result
