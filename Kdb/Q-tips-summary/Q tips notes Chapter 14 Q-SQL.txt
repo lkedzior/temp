@@ -607,11 +607,31 @@ The aj also has a corresponding operator that works for dictionaries and tables:
 The syntax:
 In our example, the left operand is the quote table, while the right operand is the dictionary or table representing the trade or trades
 that need to be matched (events)
+Every field in the dictionary (or column in the table) is used to search through the quote table.
+Since the right operand specifies the exact key to use for the search, there is no need to apss a third argument indicating the join columns.
 
+q)quote:([]id:0 1; time:0D10; size:10 20; price:101 102)
+q)quote
+id time                 size price
+----------------------------------
+0  0D10:00:00.000000000 10   101
+1  0D10:00:00.000000000 20   102
+q)quote asof `id`time!(0;0D11)
+size | 10
+price| 101
+
+//to recover the all fields we can save them and then prepend them to the result of asof
+q)k,quote asof k:`id`time!(0;0D11)
+id   | 0
+time | 0D11:00:00.000000000
+size | 10
+price| 101
+q)
 
 Q Tip 14.11 Use dictionary joins for performance
+(Promoting dictionaries to single row tables merely to use lj and aj would slow down a CEP)
 
-
+///The end of the chapter 14
 
 
 
