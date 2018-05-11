@@ -570,6 +570,35 @@ This means that the datetime and any other float value can not be used with wj o
 
 ####Joins for Dictionaries
 
+aj and lj have variants that work for dictionaries as well.
+Joining a dictionary with a table comes in handy when implementing CEP upd function. Single events
+can arrive as dictionaries and will then need to be merged with existing data for analysis.
+
+//lj using , example
+//create a dictionary for this example
+q)d:((1#`id)!1#0)
+q)d
+id| 0
+
+q)ref:([id:0 1]; size:10 10; price: 100 101)
+q)ref
+id| size price
+--| ----------
+0 | 10   100
+1 | 10   101
+q)
+q)d,ref   //note ref must be keyed table
+id   | 0
+size | 10
+price| 100
+q)d
+id| 0
+q)d,:ref
+q)d
+id   | 0
+size | 10
+price| 100
+q)
 
 
 
