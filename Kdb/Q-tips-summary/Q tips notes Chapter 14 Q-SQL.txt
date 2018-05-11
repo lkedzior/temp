@@ -439,6 +439,22 @@ Grouping by more than one column requires a table to be specified
 select from t where 0=(rank;neg price) fby ([]sym;date.year)
 
 ########################Using q-SQL on Dictionaries (update & delete, select?)
+Q-SQL also works on dictionaries. E.g.
+
+//bs,as bidSize, askSize, ap,bp askPrice, bidPrice
+q)update mp:(bs;as) wavg (ap;bp) from dict
+
+Dictionary is equivalentto a single row of a table, and as such, the where and by clauses have no meaning.
+Including a where clause withh throw a 'type error, while the by clause is silently ignored. 
+
+Just as table column names are stored as a list of symbols, a dictionary's key must also be a symbol vector for Q-SQL to work
+
+Recall that namespaces are actually dictionaries whose keys are symbols. That's why this works
+q)delete t from `.
+q)delete from `.    //delete all values from the global namespace
+
+
+
 
 ######14.4 Joining datasets
 lj example
