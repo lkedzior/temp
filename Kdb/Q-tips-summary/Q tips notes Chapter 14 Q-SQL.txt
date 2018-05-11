@@ -600,7 +600,16 @@ size | 10
 price| 100
 q)
 
+So the "," operator, and the compound assignment version ",:" work like the lj operator to join a dictionary with
+either another ditionary or a table.
+The aj also has a corresponding operator that works for dictionaries and tables: asof.
 
+The syntax:
+In our example, the left operand is the quote table, while the right operand is the dictionary or table representing the trade or trades
+that need to be matched (events)
+
+
+Q Tip 14.11 Use dictionary joins for performance
 
 
 
