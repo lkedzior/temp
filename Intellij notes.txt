@@ -86,3 +86,10 @@ Use qualified names e.g. java.projA java.projB kdb.projA for module names
 
 ######using cygwin git from intellij
 add your cygwin bin directory to the PATH. (otherwise I was getting missing shared library errors when trying to push from intellij)
+
+
+####    Activate most recently opened tab when closing active editor
+https://stackoverflow.com/questions/16336283/intellij-idea-12-return-to-last-active-tab
+Preferences>>Editor>>General>>Editor Tabs
+Set When closing active editor: to Activate most recently opened Tab
+
