@@ -93,3 +93,7 @@ https://stackoverflow.com/questions/16336283/intellij-idea-12-return-to-last-act
 Preferences>>Editor>>General>>Editor Tabs
 Set When closing active editor: to Activate most recently opened Tab
 
+
+#### Change font size with ctrl and mouse wheel
+Settings->Editor->General
+Tick the change font size with ctrl and mouse wheel option
