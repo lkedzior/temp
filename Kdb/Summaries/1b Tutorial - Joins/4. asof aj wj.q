@@ -86,10 +86,33 @@ e.g. aj[`sym`time;t1;t2] then you need a `g# on sym in t2
 
 ////	window join function	////
 
+###########wj join (notes from qtips book)
+There are two assumptions about the data that must be true.
+Firstly, in addition to the time column, there can only be a single column which uniquely identifies a record.
+And secondly, the table must be sorted first by the identifier and then by time with the partition attribute `p on the identifier column.
+
+Other joins allow the data to be un-partitioned as long as a `g attribute is placed on the identifier column.
+THE wj OPERATOR, HOWEVER, DOES NOT ALLOW THIS.
+The query will execute, but the reults will be meaningless.
+
+For this reason it is not possible to use the wj operator across multiple ids on a real-time database.
+It is meant to be used on an historical database where data has been sorted within partitioned sections.
+
+wj[t.time+/: -0D00:00:01 0D;`id`time;t](q;(avg;`bp);(avg;`ap)
+
+wj considers prevailing quote
+wj1 does not consider events outside the window
+
+Due to its implementation, the wj operator can only work with integer temporal values.
+This means that the datetime and any other float value can not be used with wj or wj1
+###########wj join (end of notes from qtips book)
+
 /window join aggregates values of specified columns within intervals.
-/e.g. wj[w;`sym`time;t;(q;(max;`ask);(min;`bid))]
+/e.g.  wj[w;`sym`time;t;(q;(max;`ask);(min;`bid))]
 /t and q are the tables to be joined.
-/q should be sorted `sym`time with `p# on sym
+/q MUST be sorted `sym`time with `p# on sym
+Note that wj requires only one join column ( so you can't have `sym`market`time)
+Note that wj requires `p attribute, you get underfined results with other att alike `g
 
 q)t:([]sym:3#`ibm;time:10:01:01 10:01:04 10:01:08;price:100 101 105)
 q)t
