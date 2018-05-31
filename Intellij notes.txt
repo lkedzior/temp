@@ -1,3 +1,7 @@
+
+//SHOW METHOD SIGNATURE WHILE TYPING
+Inside () Ctrl+p
+
 //Show All implementations of an interface (show Hierarchy)
 Click on the interface then Ctrl+h
 
