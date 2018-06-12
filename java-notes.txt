@@ -1,0 +1,2 @@
+Plugin to create a fat jar (jar with your classes and other dependencies)
+http://maven.apache.org/plugins/maven-shade-plugin/
