@@ -72,7 +72,7 @@ Settings->Editor->Color Scheme
 Choose Language Defaults
 Keyword: 7F0055 (127 0 85)
 
-String: 2800FF (42 0 255)
+String:  0000FF (lighter blue) or  2800FF (42 0 255)
 
 Line comment
 3F7F5F (63 127 95)
