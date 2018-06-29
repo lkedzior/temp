@@ -139,6 +139,14 @@ q)
 Noticed we used aggregate function for select by
 and uniform function for update by
 
+If you have working example
+select newCol:aggFunc[col]
+by ...
+
+and want to turn it to update by, enlist results if aggFunc is not uniform
+update newCol:enlist aggFunc[col]
+by ...
+
 dot notation
 by date.week
 by `week$date
