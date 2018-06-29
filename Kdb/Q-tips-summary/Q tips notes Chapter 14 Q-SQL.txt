@@ -139,11 +139,17 @@ q)
 Noticed we used aggregate function for select by
 and uniform function for update by
 
-If you have working example
+If you have working example with aggregate function
 select newCol:aggFunc[col]
 by ...
+from t
 
-and want to turn it to update by, enlist results if aggFunc is not uniform
+and want to turn it to update by
+
+you can do 
+t lj yourSelectBy from t
+
+or you can enlist results of the aggFunc
 update newCol:enlist aggFunc[col]
 by ...
 
