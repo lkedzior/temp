@@ -30,3 +30,8 @@ export EDITOR=vim
 then ctrl + x + e
 then edit you command (you can put it in multiple lines)
 then save will run it
+
+
+####pipe output to a local block of code
+
+yourCommand | while read line: do cmd1 $line; cmd2; cmd3; fi; done
