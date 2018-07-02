@@ -23,3 +23,10 @@ function myfunc()
 
 result=$(myfunc)   # or result=`myfunc`
 echo $result
+
+
+#####edit complex command in editor before running
+export EDITOR=vim
+then ctrl + x + e
+then edit you command (you can put it in multiple lines)
+then save will run it
