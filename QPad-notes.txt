@@ -3,3 +3,5 @@ Goto menu Q -> settings
 In the Grid sections
 tick 'Show dictionaries in grid view
 tick Show lists (except strings) in grid view
+
+Use Consolas(9) font and import the syntax config
