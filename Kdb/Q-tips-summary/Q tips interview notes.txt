@@ -28,7 +28,7 @@ we can run ./script.q without referencing q binaries
 #Redirecting the output from a separate process
 When q is started interactively (q console), input is read from the STDIN file handle which is attached to the terminal.
 If we redirect the output from a separate process into q's STDIN, it will accept commands from that process instead.
-Once EOF is reached, the process will terminate
+Once EOF is reached the q process terminates
 
 echo '1 "hello world\n";' | q
 hello world
