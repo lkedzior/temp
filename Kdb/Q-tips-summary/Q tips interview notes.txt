@@ -1,6 +1,6 @@
 With q, analytics can be sent to the data.
 
-When the results of a vactor operation are used as the inputs of the next operation,
+When the results of a vector operation are used as the inputs of the next operation,
 all the data stored in the CPU's memory cache can be accessed immediately without needing
 to search in the slower/larger caches or even the slowest and largest RAM memory located on the motherboard.
 
@@ -76,7 +76,7 @@ Function parameters
 This is called Juxtaposition
 
 ############## Reference Counts #################
-* Q copies, assigns, and passes variables by reference
+* Q copies, assigns, and passes variables by reference (so passing big table to function has no performance overhead)
 * All references point to the same underlying data structure until a modification is attempted
 * Once a modification is made, new memory is allocated and the underlying structure is copied
 * Any references to the original value remains unaltered
