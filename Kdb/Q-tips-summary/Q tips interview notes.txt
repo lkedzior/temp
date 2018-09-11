@@ -63,10 +63,24 @@ But in order to store the 16-byte GUID, the internal K structure must threrefore
 Functions
 -  can have 1-8 arguments
 - niladic functions are called with (::) assigned to the x parameter, x is silently ignored
+
+Monadic functions can be called without parameter (a parameter becomes (::))
+
+q)f:{[a] show (::)~a;show `abc}
+q)f 10
+0b
+`abc
+q)f[]
+1b
+`abc
+q)
+
 - void functions return (::)
 - functions can modify global state, avoid this, the good practice is to design the functions so that
   - data that needs to be modified is passed as an arg
   - modified values is passed back as a return value from the function
+
+
 
 Function parameters
 - if we reference automatic variable 'z' in the code then function will defined as 3 args func even if we don't reference x or y
