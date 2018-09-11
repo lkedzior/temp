@@ -114,6 +114,15 @@ q)-16!a
 q)-16!b
 1i
 
+same thing when we pass var to a function
+q)g:10 20 30
+q)f:{[loc] show -16!g; show -16!loc; loc,:0;  show -16!g; show -16!loc;}
+q)f g
+2i
+2i
+1i
+1i
+
 Q Tip 4.4
 * Use compound assignment for increased efficiency
 * Each of the single character operators has a compound assignment variant
