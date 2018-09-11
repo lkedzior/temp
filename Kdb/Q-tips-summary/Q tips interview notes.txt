@@ -56,6 +56,8 @@ q)first
 internal K structure is 16 bytes (this is for non numeric data like guid)
 8 bytes for metadata type,reference count, attributes
 8 bytes to store an atom
+8 bytes is enought to store 4 byte integer number or 8 byte long number
+But in order to store the 16-byte GUID, the internal K structure must threrefore store the data as a vector of bytes.
 
 #################Chapter 4 Functions #########################
 Functions
