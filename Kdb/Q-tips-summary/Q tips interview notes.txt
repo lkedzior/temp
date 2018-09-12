@@ -218,7 +218,9 @@ Q Tip - Multiply instead of divide
 e.g. 0.5*... instead of %2
 
 - q has implemented vector division by an atom as multiplication by the atom's reciprocal /rI'sIpr.k.l/
-- when comparing floating numbers q is using equality with tolerance (e.g. two numbers to be equal even if they differ by less than 1e-15)
+- when comparing floating numbers q is using equality with tolerance (e.g. two numbers to be equal even if they differ by less than comparison tolerance t=2e-43)
+https://code.kx.com/wiki/Cookbook/ComparisonTolerance
+Comparison tolerance is the precision with which two numbers are determined to be equal. In q it is set to 2^-43 and cannot be changed
 - two floating point numbers are considered equal if the abs difference is < than 2^-43 * larger number
 - The only number equal to zero is 0
 - to test for equality without tolerance ALWAYS compare with 0
