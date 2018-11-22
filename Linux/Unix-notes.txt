@@ -81,3 +81,12 @@ show all threads/tasks of your process
 
 show the CPU usage broken by all cores
 press 1 while top is running
+
+
+##############find / delete empty directories
+https://superuser.com/questions/676671/rsync-does-not-delete-source-directories
+https://unix.stackexchange.com/questions/258057/does-the-depth-option-of-find-imply-depth-first-tree-traversal
+
+find . -depth -type d -empty -delete
+//-depth only guarantees that sub-directories are processed before their parents
+//-type d -empty will list all the empty directories
