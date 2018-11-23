@@ -1,0 +1,43 @@
+//take profit order fill message
+{
+  "type":"ORDER_FILL",
+  "orderID":"21",
+  "instrument":"GBP_USD",
+  "units":"-1000",
+  "requestedUnits":"-1000",
+  "price":"1.28334",
+  "pl":"0.2337",
+  "financing":"-0.0030",
+  "commission":"0.0000",
+  "accountBalance":"1000.9938",
+  "gainQuoteHomeConversionFactor":"0.779089244673",
+  "lossQuoteHomeConversionFactor":"0.779216731342",
+  "guaranteedExecutionFee":"0.0000",
+  "halfSpreadCost":"0.0818",
+  "fullVWAP":"1.28334",
+  "reason":"TAKE_PROFIT_ORDER",
+  "tradesClosed":
+  [{
+	"tradeID":"20",
+    "units":"-1000",
+    "realizedPL":"0.2337",
+    "financing":"-0.0030",
+    "price":"1.28334",
+    "guaranteedExecutionFee":"0.0000",
+    "halfSpreadCost":"0.0818"
+  }],
+  "fullPrice":
+  {
+    "closeoutBid":"1.28314",
+    "closeoutAsk":"1.28375",
+    "timestamp":"1542975116.560949242",
+    "bids":[{"price":"1.28334","liquidity":"10000000"},{"price":"1.28316","liquidity":"10000000"}],
+	"asks":[{"price":"1.28355","liquidity":"10000000"},{"price":"1.28374","liquidity":"10000000"}]
+  },
+  "id":"22",
+  "accountID":"001-004-405126-004",
+  "userID":405126,
+  "batchID":"22",
+  "time":"1542975116.560949242"
+}
+
