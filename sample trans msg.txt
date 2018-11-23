@@ -1,3 +1,10 @@
+//market order
+{"type":"MARKET_ORDER","instrument":"GBP_USD","units":"1000","timeInForce":"FOK","positionFill":"DEFAULT","reason":"CLIENT_ORDER","id":"19","accountID":"001-004-405126-004","userID":405126,"batchID":"19","requestID":"96543681839171392","time":"1542970965.692089180"}
+{"type":"ORDER_FILL","orderID":"19","instrument":"GBP_USD","units":"1000","requestedUnits":"1000","price":"1.28304","pl":"0.0000","financing":"0.0000","commission":"0.0000","accountBalance":"1000.7631","gainQuoteHomeConversionFactor":"0.779398927547","lossQuoteHomeConversionFactor":"0.779520439026","guaranteedExecutionFee":"0.0000","halfSpreadCost":"0.0779","fullVWAP":"1.28304","reason":"MARKET_ORDER","tradeOpened":
+
+//order fill
+{"price":"1.28304","tradeID":"20","units":"1000","guaranteedExecutionFee":"0.0000","halfSpreadCost":"0.0779","initialMarginRequired":"33.3000"},"fullPrice":{"closeoutBid":"1.28264","closeoutAsk":"1.28324","timestamp":"1542970961.342287939","bids":[{"price":"1.28284","liquidity":"10000000"},{"price":"1.28266","liquidity":"10000000"}],"asks":[{"price":"1.28304","liquidity":"10000000"},{"price":"1.28323","liquidity":"10000000"}]},"id":"20","accountID":"001-004-405126-004","userID":405126,"batchID":"19","requestID":"96543681839171392","time":"1542970965.692089180"}
+
 //take profit order fill message
 {
   "type":"ORDER_FILL",
