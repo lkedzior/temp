@@ -4,7 +4,7 @@
 3) chere package
 4) rsync from Net Category
 5) openssh from Net Category (server and client programs)
-
+6) xinit package for running java apps directly on linux
 
 .bashrc
 
