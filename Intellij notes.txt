@@ -106,3 +106,8 @@ Tick the change font size with ctrl and mouse wheel option
 ##### 
 gitHub pull/push started working once we tick clone git repositories using ssh
 
+###markdown support
+Open File Types
+Find Markdown in REcognized File Types
+add *.md as Registered Patterns
+
