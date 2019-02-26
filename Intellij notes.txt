@@ -111,3 +111,12 @@ Open File Types
 Find Markdown in REcognized File Types
 add *.md as Registered Patterns
 
+#### using cygwin terminal inside intellij
+1)create bat file e.g. intelTerm.bat
+---
+@echo off
+set CHERE_INVOKING=1 & C:\UBS\dev\cygwin64_2.884\bin\bash.exe --login -i
+---
+2)In intellij settings->Tools->Terminal
+specify the start directory, the shell path should point to the new intelTerm.bat file
+keep other default settings
