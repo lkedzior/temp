@@ -53,6 +53,9 @@ Process Monitoring with pidstat
 Start logging to a file
 pidstat -rud -h -p 30861 5 > pidstat.test1.log & echo $!
 
+############## ping specific port with nc (netcat)
+nc -zv host port
+
 ############## finding proces PID using pgrep (process grep)
 e.g.
 pgrep -u fxq  //get all fxq user processes
