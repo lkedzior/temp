@@ -14,6 +14,9 @@ yum install glibc.i686
 yum -y install rsync
 
 ################    Adding new disk    ################
+https://linuxcluster.wordpress.com/2018/07/09/formatting-nvme-partition-on-centos-7/
+
+used below to add HDD
 http://www.tutorialspoint.com/articles/add-new-harddisk-to-linux-system
 
 0) run 'fdisk -l' to see what's is installed
