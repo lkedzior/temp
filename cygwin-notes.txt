@@ -52,3 +52,10 @@ use MIT-Magic-Cookie-1
 on the linux server create shortcut
 export DISPLAY=ip of windows machine:0.0
 sh /path/to your application e.g. idea.sh
+
+you may want to add Remote command in your putty session (SSH->Remote command field) and start your script from there
+
+To disable copy on selection, right click on the X Server tray icon and disable 'Clipboard may use primary selection'
+https://intellij-support.jetbrains.com/hc/en-us/community/posts/206600405-PyCharm-on-Linux-How-to-disable-Select-to-Copy-Feature
+
+
