@@ -1,3 +1,8 @@
+####Bios changes needed for nvme
+https://superuser.com/questions/1334094/m2-nvme-drive-not-detected-on-linux
+Turning off "Intel Rapid Storage Technology"
+Use AHCI instead
+
 Download and install Disk Imager
 http://sourceforge.net/projects/win32diskimager/
 
