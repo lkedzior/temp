@@ -1,6 +1,10 @@
 #as root install wget
 yum install wget
 
+#add jenkins key to authorized keys on riverside2
+[fxq@riverside1:~/q] cat /var/lib/jenkins/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTYzZZx7pLHp+ey+fYvSf9TsWlxqOUYKocrNL9c4RAv4rW8FPW1MSkpfRBqwKmFPf94OkP2LwG3Gg0iwbMrisKKYMqMadAUPCOmSq6qGgZKDoCF28hZtY4KCNBPcf0L1cQYZ222Lf0qbOjK9q4srMYOTIMSrWQUIMRPO0bL4cAZ9ld9lw0NyItKPkyjk21spz2iYSxik9QWqSYRaKbjjhNo+A13+53I0D36HpEYx3ljBIUYR0UobbcCz2Z6/35FMsLBl2eT++7FX3pi/JrgwI/gs45Jpn1dVMCGGVNXvzway85gfQj+e+HMBKOSh1uqHGXqonToiwjudn8wkW1seSt jenkins@riverside1
+
 #copy qhome & q folders
 [fxq@riverside1:~/apps/qhome] rsync -av * fxq@riverside2:~/apps/qhome/
 [fxq@riverside1:~/q] rsync -av * fxq@riverside2:~/q/
