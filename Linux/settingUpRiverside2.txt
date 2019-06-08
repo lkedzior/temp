@@ -1,6 +1,9 @@
 #as root install wget
 yum install wget
 
+#copy qhome
+[fxq@riverside1:~/apps/qhome] rsync -av * fxq@riverside2:~/apps/qhome/
+
 #copy sdlc to reverside2
 [fxq@riverside1:~/apps/sdlc] rsync -av * fxq@riverside2:/home/fxq/apps/sdlc/
 
