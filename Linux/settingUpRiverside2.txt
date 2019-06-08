@@ -6,3 +6,6 @@ yum install wget
 
 #add source sdlcUtils.sh to the .bashrc on riverside2
 source /home/fxq/apps/sdlc/current/sdlcUtils.sh
+
+#install apps, go to fxq@riverside2
+rfn hdb 42 dist
