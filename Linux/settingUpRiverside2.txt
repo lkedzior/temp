@@ -1,3 +1,4 @@
+#yum install wget
 
 #copy sdlc to reverside2
 [fxq@riverside1:~/apps/sdlc] rsync -av * fxq@riverside2:/home/fxq/apps/sdlc/
