@@ -32,3 +32,4 @@ rfn tp 49 dist
 rfn KdbConfig 118 UAT-P1-riverside1
 
 #install java apps
+rfn oandaPricesFeedHandler 12 dist
