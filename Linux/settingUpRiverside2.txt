@@ -33,3 +33,4 @@ rfn KdbConfig 118 UAT-P1-riverside1
 
 #install java apps
 rfn oandaPricesFeedHandler 12 dist
+rfn oandaPricesFeedHandlerV20 3 dist
