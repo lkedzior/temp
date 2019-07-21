@@ -25,3 +25,10 @@ source /home/fxq/apps/sdlc/current/sdlcUtils.sh
 
 #install apps, go to fxq@riverside2
 rfn hdb 42 dist
+rfn rdb 82 dist
+rfn gw 18 dist
+rfn qscripts 43 dist
+rfn tp 49 dist
+rfn KdbConfig 118 UAT-P1-riverside1
+
+#install java apps
