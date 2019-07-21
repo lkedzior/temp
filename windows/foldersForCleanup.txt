@@ -1,0 +1,3 @@
+windows/temp
+windows/prefetch
+%temp%
