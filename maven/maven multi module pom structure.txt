@@ -1,0 +1,254 @@
+top level
+e.g. myProject/pom.xml
+
+<parent>
+  <artifactId>myProject
+  <>
+  <versions>
+  <relativePath>../core/parent-pom<>
+
+<groupId, artifactId, packaging(pom) version(VERSION-AAA)
+
+<properties>
+
+<scm>
+
+
+<respositories>
+
+<pluginRepositories>
+
+<distributionManagement>
+
+<modules>
+  module(lib)
+  module(cfg)
+  module(pkg)
+  module(deployment)
+  module(autotest)
+
+dependencyManagement
+  dependency1(same version (VERSION-AAA))
+
+
+
+### the next level e.g. lib
+myPorject/lib/pom.xml
+
+<parent>
+artifacId myProject
+version same version VERSION-AAA
+</parent>
+
+groupId
+artifactId lib-myProject
+packaging pom
+
+<modules>
+  <module>lib-abc
+  <module>lib-2
+
+<build>
+  <plugins>
+    <plugin>
+      maven-assembly-plugin id make-assembly phase package goal single configuration
+      descriptioRefs
+        descriptorRef (lib-assembly)
+
+dependencies
+  dependency q binaries but why? should be defined in parent
+
+
+myPorject/lib/lib-abc/pom.xml
+
+<parent>
+  artifactId lib-myProject
+  version same
+
+
+artifactId lib-abc
+NO VERSION
+NO GROUP ID
+
+dependencies
+  dependency
+  artifact lib-common
+  classifier lib-assembly
+  type zip
+  NO VERSION
+
+myProject/pkg/pom.xml
+
+<parent>
+  artifactId lib-myProject
+  version same
+
+artifactId pkg-myProject
+packaging pom
+groupingId ... pkg.myproject
+
+<modules>
+  <module>myClass
+
+
+dependencies
+  dependency groupId artifactId classfier (lib-assembly type(zip)
+
+
+<build>
+  <plugins>
+    <plugin>
+      maven-assembly-plugin id make-assembly phase package goal single configuration
+      descriptioRefs
+        descriptorRef (pkg-assembly)
+
+    plugin maven enforcer plugin
+    configuration
+    rules
+    requirePropertyDiverges property aaa regex placeholder
+
+
+
+##################################core lib poms
+core/pom.xml
+
+parent
+  group artifcat
+  version 0.1 snap
+  <relative Path>parent-pom
+
+
+modelVersoin
+groupId
+artifact
+packaging pom
+
+scm point to the core git
+
+modules
+
+
+build plugins plugin maven scm plugin with a tag configuration
+
+core/lib/lib-assembly-descriptor
+
+pom.xml
+parent
+same version 0 1 snap
+relativePath>../../parent-pom
+
+src/main/resources/assemblies/lib-assembly.xml
+
+id lib-assembly
+formats format zip
+<baseDirectory></baseDir>
+filesets\fileset includes include pom.xml outputDirectory META
+fileSet directory src/main/q outputDirectory lib/${artifactId}/q    //SEE HERE HOW TO REFERENCE PROPERTIES FROM THE POM.XML
+
+fileset directory src/main/bin, outputDirectory lib/${artifactId}/bin fileMode 740 directoryMode 0750 lineEnding unix
+
+
+core/pkg/pkg-assembly-descriptor
+pom.xml
+parent relativePath ../../parent-pom, version same 0.1 snap
+
+model version\group id
+artifactId pkg-assembly-descriptor
+
+repeat of the SCM
+point to the core.git
+
+then in src/main/resources/assemblies/pkg-assembly.xml
+id pkg-assembly
+formats format tar.gz
+<baseDirectory></baseDir>
+filesets\fileset includes include pom.xml outputDirectory META
+then we have dependencySets not the fileSets
+<dependencySets>
+  <dependencySet>
+    <includes>
+      <include>*</>
+    <excludes>
+      <exclude>com.fxq.core:lib-boot</exclude>
+    <useProjectArtifact>false
+    <unpack>true
+  </dependencySet>
+  //boot must be filtered
+
+  <dependencyset
+    directoryMode 0750
+    fileMode 0740
+    <outputFileNameMapping></outputFileNameMapping>
+    includes
+      includecom.fxq.core:lib-boot
+    useProjectArtifact false
+    unpack true
+    unpackOptions
+      filtered true
+      lineEnding unix
+  </dependencySet>
+
+
+
+  ############### core parent pom
+  core/parent-pom/pom.xml
+  the only file in the module
+
+  properties
+  distribution management
+
+  repositories
+
+  plugin repositories
+
+  dependency management with dependency being 0 1 snapshot
+
+  build
+   plugin management plugins maven neforcer maven adssembly archetype-packaging maven-archetype plugin
+   plugins maven enforcer plugin maven dependency plugin maven surefire plugin
+
+ plugin magament pluginc plugin maven assembly plugin
+ <artifactId> maaven-assembly-plugin
+ version
+ dependencies
+ dependency groupId artifactId pkg-assembly-descriptor version 0 1 snap
+ dependency groupId artifactId lib-assembly-descriptor version 0 1 snap
+ dependency groupId artifactId cfg-assembly-descriptor version 0 1 snap
+
+ </pluginManagement>
+
+ <plugins>
+   <plugin> maven enforcer plugin
+   execution id enforce-versions
+   goals goal enforce
+   configuration
+     rules
+       requireMavenVersion <version>3
+       <DependencyConvergence />
+       <requireREleaseDeps>
+         <onlyWhenRelease>true
+
+   <plugin>
+     maven dependency plugin 2.8
+     executions execution
+       id provided-lib-copy>
+       phase process-sources
+       goals goal unpack-dependencies
+       configuration
+         <overWriteReleases>true
+         overWriteSnapshots true
+         <failOnMissingClassfierArtifact>true
+
+   <plugin
+     maven surefiere plugin
+     version 2.17
+     dependendencies dependency groupId artifactId qunit-surefire-provider
+     configuration
+       <properties
+         qBaseDir
+         dependencyQBaseDir
+         sourceDirectory
+         slaveCount
+       trimStackTrace true
+       includes
+         include>**/*
