@@ -4,3 +4,4 @@ Goto Control Panel > Hardware and Sound > Power Options
 Change Plan Settings
 Change advanced power setings
 Processor power management
+Change the Minimum processor state to low values e.g. 5-25%
