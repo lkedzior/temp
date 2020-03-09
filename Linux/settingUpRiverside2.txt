@@ -46,4 +46,11 @@ https://serverfault.com/questions/815538/long-delay-when-logging-in-with-centos7
 this helped with with delayed login but ssh started timeing out and v20 prices session started dying 
 https://serverfault.com/questions/815538/long-delay-when-logging-in-with-centos7
 
-as of 2020/03/09 the changes have been reverted
+as of 2020/03/09 the changes have been reverted to same values as on riverside1
+
+[root@riverside1 ~]# grep GSSAPIAuthentication  /etc/ssh/sshd_config
+GSSAPIAuthentication yes
+[root@riverside1 ~]# grep UseDNS /etc/ssh/sshd_config
+#UseDNS yes
+
+
