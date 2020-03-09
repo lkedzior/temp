@@ -34,3 +34,16 @@ rfn KdbConfig 118 UAT-P1-riverside1
 #install java apps
 rfn oandaPricesFeedHandler 12 dist
 rfn oandaPricesFeedHandlerV20 3 dist
+
+
+#######
+2020/03/09
+Was experiencing delayed ssh login on riverside2 and on 25 or 26th Jan 2020 I up
+dated /etc/ssh/sshd_config
+as per suggestion here
+https://serverfault.com/questions/815538/long-delay-when-logging-in-with-centos7
+
+this helped with with delayed login but ssh started timeing out and v20 prices session started dying 
+https://serverfault.com/questions/815538/long-delay-when-logging-in-with-centos7
+
+as of 2020/03/09 the changes have been reverted
