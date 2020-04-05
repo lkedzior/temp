@@ -79,7 +79,7 @@ The by clause performs three actions
 1) groups the data using the columns in the by clause
 2) Iterates over each group(distinct value) and applies our function
 3) Final step depends on whether we used a select or update
-select - will sort the results (returns keyed table)
+select - will sort the results by id (returns keyed table)
 update - does not return a keyed table, will align the results to match the location of the original layout
 
 e.g. notice only one raw with id=0 in the select results
@@ -202,7 +202,8 @@ select by id from t  //simpler query increased performance
 ###########################Exec
 select is special case of exec
 select always return table
-exec can return atom, list dictionary, table
+exec can return atom, list, dictionary, table
+if dictionary is returned it can take one of five different forms
 
 /atom
 q)exec first price from t
@@ -245,8 +246,8 @@ q)exec last price by date from t where id=0
 
 2) Selecting multiple values in either the key or value, or explicitly providing a name generates a table.
 
-q)exec price by date:date from t where id=0
-q)exec price:price by date from t where id=0
+q)exec price by date:date from t where id=0   //we create dictionary, key is table, value is a list
+q)exec price:price by date from t where id=0  //we create a dictionary where key is list(date), value is a table
 q)exec price:price by date:date from t where id=0
 q)exec px:last price by id,date from t where id=0
 
@@ -282,7 +283,7 @@ Q Tip 14.6 Simplify queries by using exec by
 When the result of each statement within an exec by query is a dictionary with conforming keys that are symbols, q will promote the list of dictionaries to a table.
 
 TO GENERATE A DICTIONARY WE CAN EITHER PERFORM A SINGLE OPERATION ON A TABLE,
-OR ASSIGN A KEY TO A FUCNTION THAT RETURNS MULTIPLE VALUES.
+OR ASSIGN A KEY TO A FUNCTION THAT RETURNS MULTIPLE VALUES.
 
 e.g. ohlc function
 We are prerforming a list of functions on the same dataset
@@ -296,8 +297,8 @@ id date      | o        h        l        c
 0  2000.01.05| 103.7782 103.7782 103.7782 103.7782
 0  2000.01.06| 103.4662 103.4662 103.4662 103.4662
 
-q)ohlc:{`o`h`l`c!(first;max;min;last)@\:x}
-q)exec ohlc price by id,date from t
+q)ohlc:{`o`h`l`c!(first;max;min;last)@\:x}  //ohlc returns a dict
+q)exec ohlc price by id,date from t         //we run ohlc for each key combination and get a list of dicts which is promoted to table
 id date      | o        h        l        c
 -------------| -----------------------------------
 0  2000.01.01| 100      100      100      100
@@ -525,7 +526,7 @@ For cases where the table has multiple rows with the same matching criteria, the
 aj[`id`time;t;select from quotes where date=dt]
 The last specified join column must be the temporal column.
 All asof joins use the binary search algorithm to find the proper rows to join.
-For this to work propertly, the temporal column must be sorted in ascending order.
+For this to work properly, the temporal column must be sorted in ascending order.
 All non-temporal join columns are used to find an exact match to narrow the rows before performing the binary search.
 It is within the narrowed set of rows that the temporal column must be sorted - not the whole column.
 

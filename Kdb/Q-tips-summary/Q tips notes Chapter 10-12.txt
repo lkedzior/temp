@@ -56,7 +56,7 @@ fills - this one can be used to fill a list with last known value (fills forward
 Implementing a Timer Utility
 
 .dot apply operator "."
-e.g. upsert
+upsert is a projection of the "." apply operator
 q)upsert
 .[;();,;]
 
@@ -112,7 +112,7 @@ Chapter 11
 Generic null ::
 We need to wrap it with (::) when performing operations to prevent it from being interpreted as a double assignment
 
-W tip 1.1. Return null from update-only functions
+Q tip 1.1. Return null from update-only functions
 Returning a null value prevents q from having to reference count the returned value.
 
 In addition, when such a function is executed with a call to each, returning a null value prevents q from allocating memory to save the result vector.
@@ -124,7 +124,9 @@ if we are running in .md namespace e.g. defining .md.updq
 
 updq:{
   ...//here if we reference global abc we are assuming .md.abc
-  ...//if we want abc from the root we have to use `abc
+  ...//To access tables in the root directory, we must indirectly access them through
+  //their symbolic names e.g. `quote
+  //e.g. px:`quote[id;`px]  //quote[id;`px] would not work as expected
 }
 
 Q Tip 11.2 Use if statements to exit functions early
@@ -147,13 +149,15 @@ Q Tip 11.3 Use negative port to make kdb+ read-only
 A negative port number, puts the server into multi-threaded input queue mode in which
 queries can be handled simultaneously.
 To ensure high performance, kdb+ does not lock data structures.
-Allowing multiple simultaneus client queries must therefor require each client to have a read-only view of the data.
+Allowing multiple simultaneous client queries must therefor require each client to have a read-only view of the data.
 This can be used to our advantage if we want to prevent clients from modifying our data.
 One drawback of multi-threaded mode is that views can not recompute within a client query.
 Doing so would modify the internal state of the server.
 
 To allow the operating system to dynamically allocate the next available port,
 positive and negative infinity 0W may also be used. We can then use \p to retrieve the allocated port.
+
+
 
 11.3 Text Files
 
@@ -182,8 +186,12 @@ To save the file to disk we use 0: again
 To see the data
 read0 `:ref.txt /returns list of strings
 
-Reading csv where column names are missing ("," instead of enlist ",")
-Data is returned as nested list so we need to flip `mycol`mycol2! (...)
+To read csv where column names are missing we use "," instead of enlist ","
+Data is returned in different format as nested list so we need to flip `mycol`mycol2! (...)
+
+("SI"; 1#",") 0: `:/test/ref.txt  //table is returned
+("SI"; ",") 0: `:/test/ref1.txt   //nested list is returned
+
 
 11.4
 main
@@ -195,7 +203,7 @@ So we can debug line by line
 Read complex config files from main
   ... 0: p`configFile
 
-main requires current time. This is passed as paramenter to permit flexibility
+main requires current time. This is passed as parameter to permit flexibility
 
 Q TIP 11.9 Pass event dates and times as parameters instead of using .z.D or .z.p
 
@@ -229,6 +237,7 @@ hopen for network
 
 q)hopen `::  /connect to itself
 0i          /0 can be used as if it was a connection to a separate process, only the async calls are not allowed ...neg[0]
+            //this handle is special because serialization and deserialization is not done when using 0 (it's not needed)
 q)\p 5000
 q)hopen `::
 'hop: The requested address is not valid in its context.
@@ -256,10 +265,10 @@ q)h"`:./test set 123"   //only in current dir
 `:./test
 q)
 
-Kdb allows to dissable this restriction by using the -U instead of -u
+Kdb allows to disable this restriction by using the -U instead of -u
 
 #########post -u authentication events
-After q performs the -u file based authentication, it triggers two events which allowe furher customization
+After q performs the -u file based authentication, it triggers two events which allow furher customization
 First, the ac - authentication cookie .z.ac event allows us to use corporate single sign-on infrastructure
 to permission a client based on a HTTP cookie.
 
@@ -272,7 +281,7 @@ and the password passed as a string
 
 We can customize this method to return 1b if the user is allowed access.
 
-12.2 Connecvtion Attributes
+12.2 Connection Attributes
 
 Once the client has been authenticated, the connection is considered open, and the port open event .z.po is called with the new network handle.
 
@@ -327,7 +336,7 @@ To help debug ill-formed network messages, kdb+ allows us to customize the bad m
 Prior to printing the `badmsg error, .z.bm is called with the bad byte vector. You can print the vector or save it for future inspection.
 
 During the processing of client queries, whether from STDIN, or from a client handle,
-there is a posibility that a global variable is modified.
+there is a possibility that a global variable is modified.
 When such an event occurs, the Value Set .z.vs event is triggered.
 The event is passed two parameters: the name of the modified variable as well as a list of indices that were modified.
 In the case of a full assignment, as opposed to a partial amend, the second parameter is passed the empty list().

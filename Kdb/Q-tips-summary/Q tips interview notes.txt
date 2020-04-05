@@ -1,3 +1,8 @@
+####
+This file is a summary of Q tips notes Chapter 1-14
+For more verbose summary check individual files
+####
+
 With q, analytics can be sent to the data.
 
 When the results of a vector operation are used as the inputs of the next operation,
@@ -14,7 +19,7 @@ They must be syntactically correct at startup, but the ordering of compilation i
 QHOME is needed to load q.k correctly
 
 q needs k4.lic, by default it looks in the same dir as q.k
-QLIC env variable can be usde to customise this
+QLIC env variable can be used to customise this
 
 Q then loads q.q from QHOME
 QINIT can be used to customise the init file
@@ -39,8 +44,7 @@ f(1;2;3) creates a list and does f[(1;2;3)]
 
 ##Leading whitespaces
 q continues to accumulate text for parsing until it finds another command starting flush left (no leading whitespaces)
-- if we forget to indent every line of a function and q parser encounters a line that is flush left,
-it assumes a new definition has begun (our function will be incomplete).
+- if we forget to indent a line of a function the q parser assumes a new definition has begun (our function will be incomplete).
 
 #############################Chapter3
 - kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
@@ -56,8 +60,8 @@ q)first
 internal K structure is 16 bytes (this is for non numeric data like guid)
 8 bytes for metadata type,reference count, attributes
 8 bytes to store an atom
-8 bytes is enought to store 4 byte integer number or 8 byte long number
-But in order to store the 16-byte GUID, the internal K structure must threrefore store the data as a vector of bytes.
+8 bytes is enough to store 4 byte integer number or 8 byte long number
+But in order to store the 16-byte GUID, the internal K structure must therefore store the data as a vector of bytes.
 
 #################Chapter 4 Functions #########################
 Functions
@@ -204,8 +208,9 @@ q)abc
 a| 10
 q)
 
-NAMESPACES vs DIRECTORIES
-- all directories are namespaces (namespaces are not directories)
+NAMESPACES vs DIRECTORIES (namespaces are for data, directories are for functions and related configuration)
+- all directories are namespaces (namespaces are not directories), directory is a special namespace type,
+  you can enter into a directory with \d .yourDir command
 - q was designed to store data in namespaces not directories (directories are for functions and related configuration)
 - directories can not contain views (namespaces can!)
 - automatic logging with the -l flag only records data updated in the root directory
@@ -438,6 +443,11 @@ By default, looking up a value in a list(and therefore a dictionary) performs a 
 That means that keys at the end of a dictionary will have slower retrieval time than keys at the beginning
 
 * Adding the `u attribute to the keys list changes the lookup method from a linear search to a constant time hashing algorithm.
+
+    https://code.kx.com/q4m3/8_Tables/#882-unique-u
+    Applying `u# essentially causes q to create a hash table, which uses storage and adds overhead.
+    It is best to apply the attribute after the list has been created, if possible.
+
 * For small dictionaries this may make the lookup slower
 * For dictionaries with around 80 elements or more, the `u attribute allows data retrieval to remain constant-time
 
@@ -452,6 +462,9 @@ The map maps each unique value to a starting row index and the count
 
 ####Group attribute
 Applying `g to a list causes q to create a mapping from the distinct hash values to a list of row indices.
+
+    https://code.kx.com/q4m3/8_Tables/#884-grouped-g
+    causes q to create and maintain an index – essentially a hash table.
 
 Used in rdb `g#sym
 This ensure fast query times. q updates its internal grouping map whenever new rows are added. This makes each update slower,
@@ -473,7 +486,7 @@ sattr function optimally sets attributes on tables with no key, single key or mu
 This includes the case where there is no key and where the key has multiple columns
 
 Sorted Multi Column Keys
-- Indexing into a multi-keyed table tat has many unique values in each column of the key can become quite slow.
+- Indexing into a multi-keyed table that has many unique values in each column of the key can become quite slow.
 Once the attribute in the first column is used, a linear search is performed for the remaining columns.
 
 To fix this we can sort the table and add a sort attribute `s to the whole key
@@ -486,6 +499,8 @@ kasc:{
     (`s#k i)!value[x]i:iasc k
    ]
  };
+
+LK:iasc with table uses table's first column data to compute the order
 
  The iasc operator performs the work behind both asc and xasc
  Instead of actually rearranging the order of list elements, the iasc operator returns the index
@@ -619,7 +634,7 @@ v| 0.1
 q)
 
 ####Adding new columns using ,' instead of update
-e.g. we have table wiht `id`time`pirce columns and want to add moving averages for windows of 2 4 6
+e.g. we have table with `id`time`price columns and want to add moving averages for windows of 2 4 6
 q)p:([]price:til 20)
 
 q)w:2 4 6
@@ -709,7 +724,7 @@ Chapter 11
 Generic null ::
 We need to wrap it with (::) when performing operations to prevent it from being interpreted as a double assignment
 
-W tip 1.1. Return null from update-only functions
+Q tip 1.1. Return null from update-only functions
 Returning a null value prevents q from having to reference count the returned value.
 In addition, when such a function is executed with a call to each,
 returning a null value prevents q from allocating memory to save the result vector.
@@ -738,6 +753,7 @@ symbols enables text equality tests to be performed with a single pointer compar
 Symbols are stored in a global map and never deleted.
 Strings however, once all references to a character vector are lost, the memory is recovered.
 
+Saving Tables as csv
 /generate list of strings
 "\t" 0: t
 
@@ -756,7 +772,7 @@ Data is returned as nested list so we need to flip `mycol`mycol2! (...)
 Time is often an input to calculations. Function which takes time as parameter is much more flexible, reusable, testable
 
 ####################################Chapter 12 Security
-uthentication Username and Password
+Authentication Username and Password
 A username and password are sent (in clear text) during the initial handshake with clients.
 It is up to the server to decide if the values should be checked and if are acceptable to allow a connection
 
@@ -775,7 +791,7 @@ neg[h] "line1";  /negative file handle will add trailing new line
 
 
 ####network
-Messages that re sent over network handles are serialized for network transportation.
+Messages that are sent over network handles are serialized for network transportation.
 Upon receipt, the messages are then deserialized. This happens on all network handles, except the internal handle 0.
 
 If an error is encountered during deserialization, a `badmsg error is thrown.
@@ -786,7 +802,7 @@ To help debug ill-formed network messages, kdb+ allows us to customize the bad m
 Prior to printing the `badmsg error, .z.bm is called with the bad byte vector. You can print the vector or save it for future inspection.
 
 During the processing of client queries, whether from STDIN, or from a client handle,
-there is a posibility that a global variable is modified.
+there is a possibility that a global variable is modified.
 When such an event occurs, the Value Set .z.vs event is triggered.
 The event is passed two parameters: the name of the modified variable as well as a list of indices that were modified.
 In the case of a full assignment, as opposed to a partial amend, the second parameter is passed the empty list().
@@ -853,7 +869,7 @@ we did not actually make a full copy of the data.
 
 Kdb+ is a column oriented database, and as such, columns are contiguous blocks of memory that can be passed as references.
 ---
-Q Tip 14.3 Use De Morgan's Laws to optimizewhere clauses
+Q Tip 14.3 Use De Morgan's Laws to optimize where clauses
 select from t where (id=1) or date.month=2000.02m
 
 An inefficient or statement can be easily converted to use a comma by negating each of the conditions
@@ -957,7 +973,7 @@ q)tm.minute
 00:00
 q)
 
-dod notation does not work on function parameters or variables. Because of that it is safer to always use
+dot notation does not work on function parameters or variables. Because of that it is safer to always use
 explicit casting instead of using dot notation
 `minute$x
 
@@ -1166,3 +1182,5 @@ q)select[>([]date;neg id)] from t
 /we can combine the row selection and sorting
 q)select[5 5;>([]date;neg id)] from t
 
+#################add notes about standard deviation calculation
+vwap calculations

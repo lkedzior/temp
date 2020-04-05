@@ -22,7 +22,7 @@ div               /function that caused the error
 q.q))             /namespace where the function (reciving an error) was defined
 
 
-Q Tip 13.1 Function variables default to the emtpy list () in the debugger
+Q Tip 13.1 Function variables default to the empty list () in the debugger
 We can check how far a function progressed before throwing the exception by checking which variables still have the default value.
 
 IF THE FUNCTION THAT THREW THE ERROR WAS A FEW CALLS DEEP IN THE STACK, WE MAY WANT TO DEBUG THE FUNCTION ONE LEVEL ABOVE.

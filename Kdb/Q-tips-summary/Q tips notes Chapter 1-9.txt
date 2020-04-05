@@ -5,7 +5,7 @@ a q function defined in a script can be sent to the database where it is evaluat
 This is a reversal of the paradigm where data is brought to the analytics.
 With q, analytics can be sent to the data.
 
-When the results of a vactor operation are used as the inputs of the next operation,
+When the results of a vector operation are used as the inputs of the next operation,
 all the data stored in the CPU's memory cache can be accessed immediately without needing
 to search in the slower/larger caches or even the slowest and largest RAM memory located on the motherboard.
 
@@ -36,7 +36,7 @@ Responding to multiple asynchronous events allows kdb+ processes to be used as a
 q).Q.res
 `in`within`like`bin`binr`ss`if`do`while`exec`select`insert`update`delete`avg`..
 
-s.k - implentation of an SQL interface for ODBC clients
+s.k (not used in 3.7) - implementation of an SQL interface for ODBC clients
 QHOME is needed to load q.k correctly
 
 In kdb banner, the number of licensed cores appear within the parentheses (
@@ -99,9 +99,9 @@ f(1;2;3) creates a list and does f[(1;2;3)]
 () are used to enforce operator precedence
 
 ##Leading whitespaces
-q continues to accumulate text for parsing until it finds anohter command starting flush left (no leading whitespaces)
+q continues to accumulate text for parsing until it finds another command starting flush left (no leading whitespaces)
 - if we forget to indent every line of a function and q parser encounters a line that is flush left,
-it assumes a new definitiona has begun (our unction will be incomplete).
+it assumes a new definition has begun (our unction will be incomplete).
 
 
 #############################Chapter3
@@ -109,12 +109,12 @@ Fundamentally, q has two data types: atoms and lists
 - dictionaries and tables are internally represented as combinations of lists
 - uniform lists (all the values of a list are the same type) aka vectors 
 - kdb performs type checking at runtime, a uniform list only needs its type checked a single time and not for each element,
-once the type has been checked, performing arithementic oprations on uniform lists can be implemented in highly optimized C or assembly code
+once the type has been checked, performing arithmetic operations on uniform lists can be implemented in highly optimized C or assembly code
 
  Atomic functions
  A function is called atomic if it operates on a list of values as if the function was applied to each of the list elements
  
- All arithmentic operators are atomic
+ All arithmetic operators are atomic
  
  #List Length
  Vectors and Non-uniform lists - In all cases, the length of the list is known at all times and stored alongside the data.
@@ -131,7 +131,7 @@ q){test:20; get `test}[]
 2
 
 #Aggregating Functions
-An aggregating function always reduces the dimension of the data suplied as its operand
+An aggregating function always reduces the dimension of the data supplied as its operand
 list -> atom
 matrix -> list
 
@@ -144,7 +144,7 @@ q)prd 1 2 3
 5?10f -> range (0.0;10.0)
 
 random numbers no duplicates/replacements
--10?10 (see negative -10)
+-10?10 (note negative -10)
 
 with temporal types range is
 00:00 - 23:59
@@ -190,7 +190,7 @@ q)10?0Nc
 q)rand 0Ng
 ee846e93-69c9-8697-52cb-20d9f12c9963 //internally vector of bytes
 
-internal K structure is 16 bytes (this is for non numberic data like guid)
+internal K structure is 16 bytes
 8 bytes for metadata type,reference count, attributes
 8 bytes to store an atom
 
@@ -256,31 +256,29 @@ Functions
   
   Code like that is easier to maintain
   Functions like that can be executed in parallel (performance gain), they don't modify a global state
-  
-  4.1  12 Uniforms
-  This method generate numbers from the range (-6.0;6.0)
-  we get normal random values, mean of 0, standard deviation of 1
-  add 12 uniform random variables and subtract 6.
-  The sum of independently drawn samples from the same distribution tend to be a normal distribution,
-  irrespective of the original distribution
-  
-q)-6+sum 12?1f
-0.5398522
 
-* Tip - rearange operators to reduce the need for parentheses
+* Tip - rearrange operators to reduce the need for parentheses
 
 Function parameters
-- if we reference autmatic variable 'z' in the code then funciton will defined as 3 args func even if we don't reference x or y
+- if we reference automatic variable 'z' in the code then function will defined as 3 args func even if we don't reference x or y
 - Explicitly defining function parameters prevents automatic variables (x y z) from being created
+q)f:{z*z}
+q)f 3
+{z*z}[3]
+q)f[1;2;3]
+9
+q)f:{[z]z*z}
+q)f 3
+9
 - monadic functions can be called without [] e.g. f`
-- build-in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unlsess they are added to the .q namespace)
+- build-in q dyadic functions can use in-fix notation (x op y), this does not work for user functions (unless they are added to the .q namespace)
 - similarly to monadic functions, List and dictionaries can be indexed without [] brackets as well
 This is called Juxtaposition
 
 ############## Reference Counts #################
 * Q copies, assigns, and passes variables by reference
 
-* All references point to the same underlying data structure until a modification is attmepted
+* All references point to the same underlying data structure until a modification is attempted
 
 * Once a modification is made, new memory is allocated and the underlying structure is copied
 
@@ -305,6 +303,27 @@ q)-16!a
 1i
 q)-16!b
 1i
+q)
+
+//example with tables
+C:\Users\Lukasz>q
+KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
+q)a:10 20 30
+q)b:`a`b`c
+q)-16!a
+1i
+q)t1:([]a;b)
+q)-16!a
+2i
+q)t2:t1
+q)-16!t1
+2i
+q)-16!a  //both table variables point to the same object
+2i
+q)update b:`aa`bb`cc from `t2
+`t2
+q)-16!a  //now table variables point to the different objects but both table objects point to the same 'a' vector
+3i
 q)
 
 #############Cut################
@@ -362,8 +381,10 @@ x:`float$til 10000
 
 4.2 Box-Muller
 
-Q Tip 4.5 Limit control flow statements to a single line (to help with debuginin)
-- if the code block becomes too long, then move it to a new function
+Q Tip 4.5 Limit control flow statements to a single line (to help with debugging)
+the only way to debug a q function is to evaluate its lines - one by one. If control flow statement (fi,while,do)
+span multiple lines, it is not possible to evaluate them by copying and pasting the lines.
+- if the code block becomes too long to fit on a single line, then move the body to a new function
 
 ########Throwing Exceptions
 '`myError  /using symbol
@@ -380,16 +401,17 @@ q)2_til 5
 
 q)-2#til 5
 3 4
-q)-2 _ til 5
+q)-2_til 5
 0 1 2
 
 It is also possible to drop an item from within a list (with a given index)
-q)0 1 2 3 4 _ 3
-0 1 2 4
 q)0 1 2 3 4_3
 0 1 2 4
 q)
 
+q)a:til 5
+q)a _3    //a_3 does not work cause a_3 is valid literal name(underscore can be used in variable name)
+0 1 2 4
 
 # as shape to build n x m matrix
 q)2 3 # til 10
@@ -439,6 +461,7 @@ q)0 24 60 60 sv 2 3 5 7   / 2 days, 3 hours, 5 minutes, 7 seconds
 / over adverb
 changes a dyadic function into a monadic function that takes a single list of values
 - function takes previous value as the first argument and the second will be the next value from the list
+f/[arg;L]		 // f[arg;L0; then f[pr;L1] ...
 -other languages refer to this process as fold, reduce or accumulate
 - only the final value is returned
 - scan \ returns all intermediate values (very useful for debugging
@@ -451,8 +474,8 @@ SMA - Simple moving average, each data point is weighted equily
 EMA - Exponential Moving Average
 The weighting of each data point is not equal
 More weight is given to the most recent data
-The weighting decresse as you go further back in time
-EMA treats more recent data as more relevent and more important
+The weighting decreases as you go further back in time
+EMA treats more recent data as more relevant and more important
 
 old pre 3.1 implementation
 x-decay factor
@@ -473,7 +496,7 @@ ewma:{first[y](1f-x)\x*y}
 Vector conditional
 ?[;;]
 - accepts a boolean or a list of booleans
-- evealutate both y and z (unlikely the $ operator)
+- evaluates both y and z (unlikely the $ operator)
 
 
 #################################################Chapter 5
@@ -490,11 +513,11 @@ q)` sv `a`b`c
 `a.b.c
 
 ` sv can separate symbols with / to create a file path
-Joining a list of symbols whose first element is a hndle creates a single file path (it will have platform specific separator)
+Joining a list of symbols whose first element is a handle creates a single file path (it will have platform specific separator)
 q)` sv `:/tmp`dir1`dir2`file.txt
 `:/tmp/dir1/dir2/file.txt
 
-vs creates a directory handle and trailing file or subdirector
+vs creates a directory handle and trailing file or subdirectory
 q)` vs `:/tmp/dir1/dir2/file.txt
 `:/tmp/dir1/dir2`file.txt
 
@@ -507,7 +530,7 @@ key `:file /returns () if file does not exist
 key `:directory /returns () or list of symbols or `symbol$() if empty
 
 IDENTITY VS EQUALITY
-~ match is not tolerat when comparing different types
+~ match is not tolerant when comparing different types
 q)0=0f
 1b
 q)0~0f
@@ -553,7 +576,7 @@ These are all directories loaded from q.k
 q)key `
 `q`Q`h`j`o
 
-.q - all functions whcih are implemented in k
+.q - all functions which are implemented in k
 .Q - utility function for db maintenance
 .h - functions for q's builtin web server
 .j - jason functions
@@ -599,7 +622,7 @@ q)use `.stat.skew
 
 x - symbol e.g. `.stat (whole directory) or `.stat.skew
 use:{
-  system["d"]  /returns current directory as a dictionary
+   system["d"]  /returns current directory as a dictionary
     upsert
       $[99h=type v:get x; v; (-1#` vs x)!1#v]
  };
@@ -619,7 +642,7 @@ Q Tip - Multiply instead of divide
 e.g. 0.5*... instead of %2
 
 - q has implemented vector division by an atom as multiplication by the atom's reciprocal /rI'sIpr.k.l/
-- when comparing floating numbers q is using equility with tolerance
+- when comparing floating numbers q is using equality with tolerance
 - two floating point numbers are considered equal if the abs difference is < than 2^-43 * larger number
 - The only number equal to zero is 0
 - to test for equality without tolerance ALWAYS compare with 0
@@ -632,11 +655,11 @@ avgs deltas fills maxs mins prds ratios sums
     -an atom if called with an atom
     -a list of equal length if called with a list
     
-prd - aggration function (return last value only)
+prd - aggregation function (return last value only)
 prds - uniform function (returns all intermediate results)
 
-otther aggration funtions
-arg max min prd sum
+other aggregation functions
+avg max min prd sum
 
 deltas - each element is the difference between itself and the prior value
 ratios- each element is the ratio of itself and the prior value
@@ -667,7 +690,7 @@ Where the timespan indicates a duration, the timestamp indicates a specific time
 Logically, Subtracting 2 timestamps results in a timespan
 
 6.3 Path gen
-- all mathematical operators are atomic (they work with both atomos and vectors
+- all mathematical operators are atomic (they work with both atoms and vectors
 
 Q tip 
 Use the dyadic form of deltas, ratios, differ and prev
@@ -677,7 +700,7 @@ ratios[1;]
 differ[::;]
 prev[0N;]
 
-/deltas to see number of days betwen dates
+/deltas to see number of days between dates
 q)L:2016.06.05 2016.06.08 2016.06.11
 q)deltas L / 0 is 2000.01.01
 6000 3 3i
@@ -698,7 +721,7 @@ q).Q.addmonths[.z.d;0 2]
 2016.06.05 2016.08.05
 
 ###Projections
-The acto of calling a function with fewer parameters than is needed aka partial application or binding paramters
+The act of calling a function with fewer parameters than is needed aka partial application or binding parameters
 
 
 ###Dot Apply
@@ -708,7 +731,7 @@ The dot operator "." accepts a multivalent function, projection or data structur
 
 Chapter 7
 Dictionaries
-- kdb uses a pair of lists for the idctionary implementation (other languages typically use binary trees/hash tables)
+- kdb uses a pair of lists for the dctionary implementation (other languages typically use binary trees/hash tables)
 
 e.g. to map dates to prices
 dict:dt!p
@@ -728,7 +751,7 @@ Q list operators are overloaded to work on dictionaries
 
 e.g.
 2#d - # takes first n elements of a dictonary
-subsetOfKeys#d - # returns a dictinary with a subset of keys/values
+subsetOfKeys#d - # returns a dictionary with a subset of keys/values
 To take a single element and return as dictionary, we have to enlist
 q)(1#2000.05.02)#d
 2000.05.02| 98.123
@@ -743,7 +766,7 @@ Indexing
 - Dictionaries are indexed by value, not position
 - both bracket notation and juxtaposition works
 
-DICTIONARY LOOKUPS ARE PERFORMED BY ITERATING OVER EACH KEY ELEMENT UNTIL AN EXACT MATCH IS FOUND and the coresponding value is then returned.
+DICTIONARY LOOKUPS ARE PERFORMED BY ITERATING OVER EACH KEY ELEMENT UNTIL AN EXACT MATCH IS FOUND and the corresponding value is then returned.
 
 For small dictionaries this can be faster than using more advanced techniques such as binary search or hashing
 For bigger ones this linear search will be very slow. (see chapter 8)
@@ -931,6 +954,21 @@ Using each left/right/both let us use infix notation with user defined functions
 with user defined functions when they are not used with an adverb)
 
 ungroup - can be used on a table to ungroup nested lists 
+q)t
+a b
+--------
+a 10 100
+b 20 200
+c 30 300
+q)ungroup t
+a b
+-----
+a 10
+a 100
+b 20
+b 200
+c 30
+c 300
 
 Q Tip 8.1 User array lookups to implement simple conditional statements
 
@@ -996,23 +1034,23 @@ q)`s#x
 q)x    //here whe can see x has changed after applying `s#
 `s#0 1 2
 q)
-q)`#x
+q)`#x  //removing attributes does not change underlying x
 0 1 2
 q)x
 `s#0 1 2
 
 This trick is used to save memory by avoiding the need to copy the list
 
-10?5 - left argument is an atom => random gen to get 10 itemps
+10?5 - left argument is an atom => random gen to get 10 items
 list?10 - left argument is a list => find
 
 measuring with \ts:NoOfRuns ...
 
 Binary Search
 - even without the `s# attribute we can force a binary search on sorted data by using the binary search operator bin
-- bin returns the index of the right operand
+- bin returns the index of the right operand /ˈɒpərand/
 - if the value does not exist bin returns an index of the closest but not larger value
--if data is unsorted the results are undefined
+- if data is not sorted the results are undefined /ʌndɪˈfʌɪnd/
 
 q)10 20 30 bin 30
 2
@@ -1037,7 +1075,7 @@ Use \t:n and \ts:n to time multiple runs of a single command
 The sort attribute is good for data that has a high number of distinct values all listed in increasing order (e.g. time)
 If not sorted or there are many repeated values we can consider the remaining attributes which rely on a hashing algorithm
 
-- u g and p attributes need extra memory and use a hashing algorithm
+- `u `g and `p attributes need extra memory and use a hashing algorithm
 `u maps the value to a single index
 `g maps the value to a list of indices
 `p maps the value to an index and count
@@ -1074,7 +1112,7 @@ and assigning the results back to the original list
 @[t;`price;%;100]
 
 E.g. amend a column to add an attribute
-t:@[t;`date;`u#]
+t:@[t;`date;`u#]  //index into the list, apply operation to the list, assign the results back to the original list
 
 but we don't have to create a new copy of the table. We can use `tblName to amend existing object
 q)@[`t;date;`u#]
@@ -1146,7 +1184,7 @@ sattr function optimally sets attributes on tables with no key, single key or mu
 - In all other cases we apply the group attribute `g. This includes the case where there is no key and where the key has multiple columns
 
 Sorted Multi Column Keys
-- Indexing into a multi-keyed table tat has many unique values in each column of the key can become quite slow.
+- Indexing into a multi-keyed table that has many unique values in each column of the key can become quite slow.
 Once the attribute in the first column is used, a linear search is performed for the remaining columns.
 
 To fix this we can sort the table and add a sort attribute `s to the whole key
@@ -1325,7 +1363,7 @@ q)
 Rounding to the Nearest Tick
 
 ####Adding new columns using ,' instead of update
-e.g. we have table wiht `id`time`pirce columns and want to add moving averages for windows of 2 4 6
+e.g. we have table with `id`time`pirce columns and want to add moving averages for windows of 2 4 6
 q)p:([]price:til 20)
 
 q)w:2 4 6
@@ -1395,7 +1433,7 @@ q)t group id
 3| +`id`v!(3 3;14 15)
 q)
 
-When we use the dictionary of indices ot index back into the original table,
+When we use the dictionary of indices to index back into the original table,
 we obtain a list of tables which we can iteratively apply a function
 
 Grouping a table and eaching over the groups is a common operation.
