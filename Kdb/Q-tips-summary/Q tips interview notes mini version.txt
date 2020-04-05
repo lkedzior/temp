@@ -1,0 +1,44 @@
+##################Chapter 9 Trades and Quotes
+ Minimize calls to each
+
+ we need to sort each of the lists
+ q)asc each genList each 3#5
+ 0 1 2 3 4
+ 0 1 2 3 4
+ 0 1 2 3 4
+
+ we used 2 each to do that. We can use lambda or composition with @ to minimize calls to each
+
+ 1) Using lambda
+ q){asc genList x} each 3#5
+
+ 2) Using composition
+ q)(asc genList@) each 3#5
+
+
+
+9.2 Quotes
+Step Function - can be created with dictionaries by applying sort attribute `s# on a dictionary (not just on its key)
+
+When we index into the dictionary/step function, q will perform a binary search
+and return the result of the bin operation rather than '?' lookup.
+
+The same applies to a keyed tables
+We can see the `s# is applied in 3 places,
+to the keyed table as a whole, in addition to the dictionary's key (a table) and also to the first column of the key
+q)0N!kt:`s#([k]v)
+`s#(`s#+(,`k)!,`s#0N 5 10 25 50 100)!+(,`v)!,0.01 0.05 0.1 0.25 0.5 1
+k  | v
+---| ----
+   | 0.01
+5  | 0.05
+10 | 0.1
+25 | 0.25
+50 | 0.5
+100| 1
+q)
+
+q)kt 15
+v| 0.1
+q)
+

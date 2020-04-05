@@ -261,7 +261,7 @@ Q Tip 7.1 Ensure dictionary keys are unique
 How tables are stored internally by kdb?
 
 Looking at the internal representation shows us that the table is a flipped dictionary of lists
-The "+" character is actually the flip operator in K
+The "+" character is the flip operator in K
 q)0N!t
 +`sym`time`v!(`a`b`c;11:40:31.831 11:40:31.832 11:40:31.833;10 10 10)
 sym time         v
