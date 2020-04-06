@@ -317,6 +317,7 @@ id date      | n mn       mx       md       dv
 0  2000.01.03| 1 104.5936 104.5936 104.5936
 
 ################14.2 Pivot Tables
+We are working with a table with date | id | price columns
 q)"i"$.util.pivot 2!select date,id,price from t
 date      | 0   1   2
 ----------| -----------
@@ -335,6 +336,9 @@ When deciding which field to place in the column headers (date or id?)) - we sho
 Our pivot table takes single argument a keyed table
 It derives all configuration parameters from the incoming table.
 
+Steps involved when transforming to pivot
+table with date | id | price columns
+
 1) using exec by crete a dictionary
 q)exec id!price by date from t
 2000.01.01| 0 1 2!100 100 100i
@@ -342,7 +346,7 @@ q)exec id!price by date from t
 2000.01.03| 0 1 2!105 103 100i
 2000.01.04| 0 1 2!104 106 98i
 
-2) turn it into a table by giving name to the key
+2) turn the key into a table by giving name to the key (standard exec by behaviour)
 q)exec id!price by date:date from t
 date      |
 ----------| ------------------
@@ -386,6 +390,23 @@ date      | 0   1   2
 2000.01.02| 103 104 99
 2000.01.03| 105 103 100
 
+############from the code kx
+////Pivoting Pivot a table
+t:([]k:1 2 3 2 3;p:`xx`yy`zz`xx`yy;v:10 20 30 40 50);
+P:asc exec distinct p from t;
+exec P#p!v by k:k from t
+
+t:2!([]k:1 2 3 2 3;p:`xx`yy`zz`xx`yy;v:10 20 30 40 50);
+// keyed-(t)able implementation of pivot
+// last column of key table is the pivot column
+// remaing columns in front of the key table are group by columns
+// last column of table is data
+pivot:{[t]
+ u:`$string asc distinct last f:flip key t;
+ pf:{x#(`$string y)!z};
+ //parse"exec P#(p!v) by k:k from t"  (?;`t;();(enlist `k)!enlist `k;enlist (#;`P;(!;`p;`v)))
+ p:?[t;();g!g:-1_ k;(pf;`u;last k:key f;last key flip value t)];
+ p}
 
 
 ###############
@@ -393,10 +414,15 @@ select[5] from t /first 5 rows, works for memory and splayed tables only
 select[-5] from t /last 5 rows
 select[5 2] from t /returns 2 rows, 5 is the initial row number
 
+USING THIS VERSION OF SELECT PREVENTS Q FROM HAVING TO ALLOCATE MEMORY FOR THE WHOLE RESULT SET,
+ONLY FOR US TO TRUNCATE IT LATER
+
+
 ####Sorting
-Instead of using xasc and xdesc to sort a table after it has been created, we can specify which comparison
-operation to use at the time of table selection.
+With xasc and xdesc we sort the table AFTER IT HAS BEEN CREATED. We don't have to do that.
+Instead we can sort at the time of table selection (we just specify which comparison operation to use)
 Using this technique is useful when the sorting criteria is not an existing column in the table
+
 q)select[< abs price] from t   /sort by absolute price (ascending)
 
 To sort by multiple columns
@@ -405,6 +431,20 @@ q)select[>([]date;neg id)] from t
 
 /we can combine the row selection and sorting
 q)select[5 5;>([]date;neg id)] from t
+
+
+####Functional version of the above
+parse "select from t"
+(?;`t;();0b;())
+parse "select [5] from t"
+(?;`t;();0b;();5j)
+parse "select [5 5] from t"
+(?;`t;();0b;();5j, 5j)
+parse "select [< abs price] from t"
+(?;`t;();0b;();0Wj;enlist (<:;(abs;`price)))
+parse "select [5 5;< abs price] from t"
+(?;`t;();0b;();5j, 5j;enlist (<:;(abs;`price)))
+
 
 #######################fby
 
@@ -438,7 +478,7 @@ q)rank 3 1 1 2 2
 4 0 1 2 3
 
 It is also possible to rank values/list between a min and max rank
-e.g. max ran is 5
+e.g. max rank is 5
 
 q)5 xrank til 10
 0 0 1 1 2 2 3 3 4 4
@@ -455,20 +495,16 @@ select from t where 0=(rank;neg price) fby ([]sym;date.year)
 
 ########################Using q-SQL on Dictionaries (update & delete, select?)
 Q-SQL also works on dictionaries. E.g.
+Why? Dictionary is equivalent to a single row of a table, and as such, the where and by clauses have no meaning.
+Just as table column names are stored as a list of symbols, a dictionary's key must also be a symbol vector for Q-SQL to work
+Including a where clause throws a 'type error, while the by clause is silently ignored.
 
 //bs,as bidSize, askSize, ap,bp askPrice, bidPrice
 q)update mp:(bs;as) wavg (ap;bp) from dict
 
-Dictionary is equivalentto a single row of a table, and as such, the where and by clauses have no meaning.
-Including a where clause withh throw a 'type error, while the by clause is silently ignored. 
-
-Just as table column names are stored as a list of symbols, a dictionary's key must also be a symbol vector for Q-SQL to work
-
 Recall that namespaces are actually dictionaries whose keys are symbols. That's why this works
 q)delete t from `.
 q)delete from `.    //delete all values from the global namespace
-
-
 
 
 ######14.4 Joining datasets
@@ -482,7 +518,7 @@ price lj 1! select id,ts from ref
 The #/: operator leaves the table's key in-place and takes "#" the requested fields
 price lj (1#`ts)#/:ref
 
-Althoughit uses the each notation, it is optimized to pick just the requested columns from the table instead of splitting the table
+Although it uses the each notation, it is optimized to pick just the requested columns from the table instead of splitting the table
 into a list of dictionaries.
 q)kt:([id:1 2 3] a:1 2 3;b:10 20 30)
 q)kt
@@ -503,24 +539,25 @@ q)
 Once the datasets become large, the join speed depends on how quickly q can find the correct row of the right table for every row of the left table.
 Without any attributes on the first keyed column, matches are found by sequentially searching each row until equality is found.
 
-Attributes are expensive to add, so q does not create them by default. In addition, when elements are removed from a list its attribute is dropped as well. Sorted lists, for example remain sorted even after removing elelements. The problem occurs with the other attributes that maintain internal hash tables: `u,`p and `g.
+Attributes are expensive to add, so q does not create them by default. In addition, when elements are removed from a list its attribute is dropped as well.
+Sorted lists, for example remain sorted even after removing elements. The problem occurs with the other attributes that maintain internal hash tables: `u,`p and `g.
 Building these hash tables is expensive, and removing elements can cause memory reallocation accompanied by erratic performance delays.
 It is therefore left to the developer to determine when to add attributes.
 
-Only the upsert and compund assignment operators have the ability to preserve attributes. All other operations return copies of the data structure, and thus lose the attribute, even if the attribute is still valid.
+Only the upsert and compund assignment operators have the ability to preserve attributes.
+All other operations return copies of the data structure, and thus lose the attribute, even if the attribute is still valid.
 
 
 ####pj
-The pj operator behaves exactly like the left join operator, except that all columns taht exist in both tables are added together,
+The pj operator behaves exactly like the left join operator, except that all columns that exist in both tables are added together,
 with missing entries filled with 0.
 
 lj, pj, ij require a primary key in the right table.
 A primary key indicates a uniqueness of values in a single column, or multiple columns for a composite key.
 #### Equi join ej
-ej allows us to join two tables where there is no primary key on either table, but yet we wish to specify a set of columns to use for the join.
+ej allows us to join two tables where there is no primary key on either table,
+but yet we wish to specify a set of columns to use for the join.
 ej[`id;price;ref]
-
-For cases where the table has multiple rows with the same matching criteria, the result will have more rows that the equivalent inner join.
 
 ###Asof Joins
 aj[`id`time;t;select from quotes where date=dt]
@@ -535,9 +572,12 @@ aj0 operator returns the time from the right table
 To get both
 aj[`id`time;t] select id, time, qtime:time, bp,ap from quotes
 
+for performance We have to have `p or `g attribute on the first exact match column in the right table
+
 ######Performance of the aj
 Pefrormance of the asof join is very sensitive to how fast the exact match can be performed.
-Matching on more than two columns can slow the join down. After the first column is matched, any attribute on the second column will be LOST, resulting in a linear search.
+Matching on more than two columns can slow the join down. After the first column is matched,
+any attribute on the second column will be LOST, resulting in a linear search.
 
 Instead of performing a 3-column asof join
 t:select from trades
@@ -554,8 +594,6 @@ q)t group t`date
 
 raze {[dt;events]aj[`id`time;events] select from quotes where date=dt}'[key g;g]
 
-We have to have `p or `g attribute on the first exact match column in the right table
-
 #############Stopping kdb/query
 Once a query has started, we have three ways to stop it.
 1) The SIGTERM(15) signal (default kill signal) allows the current thread to complete and then calls the .z.exit callback before exiting.
@@ -565,7 +603,8 @@ Once a query has started, we have three ways to stop it.
 ###########wj join
 There are two assumptions about the data that must be true.
 Firstly, in addition to the time column, there can only be a single column which uniquely identifies a record.
-And secondly, the table must be sorted first by the identifier and then by time with the partition attribute `p on the identifier column.
+And secondly, the table must be sorted first by the identifier
+and then by time with the partition attribute `p on the identifier column.
 
 Other joins allow the data to be un-partitioned as long as a `g attribute is placed on the identifier column.
 THE wj OPERATOR, HOWEVER, DOES NOT ALLOW THIS.

@@ -1,3 +1,5 @@
+Update this file when you spot something interesting while reading more verbose versions
+
 ##################Chapter 9 Trades and Quotes
  Minimize calls to each
 
@@ -40,5 +42,319 @@ q)
 
 q)kt 15
 v| 0.1
+q)
+
+############qsql
+----by clause
+select avg price by id from t
+
+update ret:deltas[0n;log price] by id from t
+
+The by clause performs three actions
+1) groups the data using the columns in the by clause
+2) Iterates over each group(distinct value) and applies our function
+3) Final step depends on whether we used a select or update
+select - will sort the results (returns keyed table)
+update - does not return a keyed table, will align the results to match the location of the original layout
+
+e.g. notice only one raw with id=0 in the select results
+and multiple entries with id=0 in the update case (result of update by is not keyed table)
+
+q)t
+id date       price
+----------------------
+0  2000.01.01 100
+0  2000.01.02 100.0632
+0  2000.01.03 100.122
+...
+
+q)select avg price by id from t
+id| price
+--| --------
+0 | 85.8896
+1 | 111.7553
+2 | 56.75649
+3 | 119.7042
+4 | 96.39676
+q)
+
+q)update ret:deltas[0n;log price] by id from t
+id date       price    ret
+------------------------------------
+0  2000.01.01 100
+0  2000.01.02 98.99257 -0.01012537
+0  2000.01.03 99.00905 0.0001664493
+0  2000.01.04 98.0201  -0.01003867
+...
+
+
+
+
+################14.2 Pivot Tables
+We are working with a table with date | id | price columns
+q)"i"$.util.pivot 2!select date,id,price from t
+date      | 0   1   2
+----------| -----------
+2000.01.01| 100 100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
+2000.01.04| 104 106 98
+
+Q Tip 14.8 Only transform tables into pivot tables for presentation
+
+Generating of a pivot table should be one of the last steps in any analysis. Adding an extra summary column and row at the end
+and bottom of the table is probably the only adjustment we are likely to make to our pivot table.
+
+When deciding which field to place in the column headers (date or id?)) - we should place the field with the fewest distinct items tin te column headers (so id not date)
+
+Our pivot table takes single argument a keyed table
+It derives all configuration parameters from the incoming table.
+
+Steps involved when transforming to pivot
+table with date | id | price columns
+
+1) using exec by crete a dictionary
+q)exec id!price by date from t
+2000.01.01| 0 1 2!100 100 100i
+2000.01.02| 0 1 2!103 104 99i
+2000.01.03| 0 1 2!105 103 100i
+2000.01.04| 0 1 2!104 106 98i
+
+2) turn the key into a table by giving name to the key (standard exec by behaviour)
+q)exec id!price by date:date from t
+date      |
+----------| ------------------
+2000.01.01| 0 1 2!100 100 100i
+2000.01.02| 0 1 2!103 104 99i
+2000.01.03| 0 1 2!105 103 100i
+2000.01.04| 0 1 2!104 106 98i
+
+And to promote the list of dictionaries to a table we need to convert the keys to symbols
+q)exec (`$string id)!price by date:date from t
+date      | 0   1   2
+----------| -----------
+2000.01.01| 100 100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
+2000.01.04| 104 106 98
+
+These are the basic operations
+1) use exec by and give name to the key to get a table
+2) make sure the pivot column names are symbol
+
+This will not work if we are missing some values and dictionaries do not conform
+e.g. when we remove id=0 for 2000.01.01
+q)exec (`$string id)!price by date:date from 1_t
+date      |
+----------| -------------
+2000.01.01| `1`2!100 100i
+2000.01.02| `0`1`2!103 104 99i
+2000.01.03| `0`1`2!105 103 100i
+
+That's why we must endure each dictionary has the same number, and ordering, of elements.
+
+We can do this by first constructing a unique list of ids and then use take operator on the dictionary so that
+null is returned for missing cases
+
+q)u:`$string distinct t`id
+q)exec u#(`$string id)!price by date:date from 1_t
+date      | 0   1   2
+----------| -----------
+2000.01.01|     100 100
+2000.01.02| 103 104 99
+2000.01.03| 105 103 100
+
+
+############from the code kx
+////Pivoting Pivot a table
+t:([]k:1 2 3 2 3;p:`xx`yy`zz`xx`yy;v:10 20 30 40 50);
+P:asc exec distinct p from t;
+exec P#p!v by k:k from t
+
+
+
+###############
+select[5] from t /first 5 rows, works for memory and splayed tables only
+select[-5] from t /last 5 rows
+select[5 2] from t /returns 2 rows, 5 is the initial row number
+
+USING THIS VERSION OF SELECT PREVENTS Q FROM HAVING TO ALLOCATE MEMORY FOR THE WHOLE RESULT SET,
+ONLY FOR US TO TRUNCATE IT LATER
+
+
+####Sorting
+With xasc and xdesc we sort the table AFTER IT HAS BEEN CREATED. We don't have to do that.
+Instead we can sort at the time of table selection (we just specify which comparison operation to use)
+Using this technique is useful when the sorting criteria is not an existing column in the table
+
+q)select[< abs price] from t   /sort by absolute price (ascending)
+
+To sort by multiple columns
+/sort descending by date but ascending by ID
+q)select[>([]date;neg id)] from t
+
+/we can combine the row selection and sorting
+q)select[5 5;>([]date;neg id)] from t
+
+
+####Functional version of the above
+parse "select from t"
+(?;`t;();0b;())
+parse "select [5] from t"
+(?;`t;();0b;();5j)
+parse "select [5 5] from t"
+(?;`t;();0b;();5j, 5j)
+parse "select [< abs price] from t"
+(?;`t;();0b;();0Wj;enlist (<:;(abs;`price)))
+parse "select [5 5;< abs price] from t"
+(?;`t;();0b;();5j, 5j;enlist (<:;(abs;`price)))
+
+#######################fby
+
+How to select rows from a table with max price for each symbol?
+
+q)t:([]sym:`aaa`aaa`aaa`bbb;date:.z.d;price:10 10 9 100)
+q)t
+sym date       price
+--------------------
+aaa 2018.05.07 10
+aaa 2018.05.07 10
+aaa 2018.05.07 9
+bbb 2018.05.07 100
+
+We could sort the table by price and select last row by sym
+
+q)select by sym from `price xasc t
+sym| date       price
+---| ----------------
+aaa| 2018.05.07 10
+bbb| 2018.05.07 100
+q)
+
+but it is possible to ahieve the same much more efficiently without sorting with fby
+q)select from t where 0=(rank;neg price) fby sym
+
+The rank operator provides the ordinal ranking of a list where the smallest value receives a rank of 0
+q)rank 1 1 2 2 3
+0 1 2 3 4
+q)rank 3 1 1 2 2
+4 0 1 2 3
+
+It is also possible to rank values/list between a min and max rank
+e.g. max rank is 5
+
+q)5 xrank til 10
+0 0 1 1 2 2 3 3 4 4
+
+q)select from t where 0=(rank;neg price) fby sym
+sym date       price
+--------------------
+aaa 2018.05.07 10
+bbb 2018.05.07 100
+q)
+
+Grouping by more than one column requires a table to be specified
+select from t where 0=(rank;neg price) fby ([]sym;date.year)
+
+###Asof Joins
+aj[`id`time;t;select from quotes where date=dt]
+The last specified join column must be the temporal column.
+All asof joins use the binary search algorithm to find the proper rows to join.
+For this to work properly, the temporal column must be sorted in ascending order.
+All non-temporal join columns are used to find an exact match to narrow the rows before performing the binary search.
+It is within the narrowed set of rows that the temporal column must be sorted - not the whole column.
+
+aj returns the time from the left table
+aj0 operator returns the time from the right table
+To get both
+aj[`id`time;t] select id, time, qtime:time, bp,ap from quotes
+
+for performance We have to have `p or `g attribute on the first exact match column in the right table
+
+######Performance of the aj
+Pefrormance of the asof join is very sensitive to how fast the exact match can be performed.
+Matching on more than two columns can slow the join down. After the first column is matched,
+any attribute on the second column will be LOST, resulting in a linear search.
+
+Instead of performing a 3-column asof join
+t:select from trades
+aj[`date`id`time;t] select from quotes
+
+it is much more efficient to do it daily
+(less memory used and attributes within each quote partition are preserved)
+t:select from trades
+g:t group t`date
+q)t group t`date
+2018.05.08| +`date`id`size`price!(,2018.05.08;,0;,10;,101)
+2018.05.09| +`date`id`size`price!(,2018.05.09;,1;,20;,102)
+2018.05.10| +`date`id`size`price!(,2018.05.10;,2;,30;,103)
+
+raze {[dt;events]aj[`id`time;events] select from quotes where date=dt}'[key g;g]
+
+
+###########wj join
+There are two assumptions about the data that must be true.
+Firstly, in addition to the time column, there can only be a single column which uniquely identifies a record.
+And secondly, the table must be sorted first by the identifier
+and then by time with the partition attribute `p on the identifier column.
+
+Other joins allow the data to be un-partitioned as long as a `g attribute is placed on the identifier column.
+THE wj OPERATOR, HOWEVER, DOES NOT ALLOW THIS.
+The query will execute, but the results will be meaningless.
+
+For this reason it is not possible to use the wj operator across multiple ids on a real-time database.
+It is meant to be used on an historical database where data has been sorted within partitioned sections.
+
+wj[t.time+/: -0D00:00:01 0D;`id`time;t](q;(avg;`bp);(avg;`ap)
+
+wj considers prevailing quote
+wj1 does not consider events outside the window
+
+Due to its implementation, the wj operator can only work with integer temporal values.
+This means that the datetime and any other float value can not be used with wj or wj1
+
+
+####Joins for Dictionaries
+
+aj and lj have variants that work for dictionaries as well.
+Joining a dictionary with a table comes in handy when implementing CEP upd function. Single events
+can arrive as dictionaries and will then need to be merged with existing data for analysis.
+
+//lj using , example
+//create a dictionary for this example
+q)d:((1#`id)!1#0)
+q)d
+id| 0
+
+q)ref:([id:0 1]; size:10 10; price: 100 101)
+q)ref
+id| size price
+--| ----------
+0 | 10   100
+1 | 10   101
+q)
+q)d,ref   //note ref must be keyed table
+id   | 0
+size | 10
+price| 100
+
+The aj also has a corresponding operator that works for dictionaries and tables: asof.
+
+q)quote:([]id:0 1; time:0D10; size:10 20; price:101 102)
+q)quote
+id time                 size price
+----------------------------------
+0  0D10:00:00.000000000 10   101
+1  0D10:00:00.000000000 20   102
+q)quote asof `id`time!(0;0D11)
+size | 10
+price| 101
+
+//to recover the all fields we can save them and then prepend them to the result of asof
+q)k,quote asof k:`id`time!(0;0D11)
+id   | 0
+time | 0D11:00:00.000000000
+size | 10
+price| 101
 q)
 
