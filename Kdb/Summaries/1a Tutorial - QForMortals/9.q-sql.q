@@ -278,7 +278,7 @@ t:([]n:`x`y`x`z`z`y;p:0 15 12 20 25 14)
 select m:max p, s:sum p		 /a:`m`s!((max;`p);(sum;`p))
   by name : n				 /b:(enlist `name)!enlist `n
   from t
-  where p>0, n in `x`y	 	 /c: ((>;`p;0);(in;`n;enlist `x`y))
+  where p>0, n in `x`y	 	 /c: ((>;`p;0);(in;`n;enlist `x`y))  //note symbol literals are enlisted, column names are not
 
 q)parse"select m:max p, s:sum p by name:n from t where p>0, n in `x`y"
 ?

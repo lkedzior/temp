@@ -1,11 +1,11 @@
-/
- .u.w - dictionary of tables->(handle;syms)
- .u.i - msg count
- .u.t - table names 
- .u.L - tp log filename, e.g. `:./sym2008.09.11
- .u.l - handle to tp log file
- .u.d - date
-\
+/////////////////
+/ .u.w - dictionary of tables->(handle;syms)
+/ .u.i - msg count
+/ .u.t - table names
+/ .u.L - tp log filename, e.g. `:./sym2008.09.11
+/ .u.l - handle to tp log file
+/ .u.d - date
+/////////////////
 
 /load the schema file
 system"l tick/",(src:first .z.x,enlist"sym"),".q"
@@ -79,11 +79,11 @@ sub:{
 end:{
   (neg union/[w[;;0]])@\:(`.u.end;x)
  }
-/
-q).u.w[;;0]		//first index elided means all keys, second elided means all values
-quote| ,1804
-trade| 1816 1792
-\
+///////////
+/q).u.w[;;0]		//first index elided means all keys, second elided means all values
+/quote| ,1804
+/trade| 1816 1792
+/////////
 
 /.u.ld - logging function, called with .u.d(new day) as argument
 /it creates the log (schemaDATE, i.e. sym2010.01.04) if is not already there,

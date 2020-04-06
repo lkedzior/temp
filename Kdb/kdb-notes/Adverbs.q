@@ -1,3 +1,4 @@
+//This content was originaly created from QForMortals but later more examples have been added
 ////    ADVERBS for monadic functions    ////
 
 f each L	 /iterate over List and apply funcion f
@@ -20,8 +21,8 @@ q)f/[5;2]
 4294967296
 q)
 
-2) while(cond) - recursive calls as long as condition is true (stops after first false)
-fMonad\[monadicCondFunction;100]
+/ 2) do while(cond) - recursive calls as long as condition is true (stops after first false)
+fMonad\[monadicCondFunction;100]  //recursive calls as long as monadicCondFunction returns 1b
 
 q)f:{x+1}
 q)cond:{x<105}
@@ -101,6 +102,9 @@ f':[a;L]	 /each previous, applies f on consecutive items in a List
 /generally f/ ~ last f\
 f/			 /over
 f\			 /scan
+
+easy way to remember syntax: it always starts with f/ or f\ or f'
+f/ f\ f/: f\: f' f':
 
 /each right
 q)-/: [100; 0 1 2 3]
@@ -212,10 +216,10 @@ q)
 
 ##########scan with triadic function
 q)f:{show -3!(x;y;z); x+y+z}
-q)(f\)[1;10 20 30; 100 200 300]
-"1 10 100"
-"111 20 200"
-"331 30 300"
+q)(f\)[1;10 20 30; 100 200 300]  // (f\)[arg;L1;L2]  //will run operation doing each both on L1&L2   f[prevResult;L1;L2]
+"1 10 100"  //111
+"111 20 200"  //331
+"331 30 300"  //661
 111 331 661
 q)
 
@@ -239,19 +243,6 @@ q)(-/)(10 10 10; 1 2 3)
 
 
 //// combining adverbs ////
-#########################
-fn:{(+ ':)x,0};
-pascal:{[numRows]
-  fn\[numRows;1]
- };
-([]p:pascal 7)
-
-x:til 10
-(+ ':)x,0
-(+ ':)x
-
-sum abs x-til 3
-
 combining adverbs
 in general f adverb1 advert2
   => (f adverb1) adverb2
@@ -285,9 +276,19 @@ p
 3 5
 3 6
 
-####example 2
-raze is implemented as raze
-,/[(1 2 3;(4 5;6);(7;8;(9;10;11)))]
+#########################
+fn:{(+ ':)x,0};
+pascal:{[numRows]
+  fn\[numRows;1]
+ };
+([]p:pascal 7)
+
+x:til 10
+(+ ':)x,0
+(+ ':)x
+
+0 1 2 3 4 5 6  7  8  9  0j  //til[10],0
+0 1 3 5 7 9 11 13 15 17 9j //(+ ':)til[10],0
 
 ####example 3
 See examples on code.kx.com
@@ -297,3 +298,10 @@ slidingWindow:{[func;n;data]
   /func each slices would work for most cases for functions like sum avg 
   func/'[slices]   / func/' is basically func/ each slices....f/ allows to have + (dyadic) as a function
  };
+
+
+q)@'[("aa";"a";"bb");0;upper]
+"Aa"
+"TYPE"
+"Bb"
+q)

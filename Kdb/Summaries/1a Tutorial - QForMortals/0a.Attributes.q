@@ -1,4 +1,16 @@
 /
+
+##### note from the Qtips
+8.2 Attributes
+- By default, q uses a linear search algorithm to find values within lists
+- Other options we have are: binary search for sorted data, or hashing algorithm for unique, grouped or partitioned data
+
+- `u `g and `p attributes need extra memory and use a hashing algorithm
+`u maps the value to a single index
+`g maps the value to a list of indices
+`p maps the value to an index and count
+####
+
 Attributes - metadata applied to lists of special form,
 they can be applied to a dictionary domain or a table column
 Q treats those lists differently to speed up operations and reduce storage
@@ -8,6 +20,9 @@ Applying the sorted attribute to a table implies binary search on the table
 and also that the first column is sorted.
 
 `u#4 5 9 10			//unique, overhead 16*u
+Useful for large dictionaries, changes retrival from linier time to constant (hashtable/map)
+To define this we apply `u# to the keys
+q)d:(`u#keys)!values
 
 `p#8 8 8 3 4 4 4 4 9 9 2 2		//parted, requires a 'partitioned' list
 Creates an index dictionary that maps each unique output value to the position of its first occurrence
@@ -28,6 +43,7 @@ With the grouped index and below query Kdb knows which records should be read fr
 select from trade where sym=`VOD.L
 \
 
+/
 /apply an atrribute on a table column
 @[`t;`sym;`g#]
 

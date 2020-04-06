@@ -45,7 +45,7 @@ q)where en=`a
 2 6 8 9 10
 
 /conditional enumeration
-/create an enumeration using conditional append operator
+/create an enumeration using (?) - creates enumeration and does conditional append to the domain (it can also be used with a file path)
 /new symbols will be added to the domain
 q)sym
 'sym
@@ -53,7 +53,7 @@ q)`sym?`c`b`a`c`c`b`a`b`a`a`a`c	 /returns an enumeration and defines sym variabl
 `sym$`c`b`a`c`c`b`a`b`a`a`a`c
 q)sym
 `c`b`a
-q)`sym ? `a`z		 /sym variable already defined, appends new symbols
+q)`sym ? `a`z		 //? use as conditional append
 `sym$`a`z
 q)sym
 `c`b`a`z

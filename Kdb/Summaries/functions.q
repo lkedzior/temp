@@ -51,8 +51,21 @@ Select[n]
 
 /performance improvement, when applying expensive func to a list 
 .Q.fu[func;L]	 /applies func to distinct L and copy results to the whole list
+instead of
+func each L
+.Q.fu[func] L
+fu:{[f;x]
+  d:distinct x;
+  (d!f d)[x]
+ };
+f:{x*x}
+fu[f] raze 2#enlist til 5
 
-
+fu:{[f;x]
+  ur:f u:distinct x;
+  ur u?x
+ };
+fu[f] raze 2#enlist til 5
 
 //calculate vwap per instrument
 q)t:([] sym:`IBM`AAA`IBM; size:10 20 30; price:1.0 2.0 3.0)

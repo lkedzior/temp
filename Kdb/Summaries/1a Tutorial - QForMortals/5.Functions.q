@@ -81,13 +81,12 @@ q).[L;0 1; : ;42]
 .[f; Larg; errorExpr]
 
 /2 ways of signaling an error
-q)f:{'errorMsg;4}	 /f[] switches to debug mode
-q)g:{'`errorMsg;4}	 /g[] does not switch to debug mode
+########Throwing Exceptions
+'`myError  /using symbol
+'"myError" /using strings
 
-q)f[]
-{'errorMsg;4}
-'errorMsg
-q))\
+q)g:{'`errorMsg;4}	 /g[] does not switch to debug mode
+q)f:{'breakPoint;4} or f:{breakPoint;4}	 /f[] switches to debug mode as breakPoint var is knot know
 
 q)g[]
 'errorMsg

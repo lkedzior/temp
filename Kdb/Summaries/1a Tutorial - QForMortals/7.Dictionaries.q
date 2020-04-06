@@ -25,13 +25,13 @@ q)d _: `c
 q)d[`c]:`bbb
 
 /reverse lookup with ? and where
-q)(`a`b`c!1 2 2)?2
+q)(`a`b`c!1 2 2)?2  //find first occurance
 `b
 q)2=(`a`b`c!1 2 2)
 a| 0
 b| 1
 c| 1
-q)where 2=(`a`b`c!1 2 2)
+q)where 2=(`a`b`c!1 2 2)  //find all occurances
 `b`c
 
 /take sub-dictionary

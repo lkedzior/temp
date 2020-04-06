@@ -10,6 +10,7 @@ fkcolumn:`keyedTable$val1 val2 val3    /column is an enumeration, keyedTable is 
 q)kt:([eid:1001 1002 1003] name:`Dent`Beeblebrox`Prefect; iq:98 42 126)
 q)kt
 eid | name       iq
+
 ----| --------------
 1001| Dent       98
 1002| Beeblebrox 42
@@ -47,6 +48,7 @@ q)fkeys tdetails
 eid| kt
 
 /FK to compund PK table
+ktc:([lname: `Dent`Beeblebrox`Prefect; fname:`Arthur`Zaphod`Ford]; iq:98 42 126)
 q)ktc
 lname      fname | iq
 -----------------| ---
@@ -55,4 +57,17 @@ Beeblebrox Zaphod| 42
 Prefect    Ford  | 126
 
 /foreign key on compound PK
+
 tdetails:([] name:`ktc$(`Beeblebrox`Zaphod;`Prefect`Ford;`Beeblebrox`Zaphod); sc:36 126 42)
+.Q.s tdetails
+name sc
+--------
+1    36
+2    126
+1    42
+
+.Q.s meta tdetails
+c   | t f   a
+----| -------
+name| j ktc
+sc  | j

@@ -20,6 +20,9 @@ f:{[a;b]
  } /note a spaces at the begining of each line and before closing bracket
 \
 
+
+
+/
 ""	 /empty char list
 " "	 /null char
 
@@ -102,6 +105,7 @@ Observe that a time does not wrap when it exceeds 24 hours.
 \
 
 
+/
 //// INTERPROCESS COMMUNICATION    ////
 .z.ps / asynch request(set), default {value x}
 .z.pg / synch request(get), default {value x}
@@ -120,7 +124,7 @@ merely queues the data for sending later. The actual writing into sockets begins
 
 neg[h][] or neg[h](::)
 doesn't mean that it has been processed by or even reached the server.
-It means it has been written into the tcpip buffers on the client side.
+It means it has been written into it's local tcpip buffers.
 
 //from client code
 neg[h](::)		 //clears the outbound client queue
@@ -139,6 +143,7 @@ gateways can be design to have async communication with HDBs/RDBs
 5 when 3 and 4 returns it merges results and gw function can return
 \
 
+/
 /eg. from gw function
 q)(neg h)"f[]";h[]	 /h[] will block until serwer returns data with .z.w, e.g. f on server f:{do[100000000;8.0%8.0987];neg[.z.w] 2}
 2

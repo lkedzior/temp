@@ -3,7 +3,7 @@ if[cond;e1;e2;e3;...]
 
 /conditional evaluation cond ?: valueIfTrue : valueIfFalse
 /returns explicit results
-$[cond; exprIfTrue; exprIfFalse]
+$[cond; exprIfTrue; exprIfFalse]  //evaluates only one expression y or z
 
 /execute whole block like if-else
 /returns last expression from the block that was executed
@@ -14,7 +14,7 @@ $[ cond1;[...]; cond2;[...]; ... ; condn;[...]; [elseBlock] ]
 q)$[0b;[2+2;`if]; 0b;[`elseif];[`else]]
 `else
 
-/vector conditional evaluation
+/vector conditional evaluation - evaluates both y & z params
 q)?[1100b;1 2 3 4;10 20 30 40]
 1 2 30 40
 

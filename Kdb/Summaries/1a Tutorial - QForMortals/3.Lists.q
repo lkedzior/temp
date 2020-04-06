@@ -106,6 +106,8 @@ q)x:0 1 1 1 1 1 1 0 0 0 1 1 1 1 1 0 0 1
 q)w:where x
 q)w
 1 2 3 4 5 6 10 11 12 13 14 17
+C           C              C  //0 6 11
+C shows where we want to cut to get list of indicies of subsequent 1s
 
 q)ci:where 1<>10 -': w /where 1<>(-':)w would return 6 11, 10 value is arbitrary
 q)ci
@@ -136,4 +138,5 @@ L[;;1]	 /retrieve 1st position at the second level(second level as all rows all 
 2 5
 `b`y`1
 "osh"
+2+2
 

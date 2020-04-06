@@ -38,6 +38,11 @@ q)kt[2]	or	kt[`eid!2]
 c1| `b
 c2| 20
 
+//its possible to update kt (similarly we can update dictionary)
+kt[`eid!2]:`c1`c2!(`b;200j)
+`kt insert (4;`d;40)  //inserting new key works
+`kt insert (4;`d;400)  //inserting to existing key fails
+
 /get multiple rows using list of keys
 q)kt[flip enlist 1 3]	or	kt[(enlist 1; enlist 3)]
 c1 c2
@@ -45,7 +50,7 @@ c1 c2
 a  10
 c  30
 
-/Using simple lookup
+/Using simple lookup, this is more efficient than above flip (it's costrly to transpose list)
 q)kt[([]eid:1 2)]
 c1 c2
 -----
