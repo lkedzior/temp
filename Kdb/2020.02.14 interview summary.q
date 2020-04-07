@@ -17,3 +17,17 @@ pivot:{[t]
 
 
 
+parse "select from t"
+(?;`t;();0b;())
+
+parse "select [5] from t"
+(?;`t;();0b;();5j)
+
+parse "select [5 5] from t"
+(?;`t;();0b;();5j, 5j)
+
+parse "select [< abs price] from t"
+(?;`t;();0b;();0Wj;enlist (<:;(abs;`price)))
+
+parse "select [5 5;< abs price] from t"
+(?;`t;();0b;();5j, 5j;enlist (<:;(abs;`price)))

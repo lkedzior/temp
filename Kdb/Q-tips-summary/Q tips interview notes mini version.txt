@@ -358,3 +358,160 @@ size | 10
 price| 101
 q)
 
+###########Splayed tables (From Kdb for mortals)
+Build in operations on the persisted splayed table
+`:/db/t/ upsert (10:00:00;42.0)  //appending
+`p xasc `:/db/t                  //sorting
+@[`:/db/t;`p;`p#]                //applying attribute
+@[`:/db/t2;enlist `s2;`:/db/sym?]  //re-enumerating a symbol column
+
+NOTE By convention, all symbols are enumerated over a single domain named sym, although kdb+ does not require this,
+the .Q utilities follow this convention so to be able to use them the good practice is to stick to domain named sym.
+
+Query Execution on Splayed Tables
+
+•	when kdb+ executes a query against a splayed table, it loads into memory only the columns that the query references.
+Moreover, kdb+ only access the items of the target columns it actually needs (as per where clause)
+
+####LINK COLUMNS
+
+Foreign key column is an enumeration /ɪˌnjuːmə’reɪʃən/ over a keyed table.
+
+Links are useful to implement FKs when dealing with non-keyed columns.
+•	A table (keyed or non-keyed) can contain a link to itself in order to create a parent-child relationship
+•	You can also use links to create “foreign key” between splayed tables where enumerated FKs are not possible (a keyed table cannot be splayed)
+
+Link column is a list row numbers from the other table
+We use ? to create a vector of indices of fid in id and we use ! to create the link
+
+    t1:([] id: 1 2 3; p:1.1 2.2 3.3)
+    t2:([] fid:2 1 3 2; v:20 10 30 40)
+q)t1.id?t2.fid
+1 0 2 1
+
+//below (1 0 2 1) indeces refer to actual row index in the t1
+q)update clink:`t1!(1 0 2 1) from `t2  //WE REFERENCE t1 TABLE when creating a link
+`t2
+q)t2
+fid v  clink
+------------
+2   20 1
+1   10 0
+3   30 2
+2   40 1
+q)meta t2
+c    | t f  a
+-----| ------
+fid  | i
+v    | i
+clink| i t1
+
+//reminder what we were doing for Foreign key to A KEYED table
+//use enumeration to create FK column when defining a table
+//fkcolumn:`keyedTable$val1 val2 val3    /column is an enumeration, keyedTable is a domain
+
+#### Partition tables
+Examples of Partition Domains
+Possible domains are: date, month, year, int
+
+Working with partitioned tables
+count, cols, meta – these work as expected
+
+The select template, or the equivalent function form, is the way to access data for a partitioned table.
+The other templates (exec, update, delete) do not work on partitioned tables.
+
+
+
+
+
+//memory usage of the below query
+//normally partition is just memory mapped and should not increase the RES memory usage
+//but because we select all columns kdb will generate date column vector of the size of the t table for that date
+//this can increase memory usage depending on the size
+count select from t where date=dt
+
+Map reduce example
+Simple example with aggregations like max, count, sum
+•	Map: Split the list, hand on sub-lists to each resource and ask for aggregation number e.g. max
+•	Reduce: Collect the results and calculate the maximum of the individual maximums
+
+More complex example with aggregation like average
+•	Map: Split the list, hand on sub-lists to each resource and ask for a sum and a count
+•	Reduce: obtain the overall average (sum partial sums) / (sum partial counts)
+
+More generally on map-reduce
+map-reduce decomposes an operation/problem on a list into two sub-operations
+•	map operation – performed on each sublist to obtain a list of partial results
+•	reduce operation – the partial result lists are combined to obtain the final result
+
+The aggregates that q can decompose with map-reduce
+avg, count, first, last, max, min,sum, and also
+X cor Y 	//correlation
+X cov Y 	//covariance
+dev X		//standard deviation function
+prd X		//product function
+var X		//variance
+X wavg Y	//weighted average: (sum X*Y)%Y
+X wsum Y	//weighted sum: sum X*Y
+
+
+
+//The naive way to perform an asof join loads all requisite data at once.
+aj[`date`sym`ti;select from t where date within dr;
+		select from q where date within dr]
+
+//as mentioned aj does not perform map-reduce optimization
+//here we show how we can use slaves and peach
+//to take advantage of parallel I/O and concurrent processing
+    >q -s 2
+aj1:{[d] aj[`sym`ti; select from t where date=d; select from q where date=d]}
+raze aj1 peach 2009.01.01 2009.01.02
+
+Query execution on segmented tables (par.txt segmentation)
+Steps
+1.	Kdb+ compares the query’s requisite partitions to the segment layout in par.txt
+2.	The result is a nested list, each item being the partitions list for one segment
+3.	To execute the map step, kdb+ creates a revised query containing the map sub-operation from original query. Example: revised query for avg is ‘compute the sum and count of the sublist’
+4.	Revised query is dispatched to all n slaves via peach. Query is peached over a list of partitions from point 2. Each slave is provided with the list of partitions for one segment and is directed to compute the revised query for its segment.
+NOTE: Kdb+ will only use as many slaves to process a query as there are segments in the query footprint. So if no par.txt is available the slaves threads will NOT be used for the map step
+Vanilla partitioned table (i.e. without a par.txt) is treated as a single segment
+
+5.	within one slave the revised query is applied against a segments’ partition footprint…query is sequentially applied across partitions and the result tables are returned as a list of tables representing one segment result
+6.	Once all slaves complete the nested list of segment results is flattened and reordered by partition value.
+7.	Finally kdb+ employs the original query reduce step to combine the full list of ordered partition results into the query result table
+
+KDB database
+What happens at startup?
+
+When you point q at a directory or reload with \l it does the following things in this specific order
+•	loads q entities (lists, dict, tables, functions)
+•	maps splayed tables
+•	maps partitioned or segmented tables (only valid partitioned tables are mapped)
+•	executes scripts (as this is the last step, you can use loaded entity from there)
+
+Note: Anything that q does not recognize causes it to abort that portion of startup. E.g. if q discovers unexpected files in partitioned or segmented directory, it will not map the tables contained therein. Watch out unexpected hidden files
+
+Note Q will not automatically load serialized data whose file names have extensions.
+
+
+.Q utilities
+
+.Q.chk `:/db – this utility will examine each partition subdirectory in the root /db and writes an empty splayed table of the appropriate form where necessary
+.Q.ind Utility to access rows in a partitioned table based on an absolute index.
+.Q.en[`:/db;table]
+.Q.dpft		//[directoryRoot;partition;`p#field;tableName]
+.Q.fs [f;textFileHandle] Loops over a text file and reads it in “chunks” (each chunk is a list of complete records – “\n" delimited) and allows you to apply a function to each list.
+.Q.fu – function unique, see implementation of this one
+
+
+
+
+
+
+##########Why and when vectors are good
+
+
+###########hash table implementation
+
+
+
