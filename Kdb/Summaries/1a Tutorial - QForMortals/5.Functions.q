@@ -43,10 +43,9 @@ f:-[;100]
 f:-[10;]  or  f:(10-)	
 
 . and @    /apply for functions
-f:{x+y}
 
 f[1;2] ~ f . 1 2 ~ .[f;1 2] ~ .[`f;1 2]	 /right argument must be a list e.g. f:{x*x} f . enlist 2
-f[1 2] ~ f @ 1 2 ~ @[f;1 2] ~ @[`f;1 2]
+f[1] ~ f @ 1 ~ @[f;1] ~ @[`f;1]
 
 /. and @ can be used to alter list/dict/table by applying a function f
 /to modify original list/dict/table refer by name e.g. `L

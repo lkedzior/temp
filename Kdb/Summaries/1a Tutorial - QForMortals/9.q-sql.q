@@ -173,6 +173,14 @@ delete from t where c2=`z /delete some rows
 xgroup – another way to group the table results.
 xgroup always shows all columns in the results
 `byColumn xgroup table
+q)`b xgroup ([]a:0 0 1 1 2;b:`a`a`c`d`e;c:til 5)
+b| a   c
+-| -------
+a| 0 0 0 1
+c| ,1  ,2
+d| ,1  ,3
+e| ,2  ,4
+q)
 
 ungroup t	 /normalize results to flat table
 q)t		 /note c3 column is not simple list

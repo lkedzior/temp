@@ -89,6 +89,8 @@ id prevId origId
 q)
 
 ////    ADVERBS for dyadic functions    ////
+easy way to remember syntax: it always starts with f/ or f\ or f'
+f/ f\ f/: f\: f' f':
 f\:[L;a]	 /each left		L f\: a
 f/:[a;L]	 /each right	a f/: L
 
@@ -103,8 +105,7 @@ f':[a;L]	 /each previous, applies f on consecutive items in a List
 f/			 /over
 f\			 /scan
 
-easy way to remember syntax: it always starts with f/ or f\ or f'
-f/ f\ f/: f\: f' f':
+
 
 /each right
 q)-/: [100; 0 1 2 3]

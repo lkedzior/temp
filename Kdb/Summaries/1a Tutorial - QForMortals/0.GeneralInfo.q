@@ -143,10 +143,6 @@ gateways can be design to have async communication with HDBs/RDBs
 5 when 3 and 4 returns it merges results and gw function can return
 \
 
-/
-/eg. from gw function
-q)(neg h)"f[]";h[]	 /h[] will block until serwer returns data with .z.w, e.g. f on server f:{do[100000000;8.0%8.0987];neg[.z.w] 2}
-2
 
 /
 ---------
@@ -157,7 +153,6 @@ Even double colon assignment will NOT affects the global variable.
 a:42
 f:{a:6;a::98; x*a}	/global a is not changed by this f
 ---------
-
 
 /
 What makes the language dynamic

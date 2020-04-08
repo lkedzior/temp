@@ -87,8 +87,18 @@ id date       price    ret
 0  2000.01.04 98.0201  -0.01003867
 ...
 
-
-
+Update by with aggregate function
+When an aggregate function is used,
+it is applied to each group of values and the result is assigned to all records in the group.
+        update av:avg p by n from t
+n p  av
+---------
+a 10 11
+b 15 14.5
+a 12 11
+c 20 22.5
+c 25 22.5
+b 14 14.5
 
 ################14.2 Pivot Tables
 We are working with a table with date | id | price columns
@@ -210,6 +220,14 @@ parse "select [5 5;< abs price] from t"
 (?;`t;();0b;();5j, 5j;enlist (<:;(abs;`price)))
 
 #######################fby
+////	fby (filter by)   ////
+/e.g. show all entries with price greater than average
+/fby is part of the where filter...it filters out rows which don't meet the condition, it does not group the result set
+
+/use it if you need to group by + use an aggregate function in the where phrase
+q)select from t where price>(avg;price) fby ([]sym)
+q)select from t where price>(avg;price) fby sym
+select from t where price>(avg;price) fby ([]sym;ex)
 
 How to select rows from a table with max price for each symbol?
 
@@ -500,13 +518,66 @@ Note Q will not automatically load serialized data whose file names have extensi
 .Q.ind Utility to access rows in a partitioned table based on an absolute index.
 .Q.en[`:/db;table]
 .Q.dpft		//[directoryRoot;partition;`p#field;tableName]
+.Q.dpfts allows the enum domain to be specified. Since V3.6 (2018.04.13)
+.Q.dpfts[`:db;2007.07.23;`sym;`t;`mysym]
+`t
+q)mysym
+`c`a`b
+
+.Q.hdpf (save tables)
+Syntax: .Q.hdpf[historicalport;directory;partition;`p#field]
+
+.Q.par[`:.;2010.02.02;`quote]
+`:/data/taq/2010.02.02/quote
+
 .Q.fs [f;textFileHandle] Loops over a text file and reads it in “chunks” (each chunk is a list of complete records – “\n" delimited) and allows you to apply a function to each list.
+.Q.fsn is almost identical to .Q.fs but it takes an extra argument: z is the size in bytes that chunks will be read in. This is particularly useful for balancing load speed and ram usage.
+.Q.fs is in fact a projection of .Q.fsn with the size set to 131000 bytes by default.
+
 .Q.fu – function unique, see implementation of this one
+.Q.fc (parallel on cut) .Q.fc[f]vec returns the result of evaluating f vec
 
 
+vwap
+There is built-in wavg(Weighted average function)
+The calculation is (sum x*y) % sum x
+The financial analytic known as VWAP (volume-weighted average price) is a weighted average.
+q)select size wavg price by sym from trade
+sym| price
+---| -----
+a  | 10.75
 
+In a CEP typically we calculate wsum[size;price] & sum size (and keep adding new values)
+if[x~"vwap";t:`trade;
+ upd:{[t;x]vwap+:select price:size wsum price,size:sum size by sym from x}]
 
+and vwap can be calculated on request as price%size
 
+standard deviation
+var, svar (variance and sample variance (svar(x) = (n%n-1)*var(x)
+dev, sdev - standard deviation as the square root of the variance
+q)dev 10 343 232 55
+134.3484
+q)select dev price by sym from trade
+
+A useful property of the standard deviation is that, unlike the variance,
+it is expressed in the same units as the data.
+
+see
+https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data/variance-standard-deviation-sample/a/population-and-sample-standard-deviation-review
+Population and sample standard deviation
+Standard deviation measures the spread of a data distribution. It measures the typical distance between each data point and the mean.
+The formula we use for standard deviation depends on whether the data is being considered a population of its own, or the data is a sample representing a larger population.
+If the data is being considered a population on its own, we divide by the number of data points, N.
+If the data is a sample from a larger population, we divide by one fewer than the number of data points in the sample, n-1.
+
+The steps in each formula are all the same except for one—we divide by one less than the number of data points when dealing with sample data.
+Step 1: Calculate the mean of the data—this is \muμmu in the formula.
+Step 2: Subtract the mean from each data point. These differences are called deviations. Data points below the mean will have negative deviations, and data points above the mean will have positive deviations.
+Step 3: Square each deviation to make it positive.
+Step 4: Add the squared deviations together.
+Step 5: Divide the sum by the number of data points in the population. The result is called the variance.
+Step 6: Take the square root of the variance to get the standard deviation.
 
 ##########Why and when vectors are good
 
@@ -515,3 +586,279 @@ Note Q will not automatically load serialized data whose file names have extensi
 
 
 
+############notes from kdb for mortals
+//flushing buffer after asynch call
+(neg h)[]
+async send, e.g. neg[h] data
+merely queues the data for sending later. The actual writing into sockets begins at any of the following
+1)when the current/pending queries/script complete
+2)a sync request is issued on h
+3)an async purge on h is performed, i.e. neg[h][]; / blocks until all pending msgs on h are sent
+
+####
+Qtips Memory allocation (chapter 10)
+When more memory is needed than exists in the pool/heap, kdb+ will allocate additional multiples of 64MB blocks.
+e.g in 3.5 we see increases by 64MB each time
+
+When the process memory limit has been reached, q will coalesce /kəʊ.əˈles/ blocks of unused memory available in the pool/heap
+that are at least 64MB, and return them back to operating system. Kdb+ then tries to allocate the requested block of memory,
+if is still unable to allocate it, a `wsfull error is thrown and the process dies.
+
+- it is possible to request memory to be coalesced by using the .Q.gc[]
+-in addition q can be configured to automatically release blocks of memory that are at least 64MB by setting the -g 1
+
+/using null item :: to define general list
+L:(1;2;3;`a;::)
+L[3]:4	   /would change L type 0h->6h without :: at the end
+L[3]:`a    /and here would fail without :: at the end
+
+
+/function projection is the way to DEFINE new functions
+/by using existing one and default argument
+
+. and @    /apply for functions
+
+f[1;2] ~ f . 1 2 ~ .[f;1 2] ~ .[`f;1 2]	 /right argument must be a list e.g. f:{x*x} f . enlist 2
+f[1] ~ f @ 1 ~ @[f;1] ~ @[`f;1]
+
+/. and @ can be used to alter list/dict/table by applying a function f
+/to modify original list/dict/table refer by name e.g. `L
+
+/L@I - indexing at the top level
+/L.I - indexing at depth
+@[L;I;f]    /apply monadic f
+@[L;0 1;neg]	 /will negate items at index 0 and 1 and return new List
+@[`L;0 1;neg]	 /will modify L and return `L
+
+@[L;I;f;y]  /apply dyadic f
+@[L;1 2; +; 42 43]	 /add 42 to L[1], add 43 to L[2]
+
+
+/traditional assign fails at depth level
+q)L[0][1]:42	 /would work at top level e.g. L[0]:(1 42 3)
+'assign
+/use indexing at depth instead
+q).[L;0 1; : ;42]
+
+
+//Adverbs (from Adverbs.q)
+////    ADVERBS for monadic functions    ////
+f each L	 /iterate over List and apply funcion f
+
+/scan can be used for 3 different cases to execute recursive calls
+/ 1) n recursive calls, return a list with consecutive results
+f\[n;arg]	 /n recursive calls, returns the list with consecutive results
+
+/ 2) do while(cond) - recursive calls as long as condition is true (stops after first false)
+fMonad\[monadicCondFunction;100]  //recursive calls as long as monadicCondFunction returns 1b
+
+/ 3) recurive calls until argument = result (converge)
+f\[arg]
+
+////    ADVERBS for dyadic functions    ////
+easy way to remember syntax: it always starts with f/ or f\ or f'
+f/ f\ f/: f\: f' f':
+f\:[L;a]	 /each left		L f\: a
+f/:[a;L]	 /each right	a f/: L
+
+f'[L1;L2]	 /each both
+f'[a;L]		 /a expanded to list
+f'[L;a]		 /a expanded to list
+
+f':[a;L]	 /each previous, applies f on consecutive items in a List
+
+/over and scan are different, they use previous results for next call
+/generally f/ ~ last f\
+f/			 /over
+f\			 /scan
+
+##############/scan & over for multivalent functions
+
+##########scan with triadic function
+q)f:{show -3!(x;y;z); x+y+z}
+q)(f\)[1;10 20 30; 100 200 300]  // (f\)[arg;L1;L2]  //will run operation doing each both on L1&L2   f[prevResult;L1;L2]
+"1 10 100"  //111
+"111 20 200"  //331
+"331 30 300"  //661
+111 331 661
+q)
+
+//// combining adverbs ////
+combining adverbs
+in general f adverb1 advert2
+  => (f adverb1) adverb2
+
+
+
+####dictionaries
+/reverse lookup with ? and where
+q)(`a`b`c!1 2 2)?2  //find first occurance
+`b
+q)2=(`a`b`c!1 2 2)
+a| 0
+b| 1
+c| 1
+q)where 2=(`a`b`c!1 2 2)  //find all occurances
+`b`c
+
+
+###keyed tables
+Inserting data into a keyed table works just like inserting data into a regular table,
+with the additional requirement that the key must not already exist in the table.
+
+/get multiple rows using list of keys
+q)kt[flip enlist 1 3]	or	kt[(enlist 1; enlist 3)]
+c1 c2
+-----
+a  10
+c  30
+
+/Using simple lookup, this is more efficient than above flip (it's costrly to transpose list)
+q)kt[([]eid:1 2)]
+c1 c2
+-----
+a  10
+b  20
+
+/Using take operator
+q)([]eid: 1 3)#kt
+eid| c1 c2
+---| -----
+1  | a  10
+3  | c  30
+
+/ xkey - convert non-keyed <-> keyed table
+() xkey `kt    /convert to non-keyed table, same as 0! kt
+`eid xkey `kt  /convert to keyed table
+
+
+Foreign key columns
+////	Foreign Key    ////
+/use enumeration to create FK column when defining a table
+fkcolumn:`keyedTable$val1 val2 val3    /column is an enumeration, keyedTable is an domain
+
+grouping ungrouping
+/xgroup (don't confuse with ungroup)
+xgroup – another way to group the table results. (instead of select by)
+xgroup always shows all columns in the results
+`byColumn xgroup table
+q)`b xgroup ([]a:0 0 1 1 2;b:`a`a`c`d`e;c:til 5)
+b| a   c
+-| -------
+a| 0 0 0 1
+c| ,1  ,2
+d| ,1  ,3
+e| ,2  ,4
+q)
+
+
+ungroup t	 /normalize results to flat table
+q)t		 /note c3 column is not simple list
+c1 c2 c3
+---------
+a  10 1 2
+b  20 3 4
+
+/////    Functional forms of select/exec/update/delete    ////
+/better than prametrized queries because column can be dynamic
+
+?[t;c;b;a]	 /select, exec
+![t;c;b;a]	 /update
+![t;c;0b;a]	 /delete
+
+t- table
+c- list of contraints
+b- dictionary of group bys (it is list for exec)
+a- dictionary of aggregates
+
+  where p>0, n in `x`y	 	 /c: ((>;`p;0);(in;`n;enlist `x`y))  //note symbol literals are enlisted, column names are not
+
+
+///////////		Reading CSV files	///////////////
+//nested list is returned by 0:
+flip `id`sym`px!("ISF"; ",") 0: `:/data/Px.csv
+
+//delimited text file with columns as first line
+//here 0: returns a table
+("ISF";enlist ",") 0: `:/data/pxtitles.csv
+Seq  Sym         Px
+-----------------------
+1001 DBT12345678 98.6
+1002 EQT98765432 24.75
+1004 CCR00000001 121.23
+
+/
+functions, global variables, context
+If a function defines global variable, the context of this variable
+depends on the context in which the function had been defined
+
+example from tick
+
+\d .u
+init:{w::123}
+\d .
+.u.init[]
+.u.w ->123 w is now in u context
+\
+
+
+//JOINS
+column join
+/ ,' column join to create new table, requires same count
+/t1,'t2 joins records to records
+t1 ,' t2
+
+//another way to do it is with ^
+t1^t2
+
+/////////////////////////////////    upsert , ^ uj    /////////////////////////////
+
+/t1 upsert t2 or t1,t2	- upsert or insert if t1 is non keyed
+/t1 uj t2 is like upsert but works for different table shapes
+/kt1 ^ kt2 is special version of upsert for keyed tables, which does not override with nulls
+
+/upsert works only if both tables have got the same columns
+/if first table is keyed table then upsert is performed
+/otherwise insert is performed
+/you can update first table by passing reference
+/t1,t2 does same thing as upsert
+t1 upsert t2
+kt1 upsert kt2
+kt1 upsert t2
+/t1 upsert kt2 - does not work
+
+/////////////////////////////////    uj union join    /////////////////////////////
+
+t1 uj t2	or 		kt1 uj	kt2
+
+/similar to upsert but columns don't have to match exactly
+/1)when used with unkeyed tables - the second table is inserted
+/2)when used with keyed tables (both must be keyed) the upsert is performeds
+
+
+
+KEYED JOINS
+Some joins are keyed, in that columns in the first table are matched with the key columns of the second table
+Second table must be keyed
+t1 join kt2
+kt1 join kt2
+/FK relation will be used if exists
+/if there is no FK column in leftTable then column names must match PK columns
+
+ij - inner join
+lj - left join (also ljf variation)
+pj - plus join, variation of left join, t2 values are added to t1 for common columns
+
+
+////    equijoin ej[c;t1;t2]  /'ikwi, 'ɛkwi/  ////
+/ej verb joins two tables on a given list of columns c
+/ej is like keyed inner join (ij) but it works with non-keyed tables
+
+/what happens when second table has duplicates?
+/All combinations will be included in the result table
+q)ej[`sym;s;t]
+sym  ex  MC   price
+-----------------------
+IBM  N   1000 0.7029677
+IBM  N   1000 0.2608152
+MSFT CME 250  0.5433888
