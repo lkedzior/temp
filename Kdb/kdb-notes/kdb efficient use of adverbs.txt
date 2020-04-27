@@ -182,7 +182,7 @@ q)(,\)[1 2 4 5 6]
 1 2 4 5 6
 
 raze is monadic
-we already now that
+we already know that
 3c) recurive calls until argument = result (converge)
 f/[arg]
 

@@ -580,10 +580,41 @@ Step 5: Divide the sum by the number of data points in the population. The resul
 Step 6: Take the square root of the variance to get the standard deviation.
 
 ##########Why and when vectors are good
+An array is a data structure, which can store a fixed-size collection of elements of the same data type.
+arrays consist of contiguous memory locations. The lowest address corresponds to the first element and the highest address to the last element.
+
+Advantages
+It is better and convenient way of storing the data of same datatype with same size.
+It allows us to store known number of elements in it.
+It allocates memory in contiguous memory locations for its elements. It does not allocate any extra space/ memory for its elements.
+  Hence there is no memory overflow or shortage of memory in arrays.
+Iterating the arrays using their index is faster compared to any other methods like linked list etc.
+It allows to store the elements in any dimensional array – supports multidimensional array.
+Disadvantages
+It allows us to enter only fixed number of elements into it. We cannot alter the size of the array once array is declared. Hence if we need to insert more number of records than declared then it is not possible. We should know array size at the compile time itself.
+Inserting and deleting the records from the array would be costly since we add / delete the elements from the array, we need to manage memory space too.
+It does not verify the indexes while compiling the array. In case there is any indexes pointed which is more than the dimension specified, then we will get run time errors rather than identifying them at compile time.
+
+see https://en.wikipedia.org/wiki/Array_data_structure
+Indexing O(1)
+Wasted space 0
+
+Linked List
+Indexing O(n)
+Insert/delete at beggining/end O(1)
+Wasted space O(n)
+
+Dynamic array
+Indexing O(1)
+Wasted space O(n)
 
 
 ###########hash table implementation
+Hash table / hash map - data structure that can map keys to values.
+HT uses a hash function to compute an index, also called a hash code, into an array of buckets or slots, from which the desired value can be found
 
+Ideally, the hash function will assign each key to a unique bucket, but most hash table designs employ an imperfect hash function,
+which might cause hash collisions where the hash function generates the same index for more than one key. Such collisions are always accommodated in some way.
 
 
 ############notes from kdb for mortals
