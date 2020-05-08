@@ -53,4 +53,9 @@ GSSAPIAuthentication yes
 [root@riverside1 ~]# grep UseDNS /etc/ssh/sshd_config
 #UseDNS yes
 
+2020/05/08
+Timeout issues did not go away
+Noticed that there were no timeouts issues when I had run 'ping -t riverside2.'
+I have changed the putty Connection settings
+'Seconds between keepalives' changed it to 60 and this seems to address the issue
 
