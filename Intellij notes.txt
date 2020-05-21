@@ -120,3 +120,8 @@ set CHERE_INVOKING=1 & C:\UBS\dev\cygwin64_2.884\bin\bash.exe --login -i
 2)In intellij settings->Tools->Terminal
 specify the start directory, the shell path should point to the new intelTerm.bat file
 keep other default settings
+
+
+#### end of line EOL line separator settings
+Editor->Code Style -> Line separator
+https://www.jetbrains.com/help/idea/configuring-line-endings-and-line-separators.html
