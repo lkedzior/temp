@@ -97,8 +97,6 @@ k).Q.d0:{.Q.dd[*.Q.pd;*.Q.pv]}
 /the first partition is always the same, the last might not be if there are some issues when saving to disk
 
 
-/#unpivoting table
-ungroup:(`sym`id #testData1),'{`statname`test1!(key x; value x)}each `sym`id _ testdata
 
 
 
