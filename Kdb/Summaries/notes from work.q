@@ -1,7 +1,3 @@
-/saving workspace, reading workspace
-`:file set (value `.)
-`. set (get `:file)
-
 /get all namespaces
 key`
 

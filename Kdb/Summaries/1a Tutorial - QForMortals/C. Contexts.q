@@ -6,6 +6,10 @@ t| +`x`y`z!(2 3 5;`ibm`amd`intel;"npn")
 f| {x+y}
 
 /saving the default context
+/saving workspace, reading workspace
+`:file set (value `.)
+`. set (get `:file)
+
 `:c:/context.bin set value `.
 
 /overwriting context/namespace
