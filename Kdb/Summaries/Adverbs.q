@@ -1,12 +1,17 @@
 //This content was originaly created from QForMortals but later more examples have been added
-////    ADVERBS for monadic functions    ////
+
+////    ADVERBS FOR MONADIC FUNCTIONS    ////
 
 f each L	 /iterate over List and apply funcion f
 each[f] L
 q){x*x} til 10
 0 1 4 9 16 25 36 49 64 81
 
-/scan can be used for 3 different cases to execute recursive calls
+/scan can be used for 3 different cases to execute recursive calls of f monadic function
+1) f/[n;arg]
+2) f/[monadCond;arg]
+3) f/[arg]
+
 / 1) n recursive calls, return a list with consecutive results
 
 f\[n;arg]	 /n recursive calls, returns the list with consecutive results
@@ -300,9 +305,19 @@ slidingWindow:{[func;n;data]
   func/'[slices]   / func/' is basically func/ each slices....f/ allows to have + (dyadic) as a function
  };
 
+//here we run monadic upper on first item of the list upper["aa"]
+q)@[("aa";"a";"bb");0;upper]
+"AA"
+"a"
+"bb"
 
+//Here we run (@[("aa");0;upper]; @[("a");0;upper]; @[("Bb");0;upper])
+//@[;0;upper] each ("aa";"a";"bb")
+//or equivalent using (')
 q)@'[("aa";"a";"bb");0;upper]
 "Aa"
 "TYPE"
 "Bb"
-q)
+//typer error because we can't index an atom
+q)"a"[0]
+'type

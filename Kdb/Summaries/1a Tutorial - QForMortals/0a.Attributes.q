@@ -70,7 +70,7 @@ o	Appending out of order data loses `s#
 o	Indicates unique list
 o	Speeds up searches/lookups
 o	Appending non-unique data loses `u#
-o	Size overhead 16*u (u-number of uniques), hash table is built behind?
+o	Size overhead 16*u (u-number of uniques), hash table is built behind
 
 •	`p# (parted)
 o	Indicates partitioned list into sublists of the same element

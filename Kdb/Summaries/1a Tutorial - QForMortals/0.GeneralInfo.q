@@ -31,7 +31,7 @@ f:{[a;b]
 0N! x /prints and returns x
 q)show
 k){1 .Q.s x;}	 /.Q.s formats an object to plain text, as used by the q console.
-−3!x /returns string representation of x
+−3!x /used by .Q.s, returns string representation of x
 
 /extracting year/month/day as int number from date
 q)d

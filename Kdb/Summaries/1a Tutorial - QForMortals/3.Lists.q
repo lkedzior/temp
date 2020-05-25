@@ -9,6 +9,10 @@ enlist 42
 L[1 2]:10
 L[1 2]:10 20
 
+/traditional assign fails at depth level, use indexing at depth instead .[L;0 1; : ;42]
+q)L[0][1]:42	 /would work at top level e.g. L[0]:(1 42 3)
+'assign
+
 /returns entire list, :: denotes the null item
 L ~ L[] ~ L[::] ~ L ::
 
