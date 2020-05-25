@@ -211,8 +211,7 @@ t:();  //create a table the remote will be insert into
 neg[h]({[tbl]
   //we can cut by sym or just each over different i ranges where i within ...
   syms:exec distinct sym from ...
-  //is it safer to do .z.w instead neg[.z.w] because the remote
-  //does not multiple chunks if the local was busy processing something else?
+  //.z.w instead neg[.z.w] so that we wait until insert is complete, this way only one chunk is queued in tcp bufferes
   {[tbl;s] .z.w(insert[tbl]; select from tbl where ...,sym=s);}[tbl] each syms;
 }[`t]);
 
