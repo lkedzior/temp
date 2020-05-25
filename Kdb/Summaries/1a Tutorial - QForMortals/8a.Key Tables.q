@@ -50,7 +50,7 @@ c1 c2
 a  10
 c  30
 
-/Using simple lookup, this is more efficient than above flip (it's costrly to transpose list)
+/Using simple lookup, this is more efficient than above flip (it's costly to transpose list)
 q)kt[([]eid:1 2)]
 c1 c2
 -----

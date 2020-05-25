@@ -25,7 +25,6 @@ L:0#ON    /use 0# with any value of the required type, typically null of the req
 
 
 ////    ENUMERATIONS for symbol lists    ////
-/note the enumaration mechanism can be applied to lists of symbol type only!
 /inernally enumeration is stored as list of integers
 
 q)symList:`c`b`a`c`c`b`a`b`a`a`a`c
@@ -44,6 +43,7 @@ q)en=`a
 q)where en=`a
 2 6 8 9 10
 
+/Normally we don't create domain upfront, we use ? operator to create enumeration and create/update domain on the fly
 /conditional enumeration
 /create an enumeration using (?) - creates enumeration and does conditional append to the domain (it can also be used with a file path)
 /new symbols will be added to the domain
@@ -71,3 +71,17 @@ q)sym
 `a`b`z
 q)get `:/db/sym
 `a`b`z
+
+////    ENUMERATIONS using key table as a domain    ////
+columnData:`kt$value1 value2 value3
+see 8a.Key Tables.q
+q)kt:([eid:1001 1002 1003] name:`Dent`Beeblebrox`Prefect; iq:98 42 126)
+q)tdetails:([] eid:`kt$1003 1001 1002 1001 1002 1001; sc:126 36 92 39 98 42)
+
+
+////    ENUMERATIONS using ! operator to create a link column to a simple table (not key table)    ////
+`tbl!listOfIndicies
+columnData:`table1!(1 0 2 1)
+
+
+

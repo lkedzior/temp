@@ -14,7 +14,7 @@ $[ cond1;[...]; cond2;[...]; ... ; condn;[...]; [elseBlock] ]
 q)$[0b;[2+2;`if]; 0b;[`elseif];[`else]]
 `else
 
-/vector conditional evaluation - evaluates both y & z params
+/vector conditional evaluation - evaluates both y & z params (both are normally needed given x boolean vector)
 q)?[1100b;1 2 3 4;10 20 30 40]
 1 2 30 40
 

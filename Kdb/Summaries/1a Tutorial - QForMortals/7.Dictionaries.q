@@ -24,8 +24,8 @@ q)d:(::;`a;`b;`c)!(::;1;2;`aaa)
 q)d _: `c
 q)d[`c]:`bbb
 
-/reverse lookup with ? and where
-q)(`a`b`c!1 2 2)?2  //find first occurance
+/reverse lookup with ? and =
+q)(`a`b`c!1 2 2)?2  //find first occurance only
 `b
 q)2=(`a`b`c!1 2 2)
 a| 0

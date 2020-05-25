@@ -47,8 +47,11 @@ q)read0 `:/f.txt
 read1 /reads a binary file and return byte list
 
 ///////////		Reading CSV files	///////////////
+Use " " space to skip colun e.g. "I SF*"
+Use * to use string type
+
 //nested list is returned by 0:
-flip `id`sym`px!("ISF"; ",") 0: `:/data/Px.csv
+flip `id`sym`px`id!("ISF*"; ",") 0: `:/data/Px.csv
 
 //delimited text file with columns as first line
 //here 0: returns a table

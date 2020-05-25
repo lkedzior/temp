@@ -65,6 +65,52 @@ select distict c1,c2 from t
 /with exec must be used with every column
 exec distinct c1, distinct c2 ... /we can get different count of c1 and c2
 
+q)select distinct a,b from ([]a:1 1 2;b:`a`b`c)
+a b
+---
+1 a
+1 b
+2 c
+
+/####    Special functions https://code.kx.com/q/ref/select/#special-functions
+/The following functions (essentially .Q.a0 in q.k) receive special treatment within select:
+count, first, last, sum, prd, min, max, med, avg, wsum, wavg, var, dev, cov, cor
+//When used explicitly, such that it can recognize the usage, q will perform additional steps, such as enlisting results
+//or aggregating across partitions. However, when wrapped inside another function,
+//q does not know that it needs to perform these additional steps, and it is then left to the programmer to insert them.
+q)select sum a from ([]a:1 2 3)
+a
+-
+6
+
+q)select {sum x}[a] from ([]a:1 2 3)
+'rank
+
+q)select {(),sum x}[a] from ([]a:1 2 3)
+a
+-
+6
+
+/####    $ conditional evaluation is not supported inside q-SQL expressions
+https://code.kx.com/q/basics/qsql/#cond
+q)select from u where a like $[1b;"ref/*";"kb/*"]
+'rank
+
+We have to enclose it in a lambda or use vector conditional '?' instead
+
+/#### masking implicity arguments
+https://code.kx.com/q/ref/select/#implicit-arguments
+
+/call with wrong number of args results in rank error
+q){select from ([]a:0 1;b:2 3) where a=x,b=y}[0;2]
+'rank
+
+/works with explicit args
+q){[x;y]select from ([]a:0 1;b:2 3) where a=x,b=y}[0;2]
+a b
+---
+0 2
+
 ////	fby (filter by)   ////
 /e.g. show all entries with price greater than average
 /fby is part of the where filter...it filters out rows which don't meet the condition, it does not group the result set
@@ -300,3 +346,30 @@ q)parse"select m:max p, s:sum p by name:n from t where p>0, n in `x`y"
   ((>;`p;0);(in;`n;enlist`x`y));
   (enlist`name)!enlist`n;
   `m`s!((max;`p);(sum;`p))]
+
+//other forms
+q)parse"select [3] from t"
+?
+`t
+()
+0b
+()
+3
+q)parse"select [3 4] from t"
+?
+`t
+()
+0b
+()
+3 4
+q)
+
+q)parse"select[3 4;>price] from t"
+?
+`t
+()
+0b
+()
+3 4
+,(>:;`price)
+q)
