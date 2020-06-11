@@ -22,6 +22,12 @@ a| 1
 b| 2
 c| 3
 
+kt1 insert ([s:`a`b`c]size:1 2 3) //type error (we can't insert same keys)
+kt1,(`a`b`c;1 2 3) //type error
+kt1 upsert ([s:`a`b`c]size:1 2 3) //upsert works okay
+kt1,([s:`a`b`c]size:1 2 3) //upsert works okay
+
+
 q)kt2:([s:`c`d]size:300 400)
 q)kt2
 s| size

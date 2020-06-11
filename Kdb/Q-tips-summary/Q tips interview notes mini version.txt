@@ -46,6 +46,13 @@ q)
 
 ############qsql
 ----by clause
+
+consider
+update c:avg b by //aggregate function
+update c:sums b by //uniform function
+
+select c:avg b by //select with aggregate
+
 select avg price by id from t
 
 update ret:deltas[0n;log price] by id from t
@@ -239,6 +246,13 @@ aaa 2018.05.07 10
 aaa 2018.05.07 10
 aaa 2018.05.07 9
 bbb 2018.05.07 100
+
+q)select from t where price=(max;price) fby ([] sym)
+sym date       price
+--------------------
+aaa 2020.05.26 10
+aaa 2020.05.26 10
+bbb 2020.05.26 100
 
 We could sort the table by price and select last row by sym
 
