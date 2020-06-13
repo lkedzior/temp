@@ -1,0 +1,19 @@
+####### 2020/06/13 sync time with ntp
+
+[root@riverside1 ~]# yum install ntp
+[root@riverside1 ~]# vi /etc/ntp.conf
+[root@riverside1 ~]# cat /etc/ntp.conf | grep server
+server 0.uk.pool.ntp.org
+server 1.uk.pool.ntp.org
+server 2.uk.pool.ntp.org
+server 3.uk.pool.ntp.org
+
+[root@riverside1 ~]# systemctl restart ntpd
+[root@riverside1 ~]# systemctl enable ntpd
+[root@riverside1 ~]# ll /etc/systemd/system/multi-user.target.wants/ntpd.service
+lrwxrwxrwx. 1 root root 36 Apr 24  2016 /etc/systemd/system/multi-user.target.wants/ntpd.service -> /usr/lib/systemd/system/ntpd.service
+
+[root@riverside1 ~]# ntpstat
+synchronised to NTP server (85.199.214.102) at stratum 2
+   time correct to within 6 ms
+   polling server every 64 s
