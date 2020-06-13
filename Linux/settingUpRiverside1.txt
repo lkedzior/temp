@@ -17,3 +17,4 @@ lrwxrwxrwx. 1 root root 36 Apr 24  2016 /etc/systemd/system/multi-user.target.wa
 synchronised to NTP server (85.199.214.102) at stratum 2
    time correct to within 6 ms
    polling server every 64 s
+
