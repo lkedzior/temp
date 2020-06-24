@@ -59,3 +59,72 @@ Noticed that there were no timeouts issues when I had run 'ping -t riverside2.'
 I have changed the putty Connection settings
 'Seconds between keepalives' changed it to 60 and this seems to address the issue
 
+####### 2020/06/13 add scheduled shutdown user root crontab
+
+[root@riverside2 ~]# crontab -l
+SHELL=/bin/bash
+
+#Min     0 to 59
+#Hour    0 to 23
+#Day     1 to 31
+#Month   1 to 12
+#Weekday 0 to 6, 0 for Sunday, 6 for Saturday
+
+#-----------------------------------------------------------------------------
+#Min   Hour    Day     Month   Weekday Command
+#-----------------------------------------------------------------------------
+00     04      *       *       6       /sbin/shutdown now
+
+####### 2020/06/13 sync time with ntp
+https://www.techbrown.com/sync-time-timezone-centos-7/
+Install the ntpd package
+$ sudo yum install ntp
+
+Start the ntpd services
+$ sudo systemctl start ntpd
+
+Edit the configuration file
+$ sudo vi /etc/ntp.conf
+
+[LK] I have added the below ntp uk servers from https://www.pool.ntp.org/zone/uk
+[LK] this was advised here https://www.tecmint.com/install-ntp-server-in-centos/
+
+[root@riverside2 ~]# cat /etc/ntp.conf | grep server
+# Use public servers from the pool.ntp.org project.
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+server 0.uk.pool.ntp.org
+server 1.uk.pool.ntp.org
+server 2.uk.pool.ntp.org
+server 3.uk.pool.ntp.org
+#broadcast 192.168.1.255 autokey        # broadcast server
+#broadcast 224.0.1.1 autokey            # multicast server
+#manycastserver 239.255.254.254         # manycast server
+
+After adding these lines simply save and exit.
+Restart the services to make changes in effect.
+$ sudo systemctl restart ntpd
+
+Enable this services to run at every boot.
+$ sudo systemctl enable ntpd
+
+[root@riverside2 ~]# systemctl enable ntpd
+Created symlink from /etc/systemd/system/multi-user.target.wants/ntpd.service to /usr/lib/systemd/system/ntpd.service.
+
+[LK]verify if ntp is working
+[root@riverside2 ~]# ntpstat
+unsynchronised
+  time server re-starting
+   polling server every 8 s
+[root@riverside2 ~]# ntpstat
+synchronised to NTP server (143.170.128.195) at stratum 2
+   time correct to within 951 ms
+   polling server every 64 s
+
+[root@riverside2 ~]# timedatectl status | grep NTP
+     NTP enabled: yes
+NTP synchronized: yes
+
+

@@ -8,6 +8,12 @@ changing to jenkins user
 bash-4.2$ whoami
 jenkins
 
+#Test failures are not treated as build failures by default
+http://jenkins-ci.361315.n4.nabble.com/Maven-tests-failures-but-build-success-td381546.html
+
+Go to settings Manage Jenkins -> Configure System -> Maven Configuration and add below to Global MAVEN_OPTS
+-Dmaven.test.failure.ignore=false
+
 
 #2020/06/24 had problems with the above and used below instead
 [root@riverside1 ~]# su - jenkins -s /bin/bash
