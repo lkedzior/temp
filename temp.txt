@@ -1,0 +1,15 @@
+#usage
+#cd /cygdrive/d/repos/bitbucket
+#sh clone_all.sh
+
+function kedziorlBitbucketCloneIfNotPresent(){
+  repoName=$1
+  if [ ! -d $repoName ] ; then git clone git@bitbucket.org:kedziorl/${repoName}.git $repoName;
+  else  echo "$repoName already exists"
+fi
+}
+
+allRepositories='fxq-commons KdbConfig rdb rsiCalc KdbCoreLib sdlc-utils tp qscripts gw hdb oandaPricesFeedHandler kdb-lib oandaTrader-app qspecLib oandaTransFeedHandler-app oanda-examples java-parent-pom kdb-parent-pom sdlc-mvn-assembly mavenSpringSampleProject oandapricesfeedhandlerv20 kdbTests'
+for repoName in $allRepositories; do
+  kedziorlBitbucketCloneIfNotPresent $repoName
+done
