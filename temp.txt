@@ -1,60 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+    <id>dist</id>
 
-  <modelVersion>4.0.0</modelVersion>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
 
-  <!-- we have to repeat groupId otherwise the mvn version:set is not working-->
-  <groupId>com.fxq</groupId>
-  <artifactId>qspecLib</artifactId>
-  <packaging>jar</packaging>
-  <version>${revision}</version>
+    <includeBaseDirectory>false</includeBaseDirectory>
 
-  <properties>
-    <revision>0.1-SNAPSHOT</revision>
-  </properties>
+    <fileSets>
+        <fileSet>
+            <outputDirectory>/</outputDirectory>
+            <directory>src/main/q</directory>
+            <includes>
+                <!-- all files and all subdirectories -->
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 
-  <!-- Used when creating tags during a release -->
-  <scm>
-    <connection>scm:git:ssh://git@bitbucket.org/kedziorl/qspecLib.git</connection>
-    <developerConnection>scm:git:ssh://git@bitbucket.org/kedziorl/qspecLib.git</developerConnection>
-    <url>https://bitbucket.org/kedziorl/qspecLib.git</url>
-  </scm>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>nexus-snapshots</id>
-      <url>http://riverside1:8081/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>nexus-releases</id>
-      <url>http://riverside1:8081/nexus/content/repositories/releases</url>
-    </repository>
-  </distributionManagement>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/assembly-dist.xml</descriptor>
-          </descriptors>
-        </configuration>
-
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
-
-</project>
+</assembly>
