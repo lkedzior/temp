@@ -1,0 +1,2 @@
+nexus public repository - this is where we normally upload our artifacts
+nexus central repository - this is where we download external dependencies from
