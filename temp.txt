@@ -1,20 +1,128 @@
-/this init.q needs to be added to QLIBPATH when running qspec tests
-/this sctipt needs to be placed in ./target/qspecLib
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-/1)define .utl.QPATH
-/2)load qutil bootstrap
+  <modelVersion>4.0.0</modelVersion>
 
--1"Running init.q from target/qspecLib";
+  <!-- we have to repeat groupId otherwise the mvn version:set is not working-->
+  <groupId>com.fxq</groupId>
+  <artifactId>KdbCoreLib</artifactId>
+  <version>${revision}</version>
 
-.utl.QPATH:enlist `:target/qspecLib;
--1"qspec setup, .utl.QPATH=", -3!.utl.QPATH;
--1"Loading target/qspecLib/qutil/bootstrap.q";
-system"l target/qspecLib/qutil/bootstrap.q";
--1"End of target/qspecLib/init.q";
+  <properties>
+    <revision>0.1-SNAPSHOT</revision>
+  </properties>
+
+  <!-- Used when creating tags during a release -->
+  <scm>
+    <connection>scm:git:ssh://git@bitbucket.org/kedziorl/KdbCoreLib.git</connection>
+    <developerConnection>scm:git:ssh://git@bitbucket.org/kedziorl/KdbCoreLib.git</developerConnection>
+    <url>https://bitbucket.org/kedziorl/KdbCoreLib.git</url>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <url>http://riverside1:8081/nexus/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>nexus-releases</id>
+      <url>http://riverside1:8081/nexus/content/repositories/releases</url>
+    </repository>
+  </distributionManagement>
 
 
-//End of File
-/
-Alternative1
-.utl.QPATH:enlist `:/home/fxq/qpath;
-system"l /home/fxq/qpackages/qutil/lib/bootstrap.q"
+  <build>
+    <plugins>
+      <!-- we can't have assembly plugin configured in parent-pom
+           child projects like KdbConfig don't seem to be able to override it
+           and maven deploy fails, it tries to upload the tar.gz twice-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/assembly-dist.xml</descriptor>
+          </descriptors>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>create-artifact-from-assembly-dist.xml</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>unpack-qspecLib</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeGroupIds>com.fxq</includeGroupIds>
+              <includeArtifactIds>qspecLib</includeArtifactIds>
+              <includeClassifiers>dist</includeClassifiers>
+              <outputDirectory>${project.build.directory}/qspecLib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.6.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+  <dependencies>
+    <!-- TEST DEPENDENCIES -->
+    <dependency>
+      <groupId>com.fxq</groupId>
+      <artifactId>qspecLib</artifactId>
+      <version>0.1</version>
+      <classifier>dist</classifier>
+      <type>tar.gz</type>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fxq</groupId>
+      <artifactId>kdb-lib</artifactId>
+      <version>0.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
