@@ -18,3 +18,7 @@ synchronised to NTP server (85.199.214.102) at stratum 2
    time correct to within 6 ms
    polling server every 64 s
 
+
+2020/12/30
+adding nslookup
+yum install bind-utils
