@@ -25,3 +25,7 @@ yum install bind-utils
 
 2021/07/03
 yum install xorg-x11-apps
+
+yum install libXext.x86_64
+yum install libXrender.x86_64
+yum install libXtst.x86_64
