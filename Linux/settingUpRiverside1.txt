@@ -29,3 +29,6 @@ yum install xorg-x11-apps
 yum install libXext.x86_64
 yum install libXrender.x86_64
 yum install libXtst.x86_64
+
+yum install libXtst
+yum install libXtst.i686
