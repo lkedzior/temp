@@ -22,3 +22,6 @@ synchronised to NTP server (85.199.214.102) at stratum 2
 2020/12/30
 adding nslookup
 yum install bind-utils
+
+2021/07/03
+yum install xorg-x11-apps
