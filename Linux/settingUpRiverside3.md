@@ -8,3 +8,10 @@ Software selection minimal
 Instalation Destination with automatic disk configuration
 Network & Host setup - enabled ethernet during installation
 At the end have run dnf update
+
+
+Commands after install
+```
+dnf update   #dnf if yum replacement 
+yum install wget
+```
