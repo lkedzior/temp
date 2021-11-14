@@ -15,6 +15,7 @@ Commands after install
 dnf update   #dnf if yum replacement 
 yum install wget
 dnf install java-11-openjdk-devel
+dnf install java-1.8.0-openjdk-devel
 timedatectl set-timezone Europe/London
 yum install tar
 ```
