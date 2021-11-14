@@ -16,6 +16,7 @@ dnf update   #dnf if yum replacement
 yum install wget
 dnf install java-11-openjdk-devel
 timedatectl set-timezone Europe/London
+yum install tar
 ```
 
 Configure time sync not needed? https://www.itzgeek.com/post/how-to-install-ntp-chrony-on-centos-8-centos-7-rhel-8-rhel-7/
