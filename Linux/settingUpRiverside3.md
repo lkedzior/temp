@@ -33,3 +33,18 @@ success
 ```
 
 Then http://riverside3:8081
+
+Setting up TeamCity
+https://www.jetbrains.com/help/teamcity/quick-setup-guide.html#Install+and+run+on+Linux+and+macOS
+
+```
+JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
+
+useradd --user-group --shell /bin/bash fxq
+chown fxq /app/TeamCity
+chown :fxq /app/TeamCity
+cd /app
+tar xfz TeamCity-2021.2.tar.gz
+firewall-cmd --permanent --add-port=8111/tcp
+firewall-cmd --reload
+```
