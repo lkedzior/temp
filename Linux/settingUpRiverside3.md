@@ -25,9 +25,11 @@ Configure time sync not needed? https://www.itzgeek.com/post/how-to-install-ntp-
 
 Install nexus 3
 https://devopscube.com/how-to-install-latest-sonatype-nexus-3-on-linux/
+```
 [root@riverside3 bin]# firewall-cmd --permanent --add-port=8081/tcp
 success
 [root@riverside3 bin]# firewall-cmd --reload
 success
+```
 
 Then http://riverside3:8081
