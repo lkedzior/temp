@@ -97,7 +97,7 @@ https://stackoverflow.com/questions/16336283/intellij-idea-12-return-to-last-act
 Preferences>>Editor>>General>>Editor Tabs
 Set When closing active editor: to Activate most recently opened Tab
 
-
+--
 #### Change font size with ctrl and mouse wheel
 Settings->Editor->General
 Tick the change font size with ctrl and mouse wheel option
@@ -121,7 +121,12 @@ set CHERE_INVOKING=1 & C:\UBS\dev\cygwin64_2.884\bin\bash.exe --login -i
 specify the start directory, the shell path should point to the new intelTerm.bat file
 keep other default settings
 
+## Using git bash terminal
+https://www.deviantdev.com/journal/intellij-git-bash-shell-as-terminal-windows
+To open a git bash as terminal window you havt to enter "C:\Program Files\Git\bin\sh.exe" -li  as "Shell Path". As you open a new Terminal window the terminal is opened as the knows git bash window.
+
 
 #### end of line EOL line separator settings
 Editor->Code Style -> Line separator
 https://www.jetbrains.com/help/idea/configuring-line-endings-and-line-separators.html
+

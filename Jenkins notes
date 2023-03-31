@@ -14,10 +14,8 @@ http://jenkins-ci.361315.n4.nabble.com/Maven-tests-failures-but-build-success-td
 Go to settings Manage Jenkins -> Configure System -> Maven Configuration and add below to Global MAVEN_OPTS
 -Dmaven.test.failure.ignore=false
 
-
 #2020/06/24 had problems with the above and used below instead
 [root@riverside1 ~]# su - jenkins -s /bin/bash
 Last login: Wed Jun 24 13:02:03 BST 2020 on pts/0
 -bash-4.2$ whoami
 jenkins
-

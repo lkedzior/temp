@@ -18,3 +18,17 @@ synchronised to NTP server (85.199.214.102) at stratum 2
    time correct to within 6 ms
    polling server every 64 s
 
+
+2020/12/30
+adding nslookup
+yum install bind-utils
+
+2021/07/03
+yum install xorg-x11-apps
+
+yum install libXext.x86_64
+yum install libXrender.x86_64
+yum install libXtst.x86_64
+
+yum install libXtst
+yum install libXtst.i686
