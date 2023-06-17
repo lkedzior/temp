@@ -78,6 +78,15 @@ see 8a.Key Tables.q
 q)kt:([eid:1001 1002 1003] name:`Dent`Beeblebrox`Prefect; iq:98 42 126)
 q)tdetails:([] eid:`kt$1003 1001 1002 1001 1002 1001; sc:126 36 92 39 98 42)
 
+q)select eid.name, sc from tdetails
+name       sc
+--------------
+Prefect    126
+Dent       36
+Beeblebrox 92
+Dent       39
+Beeblebrox 98
+Dent       42
 
 ////    ENUMERATIONS using ! operator to create a link column to a simple table (not key table)    ////
 `tbl!listOfIndicies
