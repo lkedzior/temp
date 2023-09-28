@@ -56,3 +56,16 @@ yum install glibc-devel.i686
 
 then this (this step on itself should be enough)
 yum install glibc.i686
+
+Was unable to run 32 bit q and needed to copy libns1.so.1 from centos7 installation (riversdide2 has centos7, riverside3 has centos8)
+[root@riverside3 lib]# scp root@riverside2:/lib/libnsl-2.17.so .
+The authenticity of host 'riverside2 (192.168.1.100)' can't be established.
+ECDSA key fingerprint is SHA256:cPsnX/mKS5h2Engyd58CkQ/A+B60m13CuZNWOOvDxEI.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'riverside2,192.168.1.100' (ECDSA) to the list of known hosts.
+root@riverside2's password:
+libnsl-2.17.so                                                                     100%  110KB   5.0MB/s   00:00
+
+[root@riverside3 lib]# ln -s libnsl-2.17.so libnsl.so.1
+[root@riverside3 lib]# ls -lrtha libnsl.so.1
+lrwxrwxrwx. 1 root root 14 Sep 28 15:30 libnsl.so.1 -> libnsl-2.17.so
