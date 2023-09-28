@@ -51,4 +51,8 @@ firewall-cmd --reload
 
 
 to be able to run 32 bit programs (e.g. 32 bit q program)
+did run this first
 yum install glibc-devel.i686
+
+then this (this step on itself should be enough)
+yum install glibc.i686
