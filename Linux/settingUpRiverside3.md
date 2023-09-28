@@ -48,3 +48,7 @@ tar xfz TeamCity-2021.2.tar.gz
 firewall-cmd --permanent --add-port=8111/tcp
 firewall-cmd --reload
 ```
+
+
+to be able to run 32 bit programs (e.g. 32 bit q program)
+yum install glibc-devel.i686
